@@ -1,9 +1,26 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
 <configuration>
+
+    <!-- 설정: JDBC 타입 처리 설정 (선택사항) -->
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
+
+    <!-- 전역 타입 별칭 설정 (선택사항) -->
+    <typeAliases>
+        <!-- 패키지 단위로 등록 -->
+        <package name="com.team2.model"/>
+    </typeAliases>
+
+    <!-- 매퍼 등록 (Spring 연동 시 생략 가능, MapperScannerConfigurer가 처리함) -->
+    <!--
+    <mappers>
+        <mapper resource="mapper/YourMapper.xml"/>
+    </mappers>
+    -->
+
 </configuration>
