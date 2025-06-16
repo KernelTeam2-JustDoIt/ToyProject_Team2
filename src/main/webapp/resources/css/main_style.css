@@ -1,0 +1,368 @@
+body { margin: 0; font-family: sans-serif; }
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: linear-gradient(to right, #4a6cf7, #4fa3f7);
+  color: white;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 60px;
+}
+
+.search-bar input {
+  width: 400px;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 24px; /* 로그인/회원가입과 아이콘 사이 여백 */
+}
+
+.auth-links {
+  display: flex;
+  gap: 12px;
+  margin-right: 20px; /* 오른쪽으로 아이콘 여유 공간 확보 */
+}
+
+.auth-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.icon-links {
+  display: flex;
+  gap: 16px;
+}
+
+.icon-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.icon-link img {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 8px;
+}
+
+
+.logo { font-size: 24px; font-weight: bold; color: #ffffff; }
+
+.notice-banner {
+  display: flex;
+  align-items: center;
+  background-color: #f5f7fa;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  gap: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.notice-tag {
+  background-color: #4a6cf7;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.notice-tag:hover {
+  background-color: #3b5ed2;
+}
+
+.notice-text {
+  color: #333;
+  text-decoration: none;
+}
+
+.notice-text:hover {
+  text-decoration: underline;
+}
+
+
+.search-bar input {
+  padding: 8px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+nav a {
+  margin-left: 16px;
+  text-decoration: none;
+  color: #333;
+}
+
+.banner {
+  background-image: url('https://via.placeholder.com/1200x400');
+  background-size: cover;
+  height: 400px;
+}
+
+.section {
+  padding: 32px;
+}
+
+.cards {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+}
+
+.card {
+  flex: 0 0 200px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+
+.card p {
+  margin: 0;
+  padding: 8px;
+  font-size: 14px;
+}
+
+footer {
+  padding: 32px;
+  background-color: #f8f8f8;
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+}
+
+.category-boxes {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.category-box {
+  flex: 1;
+  min-width: 200px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s;
+}
+
+.category-box:hover {
+  transform: scale(1.03);
+}
+
+.category-box img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.category-box p {
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* 이벤트 슬라이더 */
+.event-slider {
+  position: relative;
+  margin-top: 40px;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.event-track {
+  display: flex;
+  transition: transform 0.4s ease-in-out;
+}
+
+.event-track img {
+  width: 100%;
+  max-width: 400px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  margin-right: 16px;
+}
+
+.event-slider button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.event-slider .prev { left: 8px; }
+.event-slider .next { right: 8px; }
+
+.event-slider img {
+  width: 300px;
+  height: 150px;
+  margin-right: 16px;
+}
+
+/* 관심 많은 숙소 */
+.hot-places {
+  margin-top: 40px;
+  padding: 0 16px;
+}
+
+.hot-places h2 {
+  font-size: 1.5em;
+}
+
+.hot-places p {
+  font-size: 0.9em;
+  color: #666;
+}
+
+/* 관심 많은 숙소 슬라이더 (이벤트 슬라이더와 유사하게 적용) */
+.hot-slider {
+  position: relative;
+  margin-top: 40px;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.hot-track {
+  display: flex;
+  transition: transform 0.4s ease-in-out;
+}
+
+.hot-track img {
+  width: 300px;
+  height: 150px;
+  margin-right: 16px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.hot-slider button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.hot-prev { left: 8px; }
+.hot-next { right: 8px; }
+
+
+/* 좌우 중앙 화살표 버튼 */
+.hot-prev,
+.hot-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;     /* ✅ 배경 없애기 */
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0;                  /* ✅ 여백 제거 */
+  border-radius: 0;            /* ✅ 동그라미 제거 */
+  z-index: 1;
+  box-shadow: none;           /* ✅ 그림자 제거 */
+}
+
+
+.hot-prev { left: 8px; }
+.hot-next { right: 8px; }
+
+/* 많이 찾는 숙소 슬라이더 */
+.popular-slider {
+  position: relative;
+  margin-top: 40px;
+  overflow: hidden;
+  max-width: 100%;
+  padding: 0 16px;
+}
+
+.popular-slider h2 {
+  font-size: 1.5em;
+  margin-bottom: 4px;
+}
+
+.popular-slider p {
+  font-size: 0.9em;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.popular-track {
+  display: flex;
+  transition: transform 0.4s ease-in-out;
+}
+
+.popular-track img {
+  width: 300px;
+  height: 150px;
+  margin-right: 16px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.popular-slider button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.popular-prev { left: 8px; }
+.popular-next { right: 8px; }
