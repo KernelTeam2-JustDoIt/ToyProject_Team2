@@ -12,7 +12,7 @@
            https://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- 컨트롤러가 있는 패키지 자동 스캔 -->
-    <context:component-scan base-package="com.team2.controller"/>
+    <context:component-scan base-package="com.team2"/>
 
     <!-- 어노테이션 기반 MVC 활성화 -->
     <mvc:annotation-driven/>
