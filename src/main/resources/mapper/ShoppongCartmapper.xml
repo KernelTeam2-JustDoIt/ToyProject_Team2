@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team2.mapper.CartMapper">
+
+    <!-- 장바구니 조회 -->
+    <select id="getCartList" parameterType="CartDTO" resultType="CartDTO">
+        SELECT s.*
+        FROM SHOPPING_CART s
+        JOIN ROOM r on s.room_id = r.room_id
+        JOIN  CUSTOMER c on s.customer_id = c.customer_id
+        WHERE CUSTOMER_ID = #{customerId}
+    </select>
+    
+    <!-- 장바구니 추가 -->
+    <insert id="addCart" parameterType="CartDTO" useGeneratedKeys="true" keyProperty="cartId">
+        INSERT INTO SHOPPING_CART
+            (room_id, customer_id, adult_count, child_count)
+        VALUES (#{roomId}, #{customerId},#{adultCount},#{childCount})
+    </insert>
+
+    <!-- 장바구니 인원 수정. 컨트롤러에서 관련 로직 만들어야 함 -->
+    <update id="updateCart" parameterType="CartDTO">
+        UPDATE SHOPPING_CART
+        <set>
+        <if test="adultCount != null">
+            adult_count = #{adultCount}
+        </if>
+        <if test="childCount != null">
+            child_count = #{childCount}
+        </if>
+        </set>
+        WHERE cart_id = #{cartId}
+    </update>
+
+    <!-- 장바구니 삭제 -->
+    <delete id="deleteCart" parameterType="int">
+        DELETE FROM SHOPPING_CART
+        WHERE cart_id = #{cartId}
+    </delete>
+</mapper>
