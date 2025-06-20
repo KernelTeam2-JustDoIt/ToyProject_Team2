@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team2.mapper.CustomerMapper">
+
+    <insert id="insertCustomer" parameterType="com.team2.model.CustomerVO">
+        INSERT INTO CUSTOMER (
+            CUSTOMER_STATUS_ID,
+            CUSTOMER_LOGIN_ID,
+            CUSTOMER_PASSWORD,
+            CUSTOMER_NAME,
+            JOINED_AT,
+            CUSTOMER_GENDER,
+            CUSTOMER_TEL,
+            CUSTOMER_AGE,
+            CUSTOMER_JOB,
+            CUSTOMER_EMAIL,
+            GRADE_ID,
+            GRADE_EXPIRE_DATE,
+            IS_MARKETING_USE_AGREED
+        )
+        VALUES (
+                   1,
+                   #{customerLoginId},
+                   #{customerPassword},
+                   #{customerName},
+                   #{joinedAt},
+                   #{customerGender},
+                   #{customerTel},
+                   #{customerAge},
+                   #{customerJob},
+                   #{customerEmail},
+                   1,
+                   #{gradeExpireDate},
+                   #{isMarketingUseAgreed}
+               )
+    </insert>
+
+
+</mapper>
