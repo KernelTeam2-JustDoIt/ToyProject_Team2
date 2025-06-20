@@ -42,5 +42,26 @@
         JOIN REVIEW r ON a.ACCOMMODATION_ID = r.ACCOMMODATION_ID
         GROUP BY a.ACCOMMODATION_ID
     </select>
-    
+
+    <!-- 페이지네이션 -->
+    <select id="accommPaging" parameterType="PagingConditionDTO" resultType="PagingAccommDTO">
+        SELECT a.ACCOMMODATION_ID, a.ACCOMMODATION_NAME, a.PROVINCE_NAME,
+            a.DISTRICT_NAME, a.RATING, a.CLICK_VIEWS, MIN(r.PRICE) AS PRICE,
+            i.ACCOMMODATION_IMAGE_FILE_PATH, i.ACCOMMODATION_IMAGE_TYPE, i.ACCOMMODATION_IMAGE_FILE_SIZE,
+            i.ACCOMMODATION_IMAGE_WIDTH, i.ACCOMMODATION_IMAGE_HEIGHT,
+            ROUND(AVG(rev.REVIEW_SCORE), 1) AS REVIEW_SCORE, COUNT(rev.ACCOMMODATION_ID) AS REVIEW_CNT
+        FROM ACCOMMODATION a
+        LEFT JOIN ACCOMMODATION_IMAGE i ON a.ACCOMMODATION_ID = i.ACCOMMODATION_ID
+        LEFT JOIN REVIEW rev ON a.ACCOMMODATION_ID = rev.ACCOMMODATION_ID
+        LEFT JOIN ROOM r ON a.ACCOMMODATION_ID = r.ACCOMMODATION_ID
+        WHERE 1 = 1
+            <if test="district != null and district != ''">
+                AND a.DISTRICT_NAME = #{district}
+            </if>
+        AND r.IS_AVAILABLE = #{onOff}
+        GROUP BY a.ACCOMMODATION_ID
+        ORDER BY a.ACCOMMODATION_ID
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
 </mapper>

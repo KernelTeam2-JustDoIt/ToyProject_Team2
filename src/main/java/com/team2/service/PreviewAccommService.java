@@ -18,14 +18,14 @@ import java.util.Map;
 public class PreviewAccommService {
 
     @Autowired
-    AccommPreviewMapper accommodationMapper;
+    AccommPreviewMapper accommPreviewMapper;
 
     /* 3개의 DTO를 합쳐서, 숙소 ID별 VO에 정보 저장 */
     public List<PreviewAccommVO> getAccommPreviewInfo(ConditionDTO conditionDTO) {
 
-        List<PreviewAccommRoomDTO> accommPreview = accommodationMapper.getAccommPreview(conditionDTO);
-        List<PreviewAccommImageDTO> accommImage = accommodationMapper.getAccommImage();
-        List<PreviewAccommReviewDTO> accommReview = accommodationMapper.getAccommReview();
+        List<PreviewAccommRoomDTO> accommPreview = accommPreviewMapper.getAccommPreview(conditionDTO);
+        List<PreviewAccommImageDTO> accommImage = accommPreviewMapper.getAccommImage();
+        List<PreviewAccommReviewDTO> accommReview = accommPreviewMapper.getAccommReview();
 
         Map<Integer, PreviewAccommImageDTO> imageMap = new HashMap<>();
         for (PreviewAccommImageDTO image : accommImage) {

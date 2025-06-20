@@ -1,7 +1,6 @@
 package com.team2.controller;
 
 import com.team2.dto.previewaccomm.ConditionDTO;
-import com.team2.dto.previewaccomm.PreviewAccommRoomDTO;
 import com.team2.service.PreviewAccommService;
 import com.team2.vo.previewaccomm.PreviewAccommVO;
 import org.springframework.beans.factory.annotation.Autowired;

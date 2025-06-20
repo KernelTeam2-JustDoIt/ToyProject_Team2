@@ -140,7 +140,7 @@
 
     <div class="accommodation-list">
         <c:forEach var="room" items="${roomList}" varStatus="status">
-            <c:if test="${status.index < 8}">
+            <c:if test="${status.index < 6}">
                 <div class="accommodation-card">
                     <img class="thumbnail" src="${room.accommodationImageFilePath}" alt="${room.accommodationName}">
                     <div class="info">
@@ -331,7 +331,6 @@
     }
 
 </script>
-
 
 </body>
 </html>
