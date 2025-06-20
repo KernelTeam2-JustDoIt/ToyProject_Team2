@@ -1,0 +1,78 @@
+/* 전체 컨테이너 */
+.container {
+    width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 제목 */
+.form-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+
+/* 각 입력 요소 묶음 */
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* label 스타일 */
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* input, select 기본 스타일 */
+.join-form input[type="text"],
+.join-form input[type="email"],
+.join-form input[type="password"],
+.join-form input[type="number"],
+.join-form select {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s;
+}
+
+/* input focus 시 */
+.join-form input:focus,
+.join-form select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+/* 체크박스는 따로 처리 */
+.checkbox-group {
+    flex-direction: row;
+    align-items: center;
+}
+
+.checkbox-group label {
+    margin-left: 5px;
+    font-weight: normal;
+}
+
+/* 제출 버튼 */
+.submit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+}
