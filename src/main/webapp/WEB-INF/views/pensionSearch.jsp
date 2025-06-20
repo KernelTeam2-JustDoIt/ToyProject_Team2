@@ -4,7 +4,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>펜션 통합 검색</title>
+    <title>호텔/리조트 통합 검색</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/pension_style.css">
 </head>
 <body>
@@ -16,10 +16,11 @@
     <input type="hidden" name="checkOut" id="checkOutInput">
     <input type="hidden" name="adultCnt" id="adultInput">
     <input type="hidden" name="babyCnt" id="babyInput">
+    <input type="hidden" name="page" id="pageInput" value="${page}">
 
     <header>
         <div class="left-icon">←</div>
-        <div class="center-title">펜션</div>
+        <div class="center-title">호텔/리조트</div>
         <div class="right-icons">
             <img src="/path/to/home-icon.svg" alt="홈">
             <img src="/path/to/cart-icon.svg" alt="장바구니">
@@ -30,7 +31,7 @@
         <div class="search-options-row">
             <div class="search-option" onclick="togglePopup('searchPopup'); showTab('region')">
                 <img src="/path/to/location-icon.svg" alt="위치">
-                <span id="region-label">서울(강남/역삼/삼성)</span>
+                <span id="region-label">강남/역삼/삼성</span>
             </div>
             <div class="search-option" onclick="togglePopup('searchPopup'); showTab('date')">
                 <img src="/path/to/calendar-icon.svg" alt="달력">
@@ -75,20 +76,20 @@
                             <span>전체 ▶</span>
                         </div>
                         <ul>
-                            <li>서울(강남/역삼/삼성)</li>
-                            <li>서울(신사/청담/압구정)</li>
-                            <li>서울(서초/교대/사당)</li>
-                            <li>서울(잠실/송파/강동)</li>
-                            <li>서울(을지로/명동/중구/동대문)</li>
-                            <li>서울(서울역/이태원/용산)</li>
-                            <li>서울(종로/인사동)</li>
-                            <li>서울(홍대/합정/마포/서대문)</li>
-                            <li>서울(여의도)</li>
-                            <li>서울(영등포역)</li>
-                            <li>서울(구로/신도림/금천)</li>
-                            <li>서울(김포공항/염창/강서)</li>
-                            <li>서울(건대입구/성수/왕십리)</li>
-                            <li>서울(성북/강북/노원/도봉)</li>
+                            <li>강남/역삼/삼성</li>
+                            <li>신사/청담/압구정</li>
+                            <li>서초/교대/사당</li>
+                            <li>잠실/송파/강동</li>
+                            <li>을지로/명동/중구/동대문</li>
+                            <li>서울역/이태원/용산</li>
+                            <li>종로/인사동</li>
+                            <li>홍대/합정/마포/서대문</li>
+                            <li>여의도</li>
+                            <li>영등포역</li>
+                            <li>구로/신도림/금천</li>
+                            <li>김포공항/염창/강서</li>
+                            <li>건대입구/성수/왕십리</li>
+                            <li>성북/강북/노원/도봉</li>
                         </ul>
                     </div>
                 </div>
@@ -138,36 +139,37 @@
     <!-- 숙소 정보 -->
 
     <div class="accommodation-list">
-        <c:forEach var="room" items="${roomList}">
-            <div class="accommodation-card">
-                <img class="thumbnail" src="${room.accommodationImageFilePath}" alt="${room.accommodationName}">
-                <div class="info">
-                    <div class="name">${room.accommodationName}</div>
-                    <div class="location">📍 ${room.provinceName + room.districtName}</div>
-                    <div class="rating">⭐ ${room.reviewScore} (${room.reviewCnt})</div>
-                    <div class="checkin">숙박 ${room.checkIn}</div>
-                    <div class="price">
-                        <span class="final-price">${room.price}원~</span>
+        <c:forEach var="room" items="${roomList}" varStatus="status">
+            <c:if test="${status.index < 8}">
+                <div class="accommodation-card">
+                    <img class="thumbnail" src="${room.accommodationImageFilePath}" alt="${room.accommodationName}">
+                    <div class="info">
+                        <div class="name">${room.accommodationName}</div>
+                        <div class="location">📍 ${room.provinceName} ${room.districtName}</div>
+                        <div class="rating">⭐ ${room.reviewScore} (${room.reviewCnt})</div>
+                        <div class="checkin">숙박 ${room.checkIn}</div>
+                        <div class="price"><span class="final-price">${room.price}원~</span></div>
                     </div>
                 </div>
-            </div>
+            </c:if>
         </c:forEach>
     </div>
 
     <!-- 페이징 처리 -->
     <div class="pagination">
         <c:if test="${page > 1}">
-            <a href="?page=${page - 1}">이전</a>
+            <a href="#" onclick="goToPage(${page - 1})">이전</a>
         </c:if>
 
         <c:forEach var="i" begin="1" end="${totalPages}">
-            <a href="?page=${i}" class="${i == page ? 'active' : ''}">${i}</a>
+            <a href="#" onclick="goToPage(${i})" class="${i == page ? 'active' : ''}">${i}</a>
         </c:forEach>
 
         <c:if test="${page < totalPages}">
-            <a href="?page=${page + 1}">다음</a>
+            <a href="#" onclick="goToPage(${page + 1})">다음</a>
         </c:if>
     </div>
+
 
 </form>
 
@@ -322,6 +324,12 @@
     const today = new Date();
     generateCalendar(today.getFullYear(), today.getMonth());
     generateCalendar(today.getFullYear(), today.getMonth() + 1);
+
+    function goToPage(pageNum) {
+        document.getElementById("pageInput").value = pageNum;
+        document.getElementById("searchForm").submit();
+    }
+
 </script>
 
 

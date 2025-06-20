@@ -27,18 +27,6 @@ public class PreviewAccommService {
         List<PreviewAccommImageDTO> accommImage = accommodationMapper.getAccommImage();
         List<PreviewAccommReviewDTO> accommReview = accommodationMapper.getAccommReview();
 
-        for (PreviewAccommReviewDTO reviewDTO : accommReview) {
-            System.out.println(reviewDTO);
-        }
-
-        for (PreviewAccommRoomDTO accommRoomDTO : accommPreview) {
-            System.out.println(accommRoomDTO);
-        }
-
-        for (PreviewAccommImageDTO imageDTO : accommImage) {
-            System.out.println(imageDTO);
-        }
-
         Map<Integer, PreviewAccommImageDTO> imageMap = new HashMap<>();
         for (PreviewAccommImageDTO image : accommImage) {
             imageMap.put(image.getAccommodationId(), image);

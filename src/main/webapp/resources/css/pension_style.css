@@ -20,8 +20,8 @@ header {
 }
 .search-options-row {
     display: flex;
-    justify-content: space-between; /* 양옆으로 고르게 배치 */
-    gap: 50px; /* ✅ 선택 박스들 사이의 간격을 넓혀줌 */
+    justify-content: space-between;
+    gap: 50px;
     flex-wrap: nowrap;
     padding: 12px 10px 0;
 }
@@ -31,8 +31,6 @@ header {
     width: 100%;
 }
 
-
-/* search-option 그대로 유지 */
 .search-option {
     display: flex;
     align-items: center;
@@ -52,22 +50,18 @@ header {
     pointer-events: none;
 }
 
-/* 👇 person-label 최종 설정 */
 #person-label {
     font-weight: bold;
     display: inline-block;
     white-space: nowrap;
 }
 
-/* 팝업 레이아웃 */
 .popup {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     background: rgba(0, 0, 0, 0.5); display: none; justify-content: center;
     align-items: center; z-index: 999;
 }
-#personPopup {
-    z-index: 1001 !important;
-}
+#personPopup { z-index: 1001 !important; }
 .popup-content {
     background: white; border-radius: 10px;
     width: 800px; height: 600px; display: flex;
@@ -88,7 +82,6 @@ header {
     flex-grow: 1; overflow-y: auto; padding: 20px;
 }
 
-/* 캘린더 */
 .calendar-box {
     border: 1px solid #ddd; border-radius: 12px;
     padding: 16px; margin-bottom: 20px;
@@ -132,7 +125,6 @@ header {
     z-index: 1;
 }
 
-/* 기타 정보 */
 .calendar-footer,
 .calendar-info {
     display: flex;
@@ -142,7 +134,6 @@ header {
     font-size: 14px;
 }
 
-/* 버튼 */
 .apply-btn {
     width: 100%; margin-top: 20px;
     background: royalblue; color: white; border: none;
@@ -150,7 +141,6 @@ header {
     border-radius: 10px; cursor: pointer;
 }
 
-/* 지역 선택 */
 .region-container { display: flex; }
 .region-sidebar {
     width: 120px; background: #f7f7f7;
@@ -177,7 +167,6 @@ header {
     margin: 10px 0; cursor: pointer;
 }
 
-/* 인원 선택 팝업 */
 .person-box {
     border: 1px solid #ddd; border-radius: 12px;
     padding: 16px; background: #fff;
@@ -190,12 +179,10 @@ header {
     font-size: 16px; font-weight: 500;
 }
 
-/* search-bar 아래 버튼 wrapper */
 .search-submit-wrapper {
     padding: 20px 16px;
 }
 
-/* 넓고 파란색, 둥근 버튼 */
 .search-submit-btn {
     width: 100%;
     background: #3b5bff;
@@ -208,25 +195,37 @@ header {
     cursor: pointer;
 }
 
+.accommodation-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
 .accommodation-card {
-    width: 48%;
-    border: 1px solid #eee;
-    border-radius: 10px;
-    margin: 1%;
-    display: inline-block;
-    vertical-align: top;
-}
-
-.thumbnail {
     width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    max-width: 550px; /* ✅ 줄임 */
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
 }
 
-.info {
-    padding: 10px;
+.accommodation-card img.thumbnail {
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+    display: block;
+}
+
+.accommodation-card .info {
+    padding: 12px;
+    font-size: 14px;
+    line-height: 1.4;
 }
 
 .original-price {
@@ -238,4 +237,9 @@ header {
     color: red;
     font-weight: bold;
     margin-left: 5px;
+}
+
+form {
+    display: block;
+    width: 100%;
 }

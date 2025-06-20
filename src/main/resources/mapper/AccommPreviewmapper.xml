@@ -14,7 +14,7 @@
         FROM ACCOMMODATION a
         JOIN ROOM r ON a.ACCOMMODATION_ID = r.ACCOMMODATION_ID
         WHERE a.DISTRICT_NAME = #{district}
-        AND r.CHECKIN_DATE IS NULL
+        AND r.IS_AVAILABLE = 1
         AND r.MAXIMUM_CAPACITY >= #{totalPeopleCnt}
         GROUP BY
             a.ACCOMMODATION_ID,
@@ -37,7 +37,7 @@
 
     <!-- 화면상에 보이는 숙소 프리뷰 리뷰 정보 얻기 ACCOMM REVIEW JOIN -->
     <select id="getAccommReview" resultType="PreviewAccommReviewDTO">
-        SELECT a.ACCOMMODATION_ID, COUNT(*) AS REVIEW_CNT, AVG(r.REVIEW_SCORE)
+        SELECT a.ACCOMMODATION_ID, COUNT(*) AS REVIEW_CNT, ROUND(AVG(r.REVIEW_SCORE), 1) as REVIEW_SCORE
         FROM ACCOMMODATION a
         JOIN REVIEW r ON a.ACCOMMODATION_ID = r.ACCOMMODATION_ID
         GROUP BY a.ACCOMMODATION_ID

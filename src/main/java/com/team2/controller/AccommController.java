@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -27,15 +28,11 @@ public class AccommController {
     }
 
     @PostMapping("/hotel")
-    public String getCondition(ConditionDTO conditionDTO,
-                               Model model) {
+    public String getCondition(ConditionDTO conditionDTO, Model model,
+                               @RequestParam(defaultValue = "1") int page) {
 
         conditionDTO.setTotalPeopleCnt(conditionDTO.getAdultCnt() + conditionDTO.getBabyCnt());
         List<PreviewAccommVO> previewAccomm = accommService.getAccommPreviewInfo(conditionDTO);
-
-        for (PreviewAccommVO previewAccommVO : previewAccomm) {
-            System.out.println(previewAccommVO);
-        }
 
         model.addAttribute("roomList", previewAccomm);
 

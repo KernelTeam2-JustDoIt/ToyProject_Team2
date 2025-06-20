@@ -11,7 +11,7 @@ public class PreviewAccommRoomDTO {
     private String accommodationName;
     private String provinceName;
     private String districtName;
-    private double rating;
+    private String rating;
     private int clickViews;
     private int price;
 }
