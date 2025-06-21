@@ -11,7 +11,7 @@
         FROM SHOPPING_CART s
         JOIN ROOM r on s.room_id = r.room_id
         JOIN  CUSTOMER c on s.customer_id = c.customer_id
-        WHERE CUSTOMER_ID = #{customerId}
+        WHERE s.CUSTOMER_ID = #{customerId}
     </select>
     
     <!-- 장바구니 추가 -->
