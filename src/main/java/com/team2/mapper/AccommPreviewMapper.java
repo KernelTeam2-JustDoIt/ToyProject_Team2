@@ -1,7 +1,5 @@
 package com.team2.mapper;
 
-import com.team2.dto.paging.PagingAccommDTO;
-import com.team2.dto.paging.PagingConditionDTO;
 import com.team2.dto.previewaccomm.ConditionDTO;
 import com.team2.dto.previewaccomm.PreviewAccommImageDTO;
 import com.team2.dto.previewaccomm.PreviewAccommReviewDTO;
@@ -20,6 +18,4 @@ public interface AccommPreviewMapper {
     /* 숙소 프리뷰 리뷰에 사용할 리뷰 정보 얻기 */
     List<PreviewAccommReviewDTO> getAccommReview();
 
-    /* 숙소 페이징 */
-    List<PagingAccommDTO> acommPaging(PagingConditionDTO pagingConditionDTO);
 }

@@ -2,6 +2,7 @@ package com.team2.vo.previewaccomm;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -28,4 +29,6 @@ public class PreviewAccommVO {
     private int reviewCnt;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate checkIn;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate checkOut;
 }

@@ -18,7 +18,7 @@ import java.util.Map;
 public class PreviewAccommService {
 
     @Autowired
-    AccommPreviewMapper accommPreviewMapper;
+    private AccommPreviewMapper accommPreviewMapper;
 
     /* 3개의 DTO를 합쳐서, 숙소 ID별 VO에 정보 저장 */
     public List<PreviewAccommVO> getAccommPreviewInfo(ConditionDTO conditionDTO) {
@@ -59,6 +59,7 @@ public class PreviewAccommService {
                     .reviewScore(review.getReviewScore())
                     .reviewCnt(review.getReviewCnt())
                     .checkIn(conditionDTO.getCheckIn())
+                    .checkOut(conditionDTO.getCheckOut())
                     .build();
 
             result.add(vo);
