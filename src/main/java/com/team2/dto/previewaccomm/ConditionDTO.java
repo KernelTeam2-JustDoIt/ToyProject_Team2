@@ -4,13 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 
 @Getter
 @Setter
 @ToString
 public class ConditionDTO {
-    // 숙소 선택 조건(지역, 날짜, 인원 수) post로 받기
+
+    // 검색 조건
     private String district;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate checkIn;
@@ -21,10 +23,24 @@ public class ConditionDTO {
     private int totalPeopleCnt;
     private int onOff;
 
+    // 페이징 관련
+    private int page = 1;
+    private int size = 6;
     private int limit;
     private int offset;
 
-    public void setTotalPeopleCnt() {
+    public void calculatePeople() {
         this.totalPeopleCnt = this.adultCnt + this.babyCnt;
+    }
+
+    // LIMIT/OFFSET 자동 계산
+    public void calculatePaging() {
+        this.limit = this.size;
+        this.offset = (this.page - 1) * this.size;
+    }
+
+    public void prepareForQuery() {
+        calculatePeople();
+        calculatePaging();
     }
 }

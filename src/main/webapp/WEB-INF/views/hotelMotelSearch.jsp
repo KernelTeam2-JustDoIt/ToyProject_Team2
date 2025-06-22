@@ -27,6 +27,8 @@
 
 </form>
 
+    <%@include file="common/accommPaging.jsp"%>
+
 <script src="${pageContext.request.contextPath}/resources/js/searchBar.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/searchCalendar.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/searchHeader.js"></script>
