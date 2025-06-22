@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 화면에 보이는 숙소 관련 정보 매퍼 -->
+<mapper namespace="com.team2.mapper.AccommPreviewMapper">
+
+    <!-- 화면상에 보이는 숙소 프리뷰 정보 얻기 ROOM ACCOMM JOIN
+         예약 가능한 객실의 정보만 받아서 사용(최저가) -->
+    <select id="getAccommPreview" parameterType="ConditionDTO" resultType="PreviewAccommRoomDTO">
+        SELECT a.ACCOMMODATION_ID, a.ACCOMMODATION_NAME, a.PROVINCE_NAME,
+               a.DISTRICT_NAME, a.RATING, a.CLICK_VIEWS, MIN(r.PRICE) as PRICE
+        FROM ACCOMMODATION a
+        JOIN ROOM r ON a.ACCOMMODATION_ID = r.ACCOMMODATION_ID
+        WHERE a.DISTRICT_NAME = #{district}
+        AND r.IS_AVAILABLE = 1
+        AND r.MAXIMUM_CAPACITY >= #{totalPeopleCnt}
+        GROUP BY
+            a.ACCOMMODATION_ID,
+            a.ACCOMMODATION_NAME,
+            a.PROVINCE_NAME,
+            a.DISTRICT_NAME,
+            a.RATING,
+            a.CLICK_VIEWS
+    </select>
+    
+    <!-- 화면상에 보이는 숙소 프리뷰 이미지 정보 얻기 ACCOMM IMAGE JOIN -->
+    <select id="getAccommImage" resultType="PreviewAccommImageDTO">
+        SELECT a.ACCOMMODATION_ID, i.ACCOMMODATION_IMAGE_FILE_PATH,
+               i.ACCOMMODATION_IMAGE_TYPE, i.ACCOMMODATION_IMAGE_FILE_SIZE,
+                i.ACCOMMODATION_IMAGE_WIDTH, i.ACCOMMODATION_IMAGE_HEIGHT
+        FROM ACCOMMODATION a
+        JOIN ACCOMMODATION_IMAGE i ON a.ACCOMMODATION_ID = i.ACCOMMODATION_ID
+        WHERE i.IS_THUMBNAIL = 1
+    </select>
+
+    <!-- 화면상에 보이는 숙소 프리뷰 리뷰 정보 얻기 ACCOMM REVIEW JOIN -->
+    <select id="getAccommReview" resultType="PreviewAccommReviewDTO">
+        SELECT a.ACCOMMODATION_ID, COUNT(*) AS REVIEW_CNT, ROUND(AVG(r.REVIEW_SCORE), 1) as REVIEW_SCORE
+        FROM ACCOMMODATION a
+        JOIN REVIEW r ON a.ACCOMMODATION_ID = r.ACCOMMODATION_ID
+        GROUP BY a.ACCOMMODATION_ID
+    </select>
+
+</mapper>

@@ -13,14 +13,8 @@
     <!-- 전역 타입 별칭 설정 (선택사항) -->
     <typeAliases>
         <!-- 패키지 단위로 등록 -->
-        <package name="com.team2.model"/>
+        <package name="com.team2.dto.previewaccomm"/>
+        <package name="com.team2.dto.paging"/>
     </typeAliases>
-
-    <!-- 매퍼 등록 (Spring 연동 시 생략 가능, MapperScannerConfigurer가 처리함) -->
-    <!--
-    <mappers>
-        <mapper resource="mapper/YourMapper.xml"/>
-    </mappers>
-    -->
 
 </configuration>
