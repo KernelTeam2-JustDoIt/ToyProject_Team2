@@ -20,24 +20,24 @@ public class SearchAccommController {
 
     @Autowired
     private PreviewAccommService previewAccommService;
+
     @Autowired
     private PagingAccommService pagingAccommService;
 
-    /* 숙소 검색 메인 페이지*/
+    /* 숙소 검색 메인 페이지 (초기 진입) */
     @GetMapping("/hotel")
-    public String hotelMain() {
-        return "hotelMotelSearch";
-    }
+    public String hotelMain(@ModelAttribute ConditionDTO conditionDTO, Model model) {
+        
+        // 검색 조건이 비어 있는 경우, 초기 페이지만 보여줌
+        if (conditionDTO.getDistrict() == null) {
+            return "hotelMotelSearch";
+        }
 
-    /* 조건을 받아 숙소를 보여주는 API */
-    @PostMapping("/hotel")
-    public String getCondition(ConditionDTO conditionDTO, Model model) {
-
+        // 조건이 있는 경우 검색 수행
         conditionDTO.setTotalPeopleCnt();
         List<PreviewAccommVO> previewAccomm = previewAccommService.getAccommPreviewInfo(conditionDTO);
         model.addAttribute("roomList", previewAccomm);
 
         return "hotelMotelSearch";
     }
-
 }

@@ -19,6 +19,10 @@ public class ConditionDTO {
     private int adultCnt;
     private int babyCnt;
     private int totalPeopleCnt;
+    private int onOff;
+
+    private int limit;
+    private int offset;
 
     public void setTotalPeopleCnt() {
         this.totalPeopleCnt = this.adultCnt + this.babyCnt;
