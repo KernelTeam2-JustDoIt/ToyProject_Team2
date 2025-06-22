@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Getter @Setter @Builder
+@Getter @Setter
 public class Cart {
     private int cartId;
     private int roomId;
