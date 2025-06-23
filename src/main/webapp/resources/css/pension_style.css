@@ -205,14 +205,21 @@ header {
 }
 
 .accommodation-card {
-    width: 100%;
-    max-width: 550px; /* ✅ 줄임 */
+    display: block; /* ✅ 핵심: <a>를 블록처럼 만듦 */
     background-color: white;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
+    text-decoration: none;  /* ✅ 밑줄 제거 */
+    color: inherit;         /* ✅ 파란 글자 제거 */
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    max-width: 550px; /* 필요 시 유지 */
+    width: 100%;
+}
+
+.accommodation-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
 }
 
 .accommodation-card img.thumbnail {
@@ -220,6 +227,7 @@ header {
     aspect-ratio: 2 / 1;
     object-fit: cover;
     display: block;
+    pointer-events: auto;
 }
 
 .accommodation-card .info {
@@ -227,6 +235,7 @@ header {
     font-size: 14px;
     line-height: 1.4;
 }
+
 
 .original-price {
     text-decoration: line-through;

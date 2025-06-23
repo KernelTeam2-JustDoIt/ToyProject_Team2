@@ -3,7 +3,7 @@
 
 <div class="accommodation-list">
   <c:forEach var="room" items="${roomList}">
-    <div class="accommodation-card">
+    <a href="accommodationDetail.jsp?id=${room.accommodationId}" class="accommodation-card">
       <img class="thumbnail" src="${room.accommodationImageFilePath}" alt="${room.accommodationName}">
       <div class="info">
         <div class="name">${room.accommodationName}</div>
@@ -12,6 +12,6 @@
         <div class="checkin">숙박 ${room.checkIn} ~ ${room.checkOut}</div>
         <div class="price">최저가 <span class="final-price">${room.price}원~</span></div>
       </div>
-    </div>
+    </a>
   </c:forEach>
 </div>
