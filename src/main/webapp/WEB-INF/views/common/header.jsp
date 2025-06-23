@@ -11,11 +11,11 @@
     <div class="header-right">
         <div class="auth-links">
             <a href="#" class="icon-link">
-                <img src="resources/image/login_image.jpg" alt="로그인" />
+                <img src="/yanupja/resources/image/login_image.jpg" alt="로그인" />
                 <span>로그인</span>
             </a>
             <a href="#" class="icon-link">
-                <img src="resources/image/signup_image.png" alt="회원가입" />
+                <img src="/yanupja/resources/image/signup_image.png" alt="회원가입" />
                 <span>회원가입</span>
             </a>
         </div>
