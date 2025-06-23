@@ -19,5 +19,5 @@ public class NoticeDTO {
     private boolean isMain; // 메인페이지 상단공지 여부
     private Integer priority; // 상단 공지 우선순위
     private boolean isNeedPin;   // 상단고정 여부
-
+    private String formattedDate; // DB 작성일시에서 작성일만 담기위한 변수 선언
 }
