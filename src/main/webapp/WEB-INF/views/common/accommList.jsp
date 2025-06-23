@@ -4,7 +4,7 @@
 <div class="accommodation-list">
   <c:forEach var="room" items="${roomList}">
     <a href="${pageContext.request.contextPath}/domestic/hotel/${room.accommodationId}" class="accommodation-card">
-      <img class="thumbnail" src="${room.accommodationImageFilePath}" alt="${room.accommodationName}">
+      <img class="thumbnail" src="/yanupja${room.accommodationImageFilePath}" alt="${room.accommodationName}">
       <div class="info">
         <div class="name">${room.accommodationName}</div>
         <div class="location">📍 ${room.provinceName} ${room.districtName}</div>

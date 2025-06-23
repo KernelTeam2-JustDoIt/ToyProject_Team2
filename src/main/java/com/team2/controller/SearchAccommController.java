@@ -1,11 +1,10 @@
 package com.team2.controller;
 
+import com.team2.dto.accommdetail.*;
 import com.team2.dto.paging.PagingAccommDTO;
-import com.team2.dto.paging.PagingConditionDTO;
 import com.team2.dto.previewaccomm.ConditionDTO;
+import com.team2.service.AccommDetailService;
 import com.team2.service.PagingAccommService;
-import com.team2.service.PreviewAccommService;
-import com.team2.vo.previewaccomm.PreviewAccommVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +19,9 @@ public class SearchAccommController {
 
     @Autowired
     private PagingAccommService pagingAccommService;
+
+    @Autowired
+    private AccommDetailService accommDetailService;
 
     /* 숙소 검색 메인 페이지 */
     @GetMapping("/hotel")
@@ -42,7 +44,17 @@ public class SearchAccommController {
 
     @GetMapping("/hotel/{id}")
     public String showHotel(@PathVariable int id, Model model) {
-        System.out.println(id);
+        AccommInfoDTO accommInfoDTO = accommDetailService.getAccommDetail(id);
+        List<AccommImageDTO> accommImageDTO = accommDetailService.getAccommImageList(id);
+        AccommReviewDTO accommReviewDTO = accommDetailService.getAccommReview(id);
+        List<AccommReviewImageDTO> accommReviewImageDTO = accommDetailService.getAccommReviewImage(id);
+        List<RoomPreviewDTO> roomPreviewDTOList = accommDetailService.getRoomPreview(id);
+
+        model.addAttribute("accomm", accommInfoDTO);
+        model.addAttribute("accommImage", accommImageDTO);
+        model.addAttribute("review", accommReviewDTO);
+        model.addAttribute("reviews", accommReviewImageDTO);
+        model.addAttribute("roomList", roomPreviewDTOList);
 
         return "accommDetail";
     }

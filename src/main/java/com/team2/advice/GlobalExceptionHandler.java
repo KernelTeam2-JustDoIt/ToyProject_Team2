@@ -23,6 +23,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleException(Exception ex, Model model) {
         System.out.println("handler called");
+        ex.printStackTrace();
         model.addAttribute("errorMessage", "서버 내부 오류가 발생했습니다.");
         return "error/500";
     }

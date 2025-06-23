@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class AccommDetailDTO {
+public class AccommInfoDTO {
 
     private int accommodationId;
     private String accommodationName;
@@ -21,7 +21,6 @@ public class AccommDetailDTO {
     private String summaryReview;
     private String directions;
 
-    private String accommodationImageFilePath;
-
-    private double reviewScore;
+    private String roadName;
+    private int buildingNumber;
 }

@@ -4,23 +4,90 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.team2.mapper.AccommDetailMapper">
-    <select id="getAccommDetail" parameterType="int" resultType="AccommDetailDTO">
+
+    <!-- 숙소와 숙소상세정보-->
+    <select id="getAccommInfo" parameterType="int" resultType="AccommInfoDTO">
         SELECT a.ACCOMMODATION_ID, a.ACCOMMODATION_NAME, a.PROVINCE_NAME,
-               a.DISTRICT_NAME, a.RATING, i.ACCOMMODATION_IMAGE_FILE_PATH,
-               ROUND(AVG(rev.REVIEW_SCORE), 1) AS REVIEW_SCORE,
-               inf.DESCRIPTION, inf.GUIDE_LINE, inf.RESERVE_NOTICE,
-               inf.SUMMARY_REVIEW, inf.DIRECTIONS
+               a.DISTRICT_NAME, a.RATING, inf.DESCRIPTION,
+               inf.GUIDE_LINE, inf.RESERVE_NOTICE, inf.SUMMARY_REVIEW,
+               inf.DIRECTIONS, a.ROAD_NAME, a.BUILDING_NUMBER
         FROM ACCOMMODATION a
-        LEFT JOIN ACCOMMODATION_IMAGE i ON a.ACCOMMODATION_ID = i.ACCOMMODATION_ID
-        LEFT JOIN REVIEW rev ON a.ACCOMMODATION_ID = rev.ACCOMMODATION_ID
-        LEFT JOIN ROOM r ON a.ACCOMMODATION_ID = r.ACCOMMODATION_ID
-        LEFT JOIN ACCOMMODATION_INFO inf ON a.ACCOMMODATION_ID = inf.ACCMODATION_ID
+        LEFT JOIN ACCOMMODATION_INFO inf ON a.ACCOMMODATION_ID = inf.ACCOMMODATION_ID
         WHERE a.ACCOMMODATION_ID = #{id}
         GROUP BY a.ACCOMMODATION_ID, a.ACCOMMODATION_NAME, a.PROVINCE_NAME,
-                 a.DISTRICT_NAME, a.RATING, i.ACCOMMODATION_IMAGE_FILE_PATH,
+                 a.DISTRICT_NAME, a.RATING,
                  inf.DESCRIPTION, inf.GUIDE_LINE, inf.RESERVE_NOTICE,
                  inf.SUMMARY_REVIEW, inf.DIRECTIONS
         ORDER BY a.ACCOMMODATION_ID
     </select>
 
+    <select id="getAccommImage" parameterType="int" resultType="AccommImageDTO">
+        SELECT a.ACCOMMODATION_ID, i.PRIORITY, i.IS_THUMBNAIL,
+               i.ACCOMMODATION_IMAGE_FILE_PATH
+        FROM ACCOMMODATION a
+        LEFT JOIN ACCOMMODATION_IMAGE i ON A.ACCOMMODATION_ID = i.ACCOMMODATION_ID
+        WHERE a.ACCOMMODATION_ID = #{id}
+        ORDER BY i.PRIORITY
+    </select>
+
+    <!-- 숙소와 리뷰 -->
+    <select id="getAccommReview" parameterType="int" resultType="AccommReviewDTO">
+        SELECT a.ACCOMMODATION_ID,
+               ROUND(AVG(rev.REVIEW_SCORE), 1) AS REVIEW_SCORE,
+               COUNT(rev.REVIEW_ID) AS REVIEW_CNT
+        FROM ACCOMMODATION a
+                 LEFT JOIN REVIEW rev ON a.ACCOMMODATION_ID = rev.ACCOMMODATION_ID
+        WHERE a.ACCOMMODATION_ID = #{id}
+        GROUP BY a.ACCOMMODATION_ID
+    </select>
+
+    <!-- 리뷰와 리뷰 이미지 -->
+    <select id="getAccommReviewImage" parameterType="int" resultType="AccommReviewImageDTO">
+        SELECT rev.REVIEW_ID, i.FILE_PATH, i.IS_THUMBNAIL,
+               i.SORT_ORDER, rev.ACCOMMODATION_ID, rev.CREATED_AT,
+               ROUND(AVG(rev.REVIEW_SCORE), 1) AS REVIEW_SCORE,
+               rev.REVIEW_DETAIL
+        FROM REVIEW rev
+        LEFT JOIN REVIEW_IMAGE i ON rev.REVIEW_ID = i.REVIEW_ID
+        WHERE rev.ACCOMMODATION_ID = #{id}
+        GROUP BY rev.REVIEW_ID, i.FILE_PATH, i.IS_THUMBNAIL, i.SORT_ORDER,
+                 rev.ACCOMMODATION_ID, rev.CREATED_AT, rev.REVIEW_DETAIL
+        ORDER BY i.SORT_ORDER
+    </select>
+
+    <select id="getRoomPreview" parameterType="int" resultMap="roomPreviewMap">
+        SELECT r.ROOM_ID, r.IS_AVAILABLE, r.PRICE,
+               r.ROOM_CATEGORY, r.ROOM_NAME, r.CHECKIN_TIME,
+               r.CHECKOUT_TIME, r.ROOM_COUNT, r.STANDARD_CAPACITY,
+               r.MAXIMUM_CAPACITY, b.BED_TYPE, b.BED_COUNT,
+               i.IS_THUMBNAIL, i.ROOM_IMAGE_FILE_PATH, i.PRIORITY
+        FROM ROOM r
+        LEFT JOIN ROOM_BED b ON r.ROOM_ID = b.ROOM_ID
+        LEFT JOIN ROOM_IMAGE i ON r.ROOM_ID = i.ROOM_ID
+        WHERE r.ACCOMMODATION_ID = #{id}
+    </select>
+
+    <resultMap id="roomPreviewMap" type="RoomPreviewDTO">
+        <id property="roomId" column="ROOM_ID"/>
+        <result property="isAvailable" column="IS_AVAILABLE"/>
+        <result property="price" column="PRICE"/>
+        <result property="roomCategory" column="ROOM_CATEGORY"/>
+        <result property="roomName" column="ROOM_NAME"/>
+        <result property="checkinTime" column="CHECKIN_TIME"/>
+        <result property="checkoutTime" column="CHECKOUT_TIME"/>
+        <result property="roomCnt" column="ROOM_CNT"/>
+        <result property="standardCapacity" column="STANDARD_CAPACITY"/>
+        <result property="maximumCapacity" column="MAXIMUM_CAPACITY"/>
+
+        <collection property="bedList" ofType="RoomBedDTO">
+            <result property="bedType" column="BED_TYPE"/>
+            <result property="bedCount" column="BED_COUNT"/>
+        </collection>
+
+        <collection property="imageList" ofType="RoomImageDTO">
+            <result property="isThumbnail" column="IS_THUMBNAIL"/>
+            <result property="roomImageFilePath" column="ROOM_IMAGE_FILE_PATH"/>
+            <result property="priority" column="PRIORITY"/>
+        </collection>
+    </resultMap>
 </mapper>

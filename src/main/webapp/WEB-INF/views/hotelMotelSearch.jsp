@@ -13,7 +13,7 @@
 
 <%@ include file="common/searchHeader.jsp"%>
 
-<form id="searchForm" action="/domestic/hotel" method="get">
+<form id="searchForm" action="/yanupja/domestic/hotel" method="get">
 
     <input type="hidden" name="district" id="districtInput" value="${district}">
     <input type="hidden" name="checkIn" id="checkInInput" value="${checkIn}">
