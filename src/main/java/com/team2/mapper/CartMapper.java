@@ -1,13 +1,15 @@
 package com.team2.mapper;
 
 import com.team2.dto.cart.CartDTO;
+import com.team2.dto.cart.CartResponse;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface CartMapper {
 
     // 특정 회원의 장바구니 조회
-    List<CartDTO> getCartList(CartDTO cartDTO);
+    List<CartResponse> getCartList(@Param("customerId") int customerId );
 
     // 장바구니 추가
     void addCart(CartDTO cartDTO);
@@ -19,8 +21,14 @@ public interface CartMapper {
     void deleteCart(int cartId);
 
     // 고객+방으로 조회
-    CartDTO findByCustomerAndRoom(int cartId, int roomId);
+    CartDTO findByCustomerAndRoom(
+            @Param("customerId") int customerId,
+            @Param("roomId")     int roomId
+    );
 
-
+    CartDTO findByCustomerIdAndCartId(
+            @Param("customerId") int customerId,
+            @Param("cartId")     int cartId
+    );
 
 }

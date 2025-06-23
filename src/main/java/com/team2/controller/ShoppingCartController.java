@@ -1,6 +1,7 @@
 package com.team2.controller;
 
 import com.team2.dto.cart.CartDTO;
+import com.team2.dto.cart.CartResponse;
 import com.team2.model.Customer;
 import com.team2.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,37 +19,42 @@ public class ShoppingCartController {
     @Autowired
     CartService cartService;
 
-//    @GetMapping("/")
-//    public String cart() {
-//        return "cart";
-//    }
+    @GetMapping("/")
+    public String cart() {
+        return "cart";
+    }
 
     // 장바구니 목록 조회
     @GetMapping("/list")
-    public String getCartList(CartDTO cartDTO, Model model, @SessionAttribute("loginUser") Customer loginCustomer) {
-        cartDTO.setCustomerId(loginCustomer.getCustomerId());
+    public String getCartList(CartDTO cartDTO, Model model) {
+//        cartDTO.setCustomerId(loginCustomer.getCustomerId());
 
-        if (loginCustomer == null) {
-            // 세션이 없으면 로그인 페이지로
-            return "redirect:/login";
-        }
+//        if (loginCustomer == null) {
+//            // 세션이 없으면 로그인 페이지로
+//            return "redirect:/login";
+//        }
+        cartDTO.setCustomerId(3); // test
+        List<CartResponse> cartList = cartService.getCartList(cartDTO);
 
-        List<CartDTO> cartList = cartService.getCartList(cartDTO);
-
-        for (CartDTO cartInfo : cartList) {
-            System.out.println(cartInfo);
+        for (CartResponse cartInfo : cartList) {
+            System.out.println(cartInfo.getCartId());
         }
         model.addAttribute("cartList", cartList);
         return "cart";
     }
 
     @PostMapping("/add")
-    public String addCart(CartDTO cartDTO, HttpSession session, @SessionAttribute("loginCustomer") Customer loginCustomer) {
-        if (loginCustomer == null) {
-            // 세션이 없으면 로그인 페이지로
-            return "redirect:/login";
-        }
-        cartDTO.setCustomerId(loginCustomer.getCustomerId());
+    public String addCart(CartDTO cartDTO, HttpSession session
+//                          ,@SessionAttribute("loginCustomer") Customer loginCustomer
+    ) {
+//        if (loginCustomer == null) {
+//            // 세션이 없으면 로그인 페이지로
+//            return "redirect:/login";
+//        }
+
+//        cartDTO.setCustomerId(loginCustomer.getCustomerId());
+        cartDTO.setCustomerId(3); // test;
+
         String originUrl = (String) session.getAttribute("originUrl"); // 상품팀에 url attribute 요청
         if (originUrl == null) originUrl = "/cart/list";
         cartService.addCart(cartDTO);
@@ -57,24 +63,34 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/update")
-    public String updatePeopleCnt(CartDTO cartDTO, @SessionAttribute("loginCustomer") Customer loginCustomer) {
-        if (loginCustomer == null) {
-            // 세션이 없으면 로그인 페이지로
-            return "redirect:/login";
-        }
-        cartDTO.setCustomerId(loginCustomer.getCustomerId());
+    public String updatePeopleCnt(CartDTO cartDTO
+//            , @SessionAttribute("loginCustomer") Customer loginCustomer
+            ) {
+//        if (loginCustomer == null) {
+//            // 세션이 없으면 로그인 페이지로
+//            return "redirect:/login";
+//        }
+//        cartDTO.setCustomerId(loginCustomer.getCustomerId());
+        cartDTO.setCustomerId(3);
         cartService.updatePeopleCnt(cartDTO);
         return "redirect:/cart/list";
     }
 
     @PostMapping("/delete")
-// 매개변수 cartDTO 지우고 싶은데 잘 모르겠음
-    public String deleteCart(CartDTO cartDTO, @RequestParam("cartId")int cartId, @SessionAttribute("loginCustomer") Customer loginCustomer) {
-        if (loginCustomer == null) {
-            return "redirect:/login";
-        }
-        cartDTO.setCustomerId(loginCustomer.getCustomerId());
-        cartService.deleteCart(cartId);
+    public String deleteCart(
+            @RequestParam("cartId") int cartId
+//            ,@SessionAttribute("loginCustomer") Customer loginCustomer
+//            ,@RequestParam("customerId") int customerId
+    ) {
+//        if (loginCustomer == null) {
+//            return "redirect:/login";
+//        }
+
+//        cartDTO.setCustomerId(3); // test
+
+        int customerId = 3;
+
+        cartService.deleteCart(cartId, customerId);
         return "redirect:/cart/list";
     }
 }

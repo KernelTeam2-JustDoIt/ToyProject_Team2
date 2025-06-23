@@ -6,9 +6,23 @@
 <mapper namespace="com.team2.mapper.CartMapper">
 
     <!-- 장바구니 조회 -->
-    <select id="getCartList" parameterType="CartDTO" resultType="CartDTO">
-        SELECT s.*
-        FROM SHOPPING_CART s
+    <select id="getCartList" parameterType="int" resultType="CartResponse">
+SELECT
+    s.cart_id                      AS cartId,
+    s.room_id                      AS roomId,
+    s.customer_id                  AS customerId,
+    s.desired_check_in_at          AS desiredCheckInAt,
+    s.desired_check_out_at         AS desiredCheckOutAt,
+    s.adult_count                  AS adultCount,
+    s.child_count                  AS childCount,
+
+    r.accommodation_id             AS accommodationId,
+    r.room_name                    AS roomName,
+    r.checkin_time                 AS checkinTime,
+    r.checkout_time                AS checkoutTime,
+    r.standard_capacity            AS standardCapacity,
+    r.maximum_capacity             AS maximumCapacity
+FROM SHOPPING_CART s
         JOIN ROOM r on s.room_id = r.room_id
         JOIN  CUSTOMER c on s.customer_id = c.customer_id
         WHERE s.CUSTOMER_ID = #{customerId}
@@ -26,7 +40,7 @@
         UPDATE SHOPPING_CART
         <set>
         <if test="adultCount != null">
-            adult_count = #{adultCount}
+            adult_count = #{adultCount},
         </if>
         <if test="childCount != null">
             child_count = #{childCount}
@@ -42,11 +56,18 @@
     </delete>
     
     <!-- 회원&객실번호로 중복담기 방지 -->
-    <select id="findByCustomerAndRoom" resultType="CartDTO">
+    <select id="findByCustomerAndRoom" resultType="CartDTO" parameterType="CartDTO" >
         SELECT *
         FROM SHOPPING_CART
         WHERE customer_id = #{customerId}
         AND room_id = #{roomId}
+    </select>
+
+    <select id="findByCustomerIdAndCartId" resultType="CartDTO" parameterType="int" >
+        SELECT *
+        FROM SHOPPING_CART
+        WHERE customer_id = #{customerId}
+          AND cart_id = #{cartId}
     </select>
 </mapper>
 

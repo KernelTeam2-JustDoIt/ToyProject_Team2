@@ -1,91 +1,74 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>장바구니</title>
-
     <link rel="stylesheet" href="<c:url value='/resources/css/cart.css'/>">
 </head>
 <body>
 
 <header class="header">
-    <div class="back" title="뒤로가기"></div>
+    <div class="back" title="뒤로가기" onclick="history.back()"></div>
     <h1>장바구니</h1>
-    <div class="home" title="홈"></div>
+    <div class="home" title="홈" onclick="location.href='/'"></div>
 </header>
 
-<ul class="tabs">
-    <li class="active">전체(1)</li>
-    <li>국내숙소(1)</li>
-    <li>레저/티켓(0)</li>
-    <li>교통(0)</li>
-</ul>
-
 <div class="cart-container">
-    <div class="select-all">
-        <label><input type="checkbox"> 전체 선택 (0/1)</label>
-        <span>선택 삭제</span>
+    <div class="summary-bar">
+        전체 항목: <strong>${fn:length(cartList)}</strong>개
     </div>
 
-    <div class="cart-item">
-        <input type="checkbox" checked>
-        <img src="https://via.placeholder.com/80" alt="서머셋 팰리스">
-        <div class="item-info">
-            <div class="title">서머셋 팰리스</div>
-            <div class="dates">2025.06.23 (월) – 2025.06.27 (금) · 4박</div>
-            <div class="details">
-                체크인 15:00 | 체크아웃 12:00<br>
-                기준 2명 / 최대 3명
+    <c:forEach var="item" items="${cartList}">
+        <div class="cart-item">
+            <!-- 체크박스 -->
+            <input type="checkbox" class="chk-item" data-cart-id="${item.cartId}"/>
+
+            <!-- 방 정보 -->
+            <div class="item-info">
+                <div class="title">
+                    <c:out value="${item.roomName}"/>
+                    &nbsp;(숙소ID:<c:out value="${item.accommodationId}"/>) <!-- 객실 구현 시 rooId로 바꾸기-->
+                </div>
+                <div class="dates">
+                    <fmt:formatDate value="${item.desiredCheckInAt}" pattern="yyyy.MM.dd (E)"/>
+                    –
+                    <fmt:formatDate value="${item.desiredCheckOutAt}" pattern="yyyy.MM.dd (E)"/>
+                </div>
+                <div class="details">
+                    체크인 <c:out value="${item.checkinTime}"/> |
+                    |
+                    체크아웃 <c:out value="${item.checkoutTime}"/>
+                    <br/>
+                    기준인원 <c:out value="${item.standardCapacity}"/>명 /
+                    최대인원 <c:out value="${item.maximumCapacity}"/>명
+                </div>
             </div>
-        </div>
-        <div class="item-price">
-            727,680원<br>
-            <span style="font-size:12px; color:#888;">취소 및 환불규정</span>
-        </div>
-        <div class="remove" title="삭제">×</div>
-    </div>
 
-    <div class="summary">
-        <div class="line"><span>상품 금액</span><span>0원</span></div>
-        <div class="line"><span>할인 금액</span><span>-0원</span></div>
-        <div class="line total"><span>결제 예정 금액</span><span>0원</span></div>
-        <div class="note">NOL 카드 결제 시, 10% 적립</div>
-        <div class="note">
-            • 장바구니에 담은 상품은 최대 30일간 보관되고 최대 20개까지 담을 수 있습니다.<br>
-            • 장바구니에서 수량 및 상세 옵션을 수정할 수 없는 상품도 있습니다. 삭제 후 다시 담아주세요.<br>
-            • 쿠폰 및 포인트가 적용된 최종 결제 금액은 다를 수 있으므로 예약완료에서 확인해 주세요.
-        </div>
-    </div>
-</div>
+            <!-- 인원 수량 수정 폼 -->
+            <form action="<c:url value='/cart/update'/>" method="post" class="form-update">
+                <input type="hidden" name="cartId" value="${item.cartId}"/>
+                <label>성인
+                    <input type="number" name="adultCount" value="${item.adultCount}" min="1"/>
+                </label>
+                <label>어린이
+                    <input type="number" name="childCount" value="${item.childCount}" min="0"/>
+                </label>
+                <button type="submit">수정</button>
+            </form>
 
-<c:forEach var="item" items="${cartList}">
-    <form action="/cart/update" method="post">
-        <input type="hidden" name="cartId" value="${item.cartId}"/>
-        <input type="number" name="adultCount" value="${item.adultCount}"/>
-        <input type="number" name="childCount" value="${item.childCount}"/>
-        <button type="submit">수정</button>
-    </form>
-
-    <form action="/cart/delete" method="post">
-        <input type="hidden" name="cartId" value="${item.cartId}"/>
-        <button type="submit">삭제</button>
-    </form>
-</c:forEach>
-
-<div class="accommodation-list">
-    <c:forEach var="cart" items="${cartList}">
-        <div class="accommodation-card">
-            <div class="info">
-                <div class="name">${cart.cartId}</div>
-                <div class="name">${cart.roomId}</div>
-            </div>
+            <!-- 삭제 폼 -->
+            <form action="<c:url value='/cart/delete'/>" method="post" class="form-delete">
+                <input type="hidden" name="cartId" value="${item.cartId}"/>
+                <button type="submit">삭제</button>
+            </form>
         </div>
     </c:forEach>
 </div>
-
-<div class="btn-buy">구매하기</div>
 
 </body>
 </html>
