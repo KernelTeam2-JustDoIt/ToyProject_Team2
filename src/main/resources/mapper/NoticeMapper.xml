@@ -42,6 +42,7 @@
             IS_NEED_PIN AS isNeedPin
         FROM NOTICE
         ORDER BY POSTED_AT DESC
+            LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
 
@@ -114,6 +115,11 @@
         DELETE FROM NOTICE
         WHERE NOTICE_ID = #{noticeId}
     </delete>
+
+<!-- 전체 공지 개수 조회 -->
+    <select id="countNotices" resultType="int">
+        SELECT COUNT(*) FROM NOTICE
+    </select>
 
 
 </mapper>
