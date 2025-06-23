@@ -8,8 +8,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>야눕자 메인 페이지</title>
-    <link rel="stylesheet" href="/yanupja/resources/css/header.css" />
-    <link rel="stylesheet" href="/yanupja/resources/css/index.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/index.css" />
 </head>
 <body>
 
@@ -17,8 +17,8 @@
 
 <main>
     <div class="notice-banner">
-        <a href="/notice" class="notice-tag" target="_blank">공지</a>
-        <a href="/notice/2025-nol-renewal" class="notice-text" target="_blank">
+        <a href="${pageContext.request.contextPath}/notice/${latestNotice.noticeId}" class="notice-tag" target="_blank">공지</a>
+        <a href="${pageContext.request.contextPath}/notice/${latestNotice.noticeId}" class="notice-text" target="_blank">
             새로워진 NOL을 소개합니다!
         </a>
     </div>
@@ -26,15 +26,15 @@
     <section class="section">
         <div class="category-boxes">
             <a href="#" class="category-box">
-                <img src="/yanupja/resources/image/hotel1.png" alt="국내숙소" />
+                <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="국내숙소" />
                 <p>국내숙소</p>
             </a>
             <a href="#" class="category-box">
-                <img src="/yanupja/resources/image/hotel1.png" alt="해외숙소" />
+                <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="해외숙소" />
                 <p>해외숙소</p>
             </a>
             <a href="#" class="category-box">
-                <img src="/yanupja/resources/image/hotel1.png" alt="내주변" />
+                <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="내주변" />
                 <p>내주변</p>
             </a>
         </div>
@@ -42,13 +42,13 @@
         <div class="event-slider">
             <button class="prev">&#10094;</button>
             <div class="event-track">
-                <img src="/yanupja/resources/image/hotel1.png" alt="이벤트1" />
-                <img src="/yanupja/resources/image/hotel1.png" alt="이벤트2" />
-                <img src="/yanupja/resources/image/hotel1.png" alt="이벤트3" />
-                <img src="/yanupja/resources/image/hotel1.png" alt="이벤트4" />
-                <img src="/yanupja/resources/image/hotel1.png" alt="이벤트5" />
-                <img src="/yanupja/resources/image/hotel1.png" alt="이벤트6" />
-                <img src="/yanupja/resources/image/hotel1.png" alt="이벤트7" />
+                <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="이벤트1" />
+                <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="이벤트2" />
+                <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="이벤트3" />
+                <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="이벤트4" />
+                <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="이벤트5" />
+                <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="이벤트6" />
+                <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="이벤트7" />
             </div>
             <button class="next">&#10095;</button>
         </div>
@@ -59,16 +59,16 @@
             <div class="hot-slider">
                 <button class="hot-prev">&#10094;</button>
                 <div class="hot-track">
-                    <img src="/yanupja/resources/image/hotel1.png" alt="숙소1" />
-                    <img src="/yanupja/resources/image/hotel1.png" alt="숙소2" />
-                    <img src="/yanupja/resources/image/hotel1.png" alt="숙소3" />
-                    <img src="/yanupja/resources/image/hotel1.png" alt="숙소4" />
-                    <img src="/yanupja/resources/image/hotel1.png" alt="숙소5" />
-                    <img src="/yanupja/resources/image/hotel1.png" alt="숙소6" />
-                    <img src="/yanupja/resources/image/hotel1.png" alt="숙소7" />
-                    <img src="/yanupja/resources/image/hotel1.png" alt="숙소8" />
-                    <img src="/yanupja/resources/image/hotel1.png" alt="숙소9" />
-                    <img src="/yanupja/resources/image/hotel1.png" alt="숙소10" />
+                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소1" />
+                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소2" />
+                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소3" />
+                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소4" />
+                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소5" />
+                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소6" />
+                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소7" />
+                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소8" />
+                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소9" />
+                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소10" />
                 </div>
                 <button class="hot-next">&#10095;</button>
             </div>
@@ -79,16 +79,16 @@
                     <p>주간 인기 숙소 Top 10</p>
                     <button class="popular-prev">&#10094;</button>
                     <div class="popular-track">
-                        <img src="/yanupja/resources/image/hotel1.png" alt="인기1" />
-                        <img src="/yanupja/resources/image/hotel1.png" alt="인기2" />
-                        <img src="/yanupja/resources/image/hotel1.png" alt="인기3" />
-                        <img src="/yanupja/resources/image/hotel1.png" alt="인기4" />
-                        <img src="/yanupja/resources/image/hotel1.png" alt="인기5" />
-                        <img src="/yanupja/resources/image/hotel1.png" alt="인기6" />
-                        <img src="/yanupja/resources/image/hotel1.png" alt="인기7" />
-                        <img src="/yanupja/resources/image/hotel1.png" alt="인기8" />
-                        <img src="/yanupja/resources/image/hotel1.png" alt="인기9" />
-                        <img src="/yanupja/resources/image/hotel1.png" alt="인기10" />
+                        <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="인기1" />
+                        <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="인기2" />
+                        <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="인기3" />
+                        <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="인기4" />
+                        <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="인기5" />
+                        <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="인기6" />
+                        <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="인기7" />
+                        <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="인기8" />
+                        <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="인기9" />
+                        <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="인기10" />
                     </div>
                     <button class="popular-next">&#10095;</button>
                 </div>
