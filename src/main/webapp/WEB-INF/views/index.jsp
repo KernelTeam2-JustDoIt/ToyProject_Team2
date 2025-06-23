@@ -16,12 +16,25 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 <main>
-    <div class="notice-banner">
-        <a href="${pageContext.request.contextPath}/notice/${latestNotice.noticeId}" class="notice-tag" target="_blank">공지</a>
-        <a href="${pageContext.request.contextPath}/notice/${latestNotice.noticeId}" class="notice-text" target="_blank">
-            새로워진 NOL을 소개합니다!
-        </a>
-    </div>
+    <!-- 공지사항 영역 -->
+    <!-- 공지사항 배너 -->
+    <c:choose>
+        <c:when test="${not empty latestNotice}">
+            <div class="notice-banner">
+                <a href="${pageContext.request.contextPath}/notice/${latestNotice.noticeId}" class="notice-tag" target="_blank">공지</a>
+                <a href="${pageContext.request.contextPath}/notice/${latestNotice.noticeId}" class="notice-text" target="_blank">
+                        ${latestNotice.title}
+                </a>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <div class="notice-banner">
+                <span class="notice-tag">공지</span>
+                <span class="notice-text">등록된 공지사항이 없습니다.</span>
+            </div>
+        </c:otherwise>
+    </c:choose>
+
 
     <section class="section">
         <div class="category-boxes">
