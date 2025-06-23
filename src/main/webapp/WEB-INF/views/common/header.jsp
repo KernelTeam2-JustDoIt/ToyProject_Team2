@@ -2,7 +2,12 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <header>
-    <div class="logo">야눕자</div>
+    <div class="logo">
+        <a href="${pageContext.request.contextPath}/" style="text-decoration: none; color: inherit;">
+            야눕자
+        </a>
+    </div>
+
 
     <div class="search-bar">
         <input type="text" placeholder="신나는 토요일 불타는 이 밤" />
@@ -25,11 +30,11 @@
                 <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" alt="마이" />
                 <span>마이</span>
             </a>
-<%--            찜은 구현 안함--%>
-<%--            <a href="#" class="icon-link">--%>
-<%--                <img src="https://cdn-icons-png.flaticon.com/512/535/535234.png" alt="찜" />--%>
-<%--                <span>찜</span>--%>
-<%--            </a>--%>
+            <%--            찜은 구현 안함--%>
+            <%--            <a href="#" class="icon-link">--%>
+            <%--                <img src="https://cdn-icons-png.flaticon.com/512/535/535234.png" alt="찜" />--%>
+            <%--                <span>찜</span>--%>
+            <%--            </a>--%>
             <a href="${pageContext.request.contextPath}/cart/list" class="icon-link">
                 <img src="https://cdn-icons-png.flaticon.com/512/263/263142.png" alt="장바구니" />
                 <span>장바구니</span>
