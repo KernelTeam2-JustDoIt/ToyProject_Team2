@@ -19,26 +19,19 @@ import java.util.List;
 public class SearchAccommController {
 
     @Autowired
-    private PreviewAccommService previewAccommService;
-
-    @Autowired
     private PagingAccommService pagingAccommService;
 
     /* 숙소 검색 메인 페이지 */
     @GetMapping("/hotel")
     public String hotelMain(@ModelAttribute ConditionDTO conditionDTO, Model model) {
 
-        /* 관심사의 분리 필요*/
-        conditionDTO.prepareForQuery();
-        conditionDTO.setOnOff(1);
-
         /* 디폴트 검색 */
         if (conditionDTO.getDistrict() == null) {
             return "hotelMotelSearch";
         }
 
-        List<PagingAccommDTO> previewAccomm = pagingAccommService.getSearchAccommPaging(conditionDTO);
         int totalPages = pagingAccommService.getTotalPages(conditionDTO, conditionDTO.getSize());
+        List<PagingAccommDTO> previewAccomm = pagingAccommService.getSearchAccommPaging(conditionDTO);
 
         model.addAttribute("roomList", previewAccomm);
         model.addAttribute("condition", conditionDTO);
@@ -46,4 +39,12 @@ public class SearchAccommController {
 
         return "hotelMotelSearch";
     }
+
+    @GetMapping("/hotel/{id}")
+    public String showHotel(@PathVariable int id, Model model) {
+        System.out.println(id);
+
+        return "accommDetail";
+    }
+
 }

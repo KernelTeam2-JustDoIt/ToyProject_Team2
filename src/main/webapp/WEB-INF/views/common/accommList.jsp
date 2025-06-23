@@ -3,7 +3,7 @@
 
 <div class="accommodation-list">
   <c:forEach var="room" items="${roomList}">
-    <a href="accommodationDetail.jsp?id=${room.accommodationId}" class="accommodation-card">
+    <a href="${pageContext.request.contextPath}/domestic/hotel/${room.accommodationId}" class="accommodation-card">
       <img class="thumbnail" src="${room.accommodationImageFilePath}" alt="${room.accommodationName}">
       <div class="info">
         <div class="name">${room.accommodationName}</div>

@@ -1,7 +1,6 @@
 package com.team2.service;
 
 import com.team2.dto.paging.PagingAccommDTO;
-import com.team2.dto.paging.PagingConditionDTO;
 import com.team2.dto.previewaccomm.ConditionDTO;
 import com.team2.mapper.YanupzaPaging;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,17 @@ public class PagingAccommService {
         return yanupzaPaging.getAccommPagingCnt(conditionDTO);
     }
 
+    /* 페이징관련 Limit, OFFSET 등 계산 */
+    private void setCondition(ConditionDTO conditionDTO) {
+        conditionDTO.setTotalPeopleCnt(conditionDTO.getAdultCnt() + conditionDTO.getBabyCnt());
+        conditionDTO.setLimit(conditionDTO.getSize());
+        conditionDTO.setOffset((conditionDTO.getPage() - 1) * conditionDTO.getSize());
+        conditionDTO.setOnOff(1);
+    }
+
     /* 페이지 개수 구하기 */
     public int getTotalPages(ConditionDTO conditionDTO, int size) {
+        setCondition(conditionDTO);
         return (int) Math.ceil((double) getTotalAccomm(conditionDTO) / size);
     }
 

@@ -29,18 +29,4 @@ public class ConditionDTO {
     private int limit;
     private int offset;
 
-    public void calculatePeople() {
-        this.totalPeopleCnt = this.adultCnt + this.babyCnt;
-    }
-
-    // LIMIT/OFFSET 자동 계산
-    public void calculatePaging() {
-        this.limit = this.size;
-        this.offset = (this.page - 1) * this.size;
-    }
-
-    public void prepareForQuery() {
-        calculatePeople();
-        calculatePaging();
-    }
 }

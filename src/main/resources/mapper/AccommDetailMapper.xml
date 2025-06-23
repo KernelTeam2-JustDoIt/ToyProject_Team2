@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team2.mapper.AccommDetailMapper">
+    <select id="getAccommDetail" parameterType="int" resultType="AccommDetailDTO">
+        SELECT a.ACCOMMODATION_ID, a.ACCOMMODATION_NAME, a.PROVINCE_NAME,
+               a.DISTRICT_NAME, a.RATING, i.ACCOMMODATION_IMAGE_FILE_PATH,
+               ROUND(AVG(rev.REVIEW_SCORE), 1) AS REVIEW_SCORE,
+               inf.DESCRIPTION, inf.GUIDE_LINE, inf.RESERVE_NOTICE,
+               inf.SUMMARY_REVIEW, inf.DIRECTIONS
+        FROM ACCOMMODATION a
+        LEFT JOIN ACCOMMODATION_IMAGE i ON a.ACCOMMODATION_ID = i.ACCOMMODATION_ID
+        LEFT JOIN REVIEW rev ON a.ACCOMMODATION_ID = rev.ACCOMMODATION_ID
+        LEFT JOIN ROOM r ON a.ACCOMMODATION_ID = r.ACCOMMODATION_ID
+        LEFT JOIN ACCOMMODATION_INFO inf ON a.ACCOMMODATION_ID = inf.ACCMODATION_ID
+        WHERE a.ACCOMMODATION_ID = #{id}
+        GROUP BY a.ACCOMMODATION_ID, a.ACCOMMODATION_NAME, a.PROVINCE_NAME,
+                 a.DISTRICT_NAME, a.RATING, i.ACCOMMODATION_IMAGE_FILE_PATH,
+                 inf.DESCRIPTION, inf.GUIDE_LINE, inf.RESERVE_NOTICE,
+                 inf.SUMMARY_REVIEW, inf.DIRECTIONS
+        ORDER BY a.ACCOMMODATION_ID
+    </select>
+
+</mapper>
