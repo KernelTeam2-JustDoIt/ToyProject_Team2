@@ -118,5 +118,20 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- 테스트용 http 요청 라이브러리 -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.13</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- 테스트용 html 파서 -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.17.2</version> <scope>test</scope>
+        </dependency>
+
     </dependencies>
 </project>
