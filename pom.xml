@@ -10,8 +10,13 @@
     <name>Yanupja - 예약 플랫폼</name>
 
     <properties>
-        <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <java.version>11</java.version>
+
+        <spring.version>5.3.32</spring.version>
+
+        <junit.version>4.13.2</junit.version>
     </properties>
 
     <dependencies>
@@ -19,7 +24,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>5.3.32</version>
+            <version>${spring.version}</version>
         </dependency>
 
         <!-- Jakarta Servlet -->
@@ -62,7 +67,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>5.3.32</version>
+            <version>${spring.version}</version>
         </dependency>
 
         <!-- Apache Commons DBCP2 -->
@@ -95,6 +100,37 @@
             <artifactId>lombok</artifactId>
             <version>1.18.30</version> <!-- 안정 최신 버전 -->
             <scope>provided</scope>
+        </dependency>
+
+        <!-- jUnit4 for test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Spring Test -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- 테스트용 http 요청 라이브러리 -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.13</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- 테스트용 html 파서 -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.17.2</version> <scope>test</scope>
         </dependency>
 
     </dependencies>
