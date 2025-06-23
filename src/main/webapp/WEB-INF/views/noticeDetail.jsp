@@ -67,9 +67,12 @@
 
 <!-- 상단 헤더 -->
 <div class="notice-header">
-  <a href="${pageContext.request.contextPath}/">🏠</a>
+  <a href="<c:url value='/' />">
+    <img src="${pageContext.request.contextPath}/resources/image/home_icon.png" alt="홈" style="width: 24px;" />
+  </a>
+
   <div><strong>공지사항</strong></div>
-  <a href="${pageContext.request.contextPath}/notice/list">📋 목록</a>
+  <a href="${pageContext.request.contextPath}/notice/list"> 목록</a>
 </div>
 
 <!-- 공지 본문 -->
