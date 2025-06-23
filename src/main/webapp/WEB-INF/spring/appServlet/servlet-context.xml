@@ -17,6 +17,9 @@
     <!-- 어노테이션 기반 MVC 활성화 -->
     <mvc:annotation-driven/>
 
+    <!-- 에러 핸들러 설정 -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver"/>
+
     <!-- 뷰 리졸버 설정 (JSP 경로 설정) -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/"/>

@@ -15,7 +15,7 @@ target/
 !.idea/*.iml
 !.idea/workspace.xml
 !.idea/libraries/
-!.idea/vcs.xml
+.idea/vcs.xml
 
 ### Eclipse ###
 .apt_generated
