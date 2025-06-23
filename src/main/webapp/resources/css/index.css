@@ -210,3 +210,32 @@ footer {
 
 .popular-prev { left: 8px; }
 .popular-next { right: 8px; }
+
+/* 메인페이지에 공지사항 배너 */
+.notice-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #fff4e6;
+    padding: 12px 16px;
+    border-left: 4px solid #ffa94d;
+    border-radius: 6px;
+    margin-bottom: 24px;
+}
+
+.notice-tag {
+    background-color: #ffa94d;
+    color: white;
+    padding: 4px 8px;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.notice-text {
+    font-size: 15px;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+}
