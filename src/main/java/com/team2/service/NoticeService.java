@@ -11,4 +11,5 @@ public interface NoticeService {
     void updateNotice(NoticeDTO noticeDTO);
     void deleteNotice(int noticeId);
 
+
 }

@@ -1,5 +1,7 @@
 package com.team2.controller.mainpage;
 
+import com.team2.dto.notice.NoticeDTO;
+import com.team2.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +21,7 @@ public class MainController {
 //        List<EventDto> activeEvents = eventService.getActiveEvents();
 //        model.addAttribute("activeEvents", activeEvents); // 모델에 이벤트 목록 추가
         // TODO 공지사항중에 중요한 것은 메인 페이지에서 보여줘야함
-        NoticeDTO latestNotice = noticeService.getLatestnotice();
+        NoticeDTO latestNotice = noticeService.getLatestNotice();
         model.addAttribute("latestNotice", latestNotice);
         return "index";
     }

@@ -5,6 +5,7 @@ import com.team2.mapper.NoticeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -20,8 +21,17 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public List<NoticeDTO> getNoticeList() {
-        return noticeMapper.getNoticeList();
+        List<NoticeDTO> noticeList = noticeMapper.getNoticeList(); //  먼저 DB에서 가져옴
+
+        for (NoticeDTO dto : noticeList) {
+            if (dto.getPostedAt() != null) {
+                dto.setFormattedDate(dto.getPostedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            }
+        }
+
+        return noticeList; // 포맷된 값이 포함된 리스트 반환
     }
+
 
     @Override
     public NoticeDTO getNoticeDetail(int noticeId) {
