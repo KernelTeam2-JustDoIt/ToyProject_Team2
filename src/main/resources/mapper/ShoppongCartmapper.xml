@@ -21,8 +21,8 @@
         VALUES (#{roomId}, #{customerId},#{adultCount},#{childCount})
     </insert>
 
-    <!-- 장바구니 인원 수정. 컨트롤러에서 관련 로직 만들어야 함 -->
-    <update id="updateCart" parameterType="CartDTO">
+    <!-- 장바구니 인원 수정 -->
+    <update id="updatePeopleCnt" parameterType="CartDTO">
         UPDATE SHOPPING_CART
         <set>
         <if test="adultCount != null">
@@ -40,4 +40,13 @@
         DELETE FROM SHOPPING_CART
         WHERE cart_id = #{cartId}
     </delete>
+    
+    <!-- 회원&객실번호로 중복담기 방지 -->
+    <select id="findByCustomerAndRoom" resultType="CartDTO">
+        SELECT *
+        FROM SHOPPING_CART
+        WHERE customer_id = #{customerId}
+        AND room_id = #{roomId}
+    </select>
 </mapper>
+

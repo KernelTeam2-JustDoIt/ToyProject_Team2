@@ -23,34 +23,44 @@ public class CartService {
 
     // 장바구니 추가
     public void addCart(CartDTO cartDTO) {
-//        보통 서비스에는 @Autowired CartMapper cartMapper 만 두고,
-//        검증 로직(isValidDateRange)은 DTO 인스턴스 메서드로 구현해서
-//        cartDTO.isValidDateRange() 처럼 쓰는 게 깔끔합니다.
-
         Cart cart = new Cart();
         if (!cart.isValidDateRange()) {
             throw new IllegalArgumentException("체크아웃 날짜는 체크인 이후여야 합니다.");
         }
-        cartMapper.addCart(cartDTO);
+
+        // 동일 회원 + 동일 객실 중복 방지 -> 과제 평가사항에 있음
+        CartDTO existing = cartMapper.findByCustomerAndRoom(
+                cartDTO.getCustomerId(),
+                cartDTO.getRoomId()
+        );
+
+        if (existing != null) {
+            throw new IllegalArgumentException("장바구니에 동일 상품이 존재합니다.");
+        } else cartMapper.addCart(cartDTO);
     }
 
     // 장바구니 인원 수정
-    public int updateCart(CartDTO cartDTO) {
+    public int updatePeopleCnt(CartDTO cartDTO) {
+        // 어른, 아이 인원이 -가 되면 안됨
+        if (cartDTO.getAdultCount() < 0 || cartDTO.getChildCount() < 0) {
+            throw new IllegalArgumentException("체크인 인원은 0명보다 작을 수 없습니다.");
+        }
+
         // 장바구니 총 인원이 룸 최대 인원보다 많을 경우 검사
-       int total = cartDTO.getAdultCount() + cartDTO.getChildCount();
-       // 룸 최대인원
-        int capacity =
+        int total = cartDTO.getAdultCount() + cartDTO.getChildCount();
+        int capacity = PagingConditionDTO.getTotalPepleCnt();
+        //int capacity = roomService.getRoomCapacity(cartDTO.getRoomId()); ??
         if (total > capacity)
         throw new IllegalArgumentException("선택하신 인원(" + total + "명)이 객실 수용인원(" + capacity + "명)을 초과합니다.");{
         }
 
         Cart cart = new Cart();
         if (!cart.isValidDateRange()) {
-            throw new IllegalArgumentException("체크아웃 날짜는 체크인 이후여야 합니다.");
+            throw new IllegalArgumentException("체크아웃 날짜는 체크인 날짜 이후여야 합니다.");
         }
         cartMapper.addCart(cartDTO);
 
-        return cartMapper.updateCart(cartDTO);
+        return cartMapper.updatePeopleCnt(cartDTO);
     }
 
     // 장바구니 삭제

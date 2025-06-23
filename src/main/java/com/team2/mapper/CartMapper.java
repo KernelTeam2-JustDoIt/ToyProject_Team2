@@ -13,10 +13,13 @@ public interface CartMapper {
     void addCart(CartDTO cartDTO);
 
     // 장바구니 인원 수정
-    int updateCart(CartDTO cartDTO);
+    int updatePeopleCnt(CartDTO cartDTO);
 
     // 장바구니 삭제
     void deleteCart(int cartId);
+
+    // 고객+방으로 조회
+    CartDTO findByCustomerAndRoom(int cartId, int roomId);
 
 
 
