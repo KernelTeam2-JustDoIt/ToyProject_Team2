@@ -25,9 +25,14 @@ public class ShoppingCartController {
 
     // 장바구니 목록 조회
     @GetMapping("/list")
-    // customerId 매개변수 추가해야 함?
     public String getCartList(CartDTO cartDTO, Model model, @SessionAttribute("loginUser") Customer loginCustomer) {
         cartDTO.setCustomerId(loginCustomer.getCustomerId());
+
+        if (loginCustomer == null) {
+            // 세션이 없으면 로그인 페이지로
+            return "redirect:/login";
+        }
+
         List<CartDTO> cartList = cartService.getCartList(cartDTO);
 
         for (CartDTO cartInfo : cartList) {
@@ -39,20 +44,36 @@ public class ShoppingCartController {
 
     @PostMapping("/add")
     public String addCart(CartDTO cartDTO, HttpSession session, @SessionAttribute("loginCustomer") Customer loginCustomer) {
-        String originUrl = (String) session.getAttribute("originUrl"); // 상품팀에 url attribute 요청
+        if (loginCustomer == null) {
+            // 세션이 없으면 로그인 페이지로
+            return "redirect:/login";
+        }
         cartDTO.setCustomerId(loginCustomer.getCustomerId());
+        String originUrl = (String) session.getAttribute("originUrl"); // 상품팀에 url attribute 요청
+        if (originUrl == null) originUrl = "/cart/list";
         cartService.addCart(cartDTO);
+        System.out.println("[TEST] addCart 호출: " + cartDTO);
         return "redirect:" + originUrl;
     }
 
     @PostMapping("/update")
-    public String updateCart(CartDTO cartDTO, @SessionAttribute("loginCustomer") Customer loginCustomer) {
+    public String updatePeopleCnt(CartDTO cartDTO, @SessionAttribute("loginCustomer") Customer loginCustomer) {
+        if (loginCustomer == null) {
+            // 세션이 없으면 로그인 페이지로
+            return "redirect:/login";
+        }
         cartDTO.setCustomerId(loginCustomer.getCustomerId());
-        cartService.updateCart(cartDTO);
+        cartService.updatePeopleCnt(cartDTO);
         return "redirect:/cart/list";
     }
+
     @PostMapping("/delete")
-    public String deleteCart(@RequestParam("cartId")int cartId, @SessionAttribute("loginCustomer") Customer loginCustomer) {
+// 매개변수 cartDTO 지우고 싶은데 잘 모르겠음
+    public String deleteCart(CartDTO cartDTO, @RequestParam("cartId")int cartId, @SessionAttribute("loginCustomer") Customer loginCustomer) {
+        if (loginCustomer == null) {
+            return "redirect:/login";
+        }
+        cartDTO.setCustomerId(loginCustomer.getCustomerId());
         cartService.deleteCart(cartId);
         return "redirect:/cart/list";
     }
