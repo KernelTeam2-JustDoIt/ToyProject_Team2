@@ -25,4 +25,9 @@ public class PagingAccommService {
         return yanupzaPaging.getAccommPagingCnt(conditionDTO);
     }
 
+    /* 페이지 개수 구하기 */
+    public int getTotalPages(ConditionDTO conditionDTO, int size) {
+        return (int) Math.ceil((double) getTotalAccomm(conditionDTO) / size);
+    }
+
 }

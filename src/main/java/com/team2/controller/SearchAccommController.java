@@ -24,23 +24,21 @@ public class SearchAccommController {
     @Autowired
     private PagingAccommService pagingAccommService;
 
-    /* 숙소 검색 메인 페이지 (초기 진입) */
+    /* 숙소 검색 메인 페이지 */
     @GetMapping("/hotel")
     public String hotelMain(@ModelAttribute ConditionDTO conditionDTO, Model model) {
 
+        /* 관심사의 분리 필요*/
         conditionDTO.prepareForQuery();
         conditionDTO.setOnOff(1);
 
-        // 검색 조건이 비어 있는 경우, 초기 페이지만 보여줌
+        /* 디폴트 검색 */
         if (conditionDTO.getDistrict() == null) {
             return "hotelMotelSearch";
         }
 
-        System.out.println(conditionDTO.getCheckIn());
-
         List<PagingAccommDTO> previewAccomm = pagingAccommService.getSearchAccommPaging(conditionDTO);
-        int totalCnt = pagingAccommService.getTotalAccomm(conditionDTO);
-        int totalPages = (int) Math.ceil((double) totalCnt / conditionDTO.getSize());
+        int totalPages = pagingAccommService.getTotalPages(conditionDTO, conditionDTO.getSize());
 
         model.addAttribute("roomList", previewAccomm);
         model.addAttribute("condition", conditionDTO);
