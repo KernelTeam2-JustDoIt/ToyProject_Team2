@@ -18,10 +18,13 @@ public class NoticeServiceImpl implements NoticeService {
     public NoticeDTO getLatestNotice() {
         return noticeMapper.getLatestNotice();
     }
-
     @Override
-    public List<NoticeDTO> getNoticeList() {
-        List<NoticeDTO> noticeList = noticeMapper.getNoticeList(); //  먼저 DB에서 가져옴
+    public int countNotices() {
+        return noticeMapper.countNotices();
+    }
+    @Override
+    public List<NoticeDTO> getNoticeList(int offset, int pageSize) {
+        List<NoticeDTO> noticeList = noticeMapper.getNoticeList(offset,pageSize); //  먼저 DB에서 가져옴
 
         for (NoticeDTO dto : noticeList) {
             if (dto.getPostedAt() != null) {
