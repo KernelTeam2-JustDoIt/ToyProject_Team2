@@ -31,8 +31,8 @@ FROM SHOPPING_CART s
     <!-- 장바구니 추가 -->
     <insert id="addCart" parameterType="CartDTO" useGeneratedKeys="true" keyProperty="cartId">
         INSERT INTO SHOPPING_CART
-            (room_id, customer_id, adult_count, child_count)
-        VALUES (#{roomId}, #{customerId},#{adultCount},#{childCount})
+            (room_id, customer_id, adult_count, child_count, created_at)
+        VALUES (#{roomId}, #{customerId},#{adultCount},#{childCount},now())
     </insert>
 
     <!-- 장바구니 인원 수정 -->
@@ -70,5 +70,10 @@ FROM SHOPPING_CART s
         WHERE customer_id = #{customerId}
           AND cart_id = #{cartId}
     </select>
+
+    <!-- 장바구니 전체 삭제 -->
+    <delete id="deleteAllCart">
+        DELETE FROM SHOPPING_CART
+    </delete>
 </mapper>
 
