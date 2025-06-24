@@ -16,6 +16,9 @@ public class CartService {
     @Autowired
     CartMapper cartMapper;
 
+//    @Autowired
+//    private RoomService roomService;
+
     // 회원의 장바구니 리스트 조회
     public List<CartResponse> getCartList(CartDTO cartDTO) {
         List<CartResponse> result = cartMapper.getCartList(cartDTO.getCustomerId());
@@ -49,10 +52,10 @@ public class CartService {
             throw new IllegalArgumentException("체크인 인원은 0명보다 작을 수 없습니다.");
         }
 
-        // 장바구니 총 인원이 룸 최대 인원보다 많을 경우 검사
+//         장바구니 총 인원이 룸 최대 인원보다 많을 경우 검사
 //        int total = cartDTO.getAdultCount() + cartDTO.getChildCount();
-//        int capacity = PagingConditionDTO.getTotalPepleCnt();
-//        //int capacity = roomService.getRoomCapacity(cartDTO.getRoomId()); ??
+       // 지훈님 룸서비스 만들면 사용 가능
+//        int capacity = roomService.getRoomCapacity(cartDTO.getRoomId());
 //        if (total > capacity)
 //        throw new IllegalArgumentException("선택하신 인원(" + total + "명)이 객실 수용인원(" + capacity + "명)을 초과합니다.");{
 //        }
@@ -64,8 +67,6 @@ public class CartService {
         if (!cart.isValidDateRange()) {
             throw new IllegalArgumentException("체크아웃 날짜는 체크인 날짜 이후여야 합니다.");
         }
-//        cartMapper.addCart(cartDTO);
-
         return cartMapper.updatePeopleCnt(cartDTO);
     }
 
@@ -83,7 +84,5 @@ public class CartService {
         } else {
             cartMapper.deleteCart(cartId);
         }
-
-
     }
 }
