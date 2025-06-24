@@ -75,4 +75,13 @@ public class SearchAccommController {
 
         return "roomDetail";
     }
+
+    @GetMapping("/review/{id}")
+    public String showReview(@PathVariable int id,
+                             Model model) {
+
+        System.out.println(id);
+
+        return "review";
+    }
 }

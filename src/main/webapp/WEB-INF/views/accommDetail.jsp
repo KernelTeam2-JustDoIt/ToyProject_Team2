@@ -63,7 +63,7 @@
             <span class="star">★</span>
             <span class="score">${review.reviewScore}</span>
             <span class="count">(${review.reviewCnt})</span>
-            <a class="review-more" href="review.jsp?hotelId=${accomm.accommodationId}">전체보기 ></a>
+            <a class="review-more" href="${pageContext.request.contextPath}/domestic/review/${accomm.accommodationId}">전체보기 ></a>
         </div>
 
         <div class="review-list">
