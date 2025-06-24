@@ -1,12 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
-    <title>${hotel.name} - 상세보기</title>
+    <title>${accomm.accommodationName} - 상세보기</title>
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/accommDetail_style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/roomPreview.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/reviewPreview.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/noticeAccomm.css">
 </head>
 <body>
 
@@ -128,6 +134,46 @@
         </c:forEach>
     </div>
 
+    <!-- 이용안내/예약공지/길안내 섹션 -->
+    <div class="notice-box">
+
+        <!-- 길안내 -->
+        <div class="notice-section">
+            <h3>길안내</h3>
+            <div class="notice-content">
+                <pre>${accomm.directions}</pre>
+            </div>
+            <button class="notice-toggle">전체보기</button>
+        </div>
+
+        <!-- 이용안내 -->
+        <div class="notice-section">
+            <h3>이용 안내</h3>
+            <div class="notice-content">
+                <pre>${accomm.guideLine}</pre>
+            </div>
+            <button class="notice-toggle">전체보기</button>
+        </div>
+
+        <!-- 예약공지 -->
+        <div class="notice-section">
+            <h3>예약 공지</h3>
+            <div class="notice-content">
+                <pre>${accomm.reserveNotice}</pre>
+            </div>
+            <button class="notice-toggle">전체보기</button>
+        </div>
+
+        <!-- 후기요약 -->
+        <div class="notice-section">
+            <h3>후기요약</h3>
+            <div class="notice-content">
+                <pre>${accomm.summaryReview}</pre>
+            </div>
+            <button class="notice-toggle">전체보기</button>
+        </div>
+
+    </div>
 
 
 </div>
@@ -168,6 +214,25 @@
         images[currentIndex].classList.add('active');
     }
 </script>
+
+<!-- 이용안내 토글 -->
+<script>
+    document.querySelectorAll('.notice-toggle').forEach(button => {
+        button.addEventListener('click', function() {
+            const content = this.previousElementSibling;
+            const expanded = content.classList.toggle('expanded');
+
+            if (expanded) {
+                content.style.maxHeight = "1000px";
+                this.textContent = "간단히 보기";
+            } else {
+                content.style.maxHeight = "120px";
+                this.textContent = "전체보기";
+            }
+        });
+    });
+</script>
+
 
 
 </body>
