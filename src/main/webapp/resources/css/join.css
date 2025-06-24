@@ -49,15 +49,29 @@
     border-color: #007bff;
 }
 
-/* 체크박스는 따로 처리 */
-.checkbox-group {
-    flex-direction: row;
-    align-items: center;
+/* 인증 버튼 두 개 간격 정렬용 */
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
 }
 
+/* 마케팅 수신 동의 체크박스 */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px 12px;
+    background-color: #fff;
+    font-size: 14px;
+    gap: 10px;
+}
+
+/* 체크박스 오른쪽에 위치한 텍스트 라벨 */
 .checkbox-group label {
-    margin-left: 5px;
     font-weight: normal;
+    margin: 0;
 }
 
 /* 제출 버튼 */
