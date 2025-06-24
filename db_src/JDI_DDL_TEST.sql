@@ -700,7 +700,7 @@ CREATE TABLE `ROOM` (
                         `FACILITY_SERVICE_INFO`	TEXT	NULL,
                         `ROOM_SIZE`	INT	NULL,
                         `ROOM_COUNT`	INT	NULL,
-                        `IS_USE_POLYCY_NEEDED`	TINYINT	NOT NULL,
+                        `IS_USE_POLICY_NEEDED`	TINYINT	NOT NULL,
                         `VIEW`	VARCHAR(30)	NULL,
                         `STANDARD_CAPACITY`	INT	NULL,
                         `MAXIMUM_CAPACITY`	INT	NULL,
