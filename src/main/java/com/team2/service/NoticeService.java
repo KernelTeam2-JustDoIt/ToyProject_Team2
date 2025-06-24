@@ -14,10 +14,13 @@ public interface NoticeService {
     int insertNotice(NoticeDTO notice); // 반환형 void → int
 
     void updateNotice(NoticeDTO noticeDTO);
-    void deleteNotice(int noticeId);
+
     void unsetMainNotice();
 
     List<NoticeDTO> getPinnedNotices();
 
     List<NoticeDTO> getNoticeList(Map<String, Object> param);
+
+
+    void noticeDeleted(int noticeId, int adminId);
 }

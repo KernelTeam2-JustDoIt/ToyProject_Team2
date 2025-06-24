@@ -43,10 +43,7 @@ public class NoticeServiceImpl implements NoticeService {
         noticeMapper.updateNotice(noticeDTO);
     }
 
-    @Override
-    public void deleteNotice(int noticeId) {
-        noticeMapper.deleteNotice(noticeId);
-    }
+
 
     @Override
     public void unsetMainNotice() {
@@ -76,5 +73,9 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public List<NoticeDTO> getNoticeList(Map<String, Object> param) {
         return noticeMapper.getNoticeList(param);
+    }
+    @Override
+    public void noticeDeleted(int noticeId, int adminId) {
+        noticeMapper.noticeDeleted(noticeId, adminId);
     }
 }
