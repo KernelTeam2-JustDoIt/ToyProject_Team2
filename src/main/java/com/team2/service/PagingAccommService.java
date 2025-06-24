@@ -1,0 +1,41 @@
+package com.team2.service;
+
+import com.team2.dto.paging.PagingAccommDTO;
+import com.team2.dto.previewaccomm.ConditionDTO;
+import com.team2.mapper.YanupzaPaging;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class PagingAccommService {
+
+    @Autowired
+    private YanupzaPaging yanupzaPaging;
+
+    /* 페이지네이션 알고리즘 처리 */
+    public List<PagingAccommDTO> getSearchAccommPaging(ConditionDTO conditionDTO) {
+        return yanupzaPaging.searchAccommPaging(conditionDTO);
+    }
+
+    /* 숙소 개수 구하기 */
+    public int getTotalAccomm(ConditionDTO conditionDTO) {
+        return yanupzaPaging.getAccommPagingCnt(conditionDTO);
+    }
+
+    /* 페이징관련 Limit, OFFSET 등 계산 */
+    private void setCondition(ConditionDTO conditionDTO) {
+        conditionDTO.setTotalPeopleCnt(conditionDTO.getAdultCnt() + conditionDTO.getBabyCnt());
+        conditionDTO.setLimit(conditionDTO.getSize());
+        conditionDTO.setOffset((conditionDTO.getPage() - 1) * conditionDTO.getSize());
+        conditionDTO.setOnOff(1);
+    }
+
+    /* 페이지 개수 구하기 */
+    public int getTotalPages(ConditionDTO conditionDTO, int size) {
+        setCondition(conditionDTO);
+        return (int) Math.ceil((double) getTotalAccomm(conditionDTO) / size);
+    }
+
+}

@@ -18,26 +18,14 @@ import java.util.Map;
 public class PreviewAccommService {
 
     @Autowired
-    AccommPreviewMapper accommodationMapper;
+    private AccommPreviewMapper accommPreviewMapper;
 
     /* 3개의 DTO를 합쳐서, 숙소 ID별 VO에 정보 저장 */
     public List<PreviewAccommVO> getAccommPreviewInfo(ConditionDTO conditionDTO) {
 
-        List<PreviewAccommRoomDTO> accommPreview = accommodationMapper.getAccommPreview(conditionDTO);
-        List<PreviewAccommImageDTO> accommImage = accommodationMapper.getAccommImage();
-        List<PreviewAccommReviewDTO> accommReview = accommodationMapper.getAccommReview();
-
-        for (PreviewAccommReviewDTO reviewDTO : accommReview) {
-            System.out.println(reviewDTO);
-        }
-
-        for (PreviewAccommRoomDTO accommRoomDTO : accommPreview) {
-            System.out.println(accommRoomDTO);
-        }
-
-        for (PreviewAccommImageDTO imageDTO : accommImage) {
-            System.out.println(imageDTO);
-        }
+        List<PreviewAccommRoomDTO> accommPreview = accommPreviewMapper.getAccommPreview(conditionDTO);
+        List<PreviewAccommImageDTO> accommImage = accommPreviewMapper.getAccommImage();
+        List<PreviewAccommReviewDTO> accommReview = accommPreviewMapper.getAccommReview();
 
         Map<Integer, PreviewAccommImageDTO> imageMap = new HashMap<>();
         for (PreviewAccommImageDTO image : accommImage) {
@@ -71,6 +59,7 @@ public class PreviewAccommService {
                     .reviewScore(review.getReviewScore())
                     .reviewCnt(review.getReviewCnt())
                     .checkIn(conditionDTO.getCheckIn())
+                    .checkOut(conditionDTO.getCheckOut())
                     .build();
 
             result.add(vo);
