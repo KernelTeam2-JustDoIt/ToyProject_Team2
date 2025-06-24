@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public class CustomerVO {
+    private int customerId;
     private int customerStatusId; // 고객 상태 ID (추가됨)
     private String customerName; // 고객명
     private String customerTel; // 고객 전화번호
@@ -21,6 +22,7 @@ public class CustomerVO {
     private int gradeId; // 고객 등급 ID
     private Timestamp joinedAt; // 가입일
     private Timestamp gradeExpireDate; // 등급 만료일
+    private int point; //고객 포인트
 
 
 
