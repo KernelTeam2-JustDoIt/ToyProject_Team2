@@ -26,6 +26,7 @@ public interface CartMapper {
             @Param("roomId")     int roomId
     );
 
+    // 고객+카트 번호로 조회 -> 다른 고객꺼 지우기 방지용
     CartDTO findByCustomerIdAndCartId(
             @Param("customerId") int customerId,
             @Param("cartId")     int cartId
