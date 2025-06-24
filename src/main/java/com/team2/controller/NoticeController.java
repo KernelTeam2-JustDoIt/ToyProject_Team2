@@ -41,6 +41,9 @@ public class NoticeController {
             String formattedPostedAt = notice.getPostedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
             model.addAttribute("formattedPostedAt", formattedPostedAt);
         }
+        if (notice.getNoticeStatus().equals("DEL")) {
+            return "redirect:/notice/list"; // 또는 에러 페이지로
+        }
 
         model.addAttribute("notice", notice);
         return "notice/noticeDetail"; // noticeDetail.jsp
@@ -197,6 +200,21 @@ public class NoticeController {
         return "redirect:/notice/" + notice.getNoticeId();
     }
 
+    @PostMapping("/delete/{noticeId}")
+    @Transactional
+    public String deleteNotice(@PathVariable int noticeId, HttpSession session) {
+        AdminDTO admin = (AdminDTO) session.getAttribute("loginAdmin");
+
+        // 관리자 권한 확인
+        if (admin == null || admin.getRoleId() != 1) {
+            return "redirect:/login";
+        }
+
+        // 상태만 DEL로 변경 (DB에서는 삭제 안 함)
+        noticeService.noticeDeleted(noticeId, admin.getAdminId());
+
+        return "redirect:/notice/list";
+    }
 
 
 
