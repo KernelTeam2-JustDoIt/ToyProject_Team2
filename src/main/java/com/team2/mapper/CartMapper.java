@@ -20,6 +20,8 @@ public interface CartMapper {
     // 장바구니 삭제
     void deleteCart(int cartId);
 
+    void deleteAllCart();
+
     // 고객+방으로 조회
     CartDTO findByCustomerAndRoom(
             @Param("customerId") int customerId,
@@ -31,5 +33,7 @@ public interface CartMapper {
             @Param("customerId") int customerId,
             @Param("cartId")     int cartId
     );
+
+
 
 }
