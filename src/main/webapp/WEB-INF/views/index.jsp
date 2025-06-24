@@ -10,6 +10,7 @@
     <title>야눕자 메인 페이지</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/index.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css" />
 </head>
 <body>
 
