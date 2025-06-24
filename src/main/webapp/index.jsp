@@ -59,7 +59,7 @@
 
     <section class="section">
         <div class="category-boxes">
-            <a href="#" class="category-box">
+            <a href="${pageContext.request.contextPath}/domestic" class="category-box">
                 <img src="/yanupja/resources/image/hotel1.png" alt="국내숙소" />
                 <p>국내숙소</p>
             </a>
