@@ -3,12 +3,28 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans.xsd
-                           http://www.springframework.org/schema/context
-                           http://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/mvc
+           http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <!-- HikariCP DataSource 설정 -->
+    <!--  @Controller, @Service, @Repository 자동 스캔 -->
+    <context:component-scan base-package="com.team2" />
+
+    <!--  @RequestMapping, @RequestBody 등 MVC 어노테이션 활성화 + JSON 지원 -->
+    <mvc:annotation-driven />
+
+    <!--  ViewResolver 설정 (JSP 경로 설정) -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    <!--  HikariCP DataSource 설정 -->
     <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
         <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/JDI?serverTimezone=Asia/Seoul"/>
@@ -17,15 +33,32 @@
         <property name="maximumPoolSize" value="10"/>
     </bean>
 
-    <!-- MyBatis SqlSessionFactory -->
+    <!--  MyBatis SqlSessionFactory 설정 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="mapperLocations" value="classpath*:mapper/*.xml"/>
     </bean>
 
-    <!-- Mapper 위치 설정 -->
+    <!--  Mapper 위치 설정 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.team2.mapper"/>
+    </bean>
+
+    <!--  이메일 전송을 위한 JavaMailSender 설정 -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="587"/>
+        <property name="username" value="kernelteam2jdi@gmail.com"/>     <!-- 실제 팀플 이메일 -->
+        <property name="password" value="svaieothjdtxtwyo"/>              <!-- 앱 비밀번호 사용 -->
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.debug">true</prop>
+            </props>
+        </property>
     </bean>
 
 </beans>
