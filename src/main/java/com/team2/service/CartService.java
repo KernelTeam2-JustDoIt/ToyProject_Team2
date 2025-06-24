@@ -23,6 +23,7 @@ public class CartService {
     public List<CartResponse> getCartList(CartDTO cartDTO) {
         List<CartResponse> result = cartMapper.getCartList(cartDTO.getCustomerId());
         return result;
+
     }
 
     // 장바구니 추가
@@ -85,4 +86,9 @@ public class CartService {
             cartMapper.deleteCart(cartId);
         }
     }
+    // 장바구니 모두 삭제
+    public void deleteAllCart() {
+        cartMapper.deleteAllCart();
+    }
+
 }
