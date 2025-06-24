@@ -5,8 +5,8 @@ import com.team2.mapper.NoticeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class NoticeServiceImpl implements NoticeService {
@@ -15,25 +15,16 @@ public class NoticeServiceImpl implements NoticeService {
     private NoticeMapper noticeMapper;
 
     @Override
-    public NoticeDTO getLatestNotice() {
-        return noticeMapper.getLatestNotice();
+    public NoticeDTO getMainNotice() {
+        return noticeMapper.getMainNotice();
     }
-    @Override
-    public int countNotices() {
-        return noticeMapper.countNotices();
-    }
-    @Override
-    public List<NoticeDTO> getNoticeList(int offset, int pageSize) {
-        List<NoticeDTO> noticeList = noticeMapper.getNoticeList(offset,pageSize); //  먼저 DB에서 가져옴
 
-        for (NoticeDTO dto : noticeList) {
-            if (dto.getPostedAt() != null) {
-                dto.setFormattedDate(dto.getPostedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-            }
-        }
-
-        return noticeList; // 포맷된 값이 포함된 리스트 반환
+    @Override
+    public int countNotices(Map<String, Object> param) {
+        return noticeMapper.countNotices(param);
     }
+
+
 
 
     @Override
@@ -42,8 +33,9 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public void insertNotice(NoticeDTO noticeDTO) {
-        noticeMapper.insertNotice(noticeDTO);
+    public int insertNotice(NoticeDTO notice) {
+        noticeMapper.insertNotice(notice);
+        return notice.getNoticeId(); // noticeId는 mapper에서 selectKey로 채워짐
     }
 
     @Override
@@ -54,5 +46,35 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public void deleteNotice(int noticeId) {
         noticeMapper.deleteNotice(noticeId);
+    }
+
+    @Override
+    public void unsetMainNotice() {
+        noticeMapper.unsetMainNotice();
+    }
+    @Override
+    public List<NoticeDTO> getPinnedNotices() {
+        List<NoticeDTO> pinned = noticeMapper.getPinnedNotices();
+        NoticeDTO main = noticeMapper.getMainNotice();
+
+        if (main != null) {
+            boolean alreadyIncluded = pinned.stream()
+                    .anyMatch(n -> n.getNoticeId() == main.getNoticeId());
+
+            if (!alreadyIncluded) {
+                pinned.add(0, main); // 포함 안 돼 있으면 맨 위에 추가
+            } else {
+                // 이미 포함되어 있으면 위치 조정
+                pinned.removeIf(n -> n.getNoticeId() == main.getNoticeId());
+                pinned.add(0, main);
+            }
+        }
+
+        return pinned;
+    }
+
+    @Override
+    public List<NoticeDTO> getNoticeList(Map<String, Object> param) {
+        return noticeMapper.getNoticeList(param);
     }
 }
