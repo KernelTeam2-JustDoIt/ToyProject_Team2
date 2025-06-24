@@ -1,6 +1,7 @@
 package com.team2.controller.mainpage;
 
 import com.team2.dto.notice.NoticeDTO;
+import com.team2.model.CustomerVO;
 import com.team2.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,8 +28,10 @@ public class MainController {
         NoticeDTO latestNotice = noticeService.getLatestNotice();
         model.addAttribute("latestNotice", latestNotice);
 
-        // TODO 세션 테스트용 강제 로그인 상태
-        session.setAttribute("id", "test id force login status");
+        // 세션 테스트용 강제 로그인 상태
+        // 로그인 할때 CustomerVO 를 세션에 저장하는 기능 구현이 필요
+//        CustomerVO customer = new CustomerVO();
+//        session.setAttribute("loginUser", customer);
         return "index";
     }
 }
