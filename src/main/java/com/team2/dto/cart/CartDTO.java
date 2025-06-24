@@ -17,9 +17,6 @@ public class CartDTO {
     private LocalDateTime desiredCheckInAt;
     private LocalDateTime desiredCheckOutAt;
 
-
-
-
     public CartDTO() { }
 
     public CartDTO(int roomId, int customerId, int adultCount, int childCount, LocalDateTime desiredCheckInAt, LocalDateTime desiredCheckOutAt) {
@@ -30,5 +27,4 @@ public class CartDTO {
         this.desiredCheckInAt = desiredCheckInAt;
         this.desiredCheckOutAt = desiredCheckOutAt;
     }
-
 }
