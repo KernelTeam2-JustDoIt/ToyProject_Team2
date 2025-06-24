@@ -41,7 +41,7 @@ public class CustomerController {
     @PostMapping("/join")
     public String registerCustomer(@ModelAttribute CustomerVO customer, Model model, HttpSession session) {
         try {
-            //  이메일 인증 여부 확인
+            //  이메일 인증 여부 확인 (세션에 저장된 인증 상태 확인)
             Boolean isVerified = (Boolean) session.getAttribute("emailVerified");
             if (isVerified == null || !isVerified) {
                 model.addAttribute("error", "이메일 인증을 완료해야 회원가입이 가능합니다.");
@@ -80,7 +80,7 @@ public class CustomerController {
             }
             // 🔓 유효성 검사 통과
 
-            // DB 저장
+            // DB 저장 (암호화 포함된 서비스 로직 수행)
             customerService.registerCustomer(customer);
             System.out.println(customer.getIsMarketingUseAgreed()); // 콘솔 확인용
 
@@ -100,28 +100,28 @@ public class CustomerController {
                         HttpSession session,
                         Model model) {
 
-        //  로그인 입력값 검증: null 또는 빈 값일 경우
+        // 로그인 입력값 검증
         if (customerLoginId == null || customerLoginId.trim().isEmpty() ||
                 customerPassword == null || customerPassword.trim().isEmpty()) {
             model.addAttribute("error", "아이디와 비밀번호를 모두 입력하세요.");
             return "customer/login";
         }
 
-        // 로그인 처리 로직 실행 (아이디/비밀번호 확인)
+        // 로그인 처리 시도
         try {
             CustomerVO customer = customerService.login(customerLoginId, customerPassword);
-            session.setAttribute("loginCustomer", customer);
+            session.setAttribute("loginCustomer", customer); // 세션에 로그인 객체 저장
             return "redirect:/"; // 홈페이지로 이동
-        }catch (IllegalStateException e) {
+        } catch (IllegalStateException e) {
             String message = e.getMessage();
             switch (message) {
                 case "LOCKED":
                     model.addAttribute("error", "잠긴 계정입니다");
                     return "customer/login";
-                case "UNKNOWN_ID" :
+                case "UNKNOWN_ID":
                     model.addAttribute("error", "존재하지 않는 아이디입니다.");
                     return "customer/login";
-                case "WRONG_PASSWORD" :
+                case "WRONG_PASSWORD":
                     model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
                     return "customer/login";
                 default:
@@ -131,76 +131,77 @@ public class CustomerController {
         }
     }
 
-    // [GET] /customer/check-id → 아이디 중복 체크 (AJAX 요청 처리용)
+    // [GET] /customer/check-id → 아이디 중복 체크
     @GetMapping(value = "/check-id", produces = "text/plain")
     @ResponseBody
     public String checkLoginIdDuplicate(@RequestParam String customerLoginId) {
         boolean isDuplicate = customerService.isLoginIdDuplicate(customerLoginId);
-        return String.valueOf(isDuplicate); // "true" or "false"
+        return String.valueOf(isDuplicate); // true 또는 false 반환
     }
 
-    // [GET] /customer/check-email → 이메일 중복 체크 (AJAX 요청 처리용)
+    // [GET] /customer/check-email → 이메일 중복 체크
     @GetMapping(value = "/check-email", produces = "text/plain")
     @ResponseBody
     public String checkEmailDuplicate(@RequestParam String customerEmail) {
 
-        // 💡 이메일이 null이거나 빈 값인 경우, 유효하지 않은 요청으로 처리
+        // 💡 이메일이 null이거나 빈 값인 경우 비정상 처리
         if (customerEmail == null || customerEmail.trim().isEmpty()) {
-            return "invalid"; // 또는 return "true"; // 무조건 중복된 것으로 처리해도 됨
+            return "invalid";
         }
 
         boolean isDuplicate = customerService.isEmailDuplicate(customerEmail);
-        return String.valueOf(isDuplicate); // "true" or "false"
+        return String.valueOf(isDuplicate);
     }
 
-    //  [POST] /customer/sendEmailVerification → 이메일 인증코드 전송
+    // 이메일 인증코드 전송
     @PostMapping("/sendEmailVerification")
     @ResponseBody
     public String sendEmailVerification(@RequestParam("customerEmail") String customerEmail,
                                         HttpSession session) {
 
-        //  6자리 랜덤 숫자 생성
+        // 6자리 난수 생성
         String verificationCode = String.valueOf(new Random().nextInt(900000) + 100000);
 
-        //  이메일 전송
+        // 이메일 전송
         emailService.sendVerificationEmail(customerEmail, verificationCode);
 
-        //  인증코드를 세션에 저장
+        // 세션 저장
         session.setAttribute("emailVerificationCode", verificationCode);
-
-        // ➕ 인증 상태 초기화 (이전 인증 성공 여부 무효화)
         session.setAttribute("emailVerified", false);
 
-        return "success"; // front에서 이 값 확인해서 alert 띄우면 됨
+        return "success";
     }
 
-    //  [POST] /customer/verifyEmailCode → 사용자가 입력한 인증코드를 서버에서 확인
+    // 인증코드 확인 처리
     @PostMapping("/verifyEmailCode")
     @ResponseBody
     public String verifyEmailCode(@RequestParam("inputCode") String inputCode,
                                   HttpSession session) {
 
-        //  세션에 저장된 인증코드 꺼내기
         String savedCode = (String) session.getAttribute("emailVerificationCode");
 
-        //  인증코드 비교
         if (savedCode != null && savedCode.equals(inputCode)) {
-            session.removeAttribute("emailVerificationCode");          // 인증코드 삭제
-            session.setAttribute("emailVerified", true);// 인증 완료 표시
-            return "success"; // 인증 성공
+            session.removeAttribute("emailVerificationCode");
+            session.setAttribute("emailVerified", true);
+            return "success";
         } else {
-            return "fail"; // 인증 실패
+            return "fail";
         }
     }
-    //[GET] /customer/findPassword → 비밀번호 변경 페이지 반환
+
+    // 비밀번호 찾기 페이지 반환
     @GetMapping("/findPassword")
     public String showFindPasswordPage() {
         return "customer/findPassword";
     }
+
+    // (필요 시 중복 submit 방지를 위한 post도 유지)
     @PostMapping("/findPassword")
     public String findPassword() {
         return "customer/findPassword";
     }
+
+    // 인증코드 전송 (비밀번호 재설정용)
     @PostMapping("/sendCode")
     @ResponseBody
     public ResponseEntity<?> sendPasswordResetCode(@RequestBody Map<String, String> data,
@@ -208,21 +209,20 @@ public class CustomerController {
         String loginId = data.get("customerLoginId");
         String email = data.get("customerEmail");
 
-        // 아이디 + 이메일 조합이 유효한지 확인
         CustomerVO customer = customerService.findCustomerByLoginIdAndEmail(loginId, email);
         if (customer == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("일치하는 회원 없음");
         }
 
-        // 인증코드 생성 및 이메일 전송
         String code = emailService.generateCode();
         emailService.sendVerificationEmail(email, code);
 
-        // 세션에 저장
         session.setAttribute("verifyCode", code);
         session.setAttribute("verifyId", loginId);
         return ResponseEntity.ok("이메일 전송 완료");
     }
+
+    // 인증코드 확인 (비밀번호 찾기)
     @PostMapping("/verifyCode")
     @ResponseBody
     public String verifyPasswordResetCode(@RequestBody Map<String, String> data,
@@ -236,6 +236,8 @@ public class CustomerController {
             return "fail";
         }
     }
+
+    // 비밀번호 변경 처리
     @PostMapping("/changePassword")
     public String changePassword(@RequestParam String customerLoginId,
                                  @RequestParam String newPassword,
@@ -247,7 +249,6 @@ public class CustomerController {
             return "customer/findPassword";
         }
 
-        // 세션의 인증된 아이디 확인
         String verifiedId = (String) session.getAttribute("verifyId");
         System.out.println("verifiedId = " + !verifiedId.equals(customerLoginId));
         System.out.println("customerLoginId = " + customerLoginId);
@@ -257,9 +258,8 @@ public class CustomerController {
             return "customer/findPassword";
         }
 
-        // 비밀번호 변경
-        customerService.updatePassword(customerLoginId, newPassword); // 암호화 포함
-        session.invalidate(); // 인증 세션 초기화
+        customerService.updatePassword(customerLoginId, newPassword);
+        session.invalidate(); // 로그인 관련 세션 정보 초기화
 
         return "redirect:/customer/login";
     }
