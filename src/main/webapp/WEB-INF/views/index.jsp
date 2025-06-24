@@ -22,8 +22,8 @@
     <c:choose>
         <c:when test="${not empty getMainNotice}">
             <div class="notice-banner">
-                <a href="${pageContext.request.contextPath}/notice/${getMainNotice.noticeId}" class="notice-tag" target="_blank">공지</a>
-                <a href="${pageContext.request.contextPath}/notice/${getMainNotice.noticeId}" class="notice-text" target="_blank">
+                <a href="${pageContext.request.contextPath}/notice/${getMainNotice.noticeId}" class="notice-tag" >공지</a>
+                <a href="${pageContext.request.contextPath}/notice/${getMainNotice.noticeId}" class="notice-text" >
                         ${getMainNotice.title}
                 </a>
             </div>
