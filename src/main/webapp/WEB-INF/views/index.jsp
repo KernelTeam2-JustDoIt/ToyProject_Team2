@@ -19,11 +19,11 @@
     <!-- 공지사항 영역 -->
     <!-- 공지사항 배너 -->
     <c:choose>
-        <c:when test="${not empty latestNotice}">
+        <c:when test="${not empty getMainNotice}">
             <div class="notice-banner">
-                <a href="${pageContext.request.contextPath}/notice/${latestNotice.noticeId}" class="notice-tag" target="_blank">공지</a>
-                <a href="${pageContext.request.contextPath}/notice/${latestNotice.noticeId}" class="notice-text" target="_blank">
-                        ${latestNotice.title}
+                <a href="${pageContext.request.contextPath}/notice/${getMainNotice.noticeId}" class="notice-tag" target="_blank">공지</a>
+                <a href="${pageContext.request.contextPath}/notice/${getMainNotice.noticeId}" class="notice-text" target="_blank">
+                        ${getMainNotice.title}
                 </a>
             </div>
         </c:when>
