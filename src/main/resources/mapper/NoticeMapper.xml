@@ -6,8 +6,8 @@
 <mapper namespace="com.team2.mapper.NoticeMapper">
 
 
-    <!--  최신 공지 가져오기 -->
-    <select id="getLatestNotice" resultType="com.team2.dto.notice.NoticeDTO">
+    <!-- 메인 배너에 노출될 메인 공지 1건 가져오기 -->
+    <select id="getMainNotice" resultType="com.team2.dto.notice.NoticeDTO">
         SELECT
             NOTICE_ID AS noticeId,
             WRITER_ADMIN_ID AS writerAdminId,
@@ -21,29 +21,12 @@
             PRIORITY AS priority,
             IS_NEED_PIN AS isNeedPin
         FROM NOTICE
-        WHERE  IS_MAIN = 1
+        WHERE IS_MAIN = 1
         ORDER BY POSTED_AT DESC
             LIMIT 1
     </select>
 
 
-    <select id="getNoticeList" resultType="com.team2.dto.notice.NoticeDTO">
-        SELECT
-            NOTICE_ID AS noticeId,
-            WRITER_ADMIN_ID AS writerAdminId,
-            NOTICE_TITLE AS title,
-            NOTICE_DETAIL AS content,
-            POSTED_AT AS postedAt,
-            UPDATED_AT AS updatedAt,
-            UPDATED_BY AS updatedBy,
-            NOTICE_STATUS AS noticeStatus,
-            IS_MAIN AS isMain,
-            PRIORITY AS priority,
-            IS_NEED_PIN AS isNeedPin
-        FROM NOTICE
-        ORDER BY POSTED_AT DESC
-            LIMIT #{pageSize} OFFSET #{offset}
-    </select>
 
 
     <select id="getNoticeDetail" parameterType="int" resultType="com.team2.dto.notice.NoticeDTO">
@@ -64,36 +47,19 @@
     </select>
 
     <!-- 공지사항 등록 -->
-    <insert id="insertNotice" parameterType="com.team2.dto.notice.NoticeDTO">
-        INSERT INTO NOTICE (
-            NOTICE_ID,
-            WRITER_ADMIN_ID,
-            NOTICE_STATUS,
-            IS_NEED_PIN,
-            PRIORITY,
-            NOTICE_TITLE,
-            NOTICE_DETAIL,
-            POSTED_AT,
-            NOTICE_TARGET,
-            UPDATED_AT,
-            UPDATED_BY,
-            IS_MAIN
-        )
-        VALUES (
-                   #{noticeId},
-                   #{writerAdminId},
-                   #{noticeStatus},
-                   #{isNeedPin},
-                   #{priority},
-                   #{title},
-                   #{content},
-                   #{postedAt},
-                   NULL,
-                   #{updatedAt},
-                   #{updatedBy},
-                   #{isMain}
-               )
+    <insert id="insertNotice" parameterType="com.team2.dto.notice.NoticeDTO" useGeneratedKeys="true" keyProperty="noticeId">
+        INSERT INTO NOTICE
+        (WRITER_ADMIN_ID, NOTICE_TITLE, NOTICE_DETAIL, IS_MAIN, IS_NEED_PIN, PRIORITY, NOTICE_STATUS, POSTED_AT)
+        VALUES
+            (#{writerAdminId}, #{title}, #{content}, #{isMain}, #{isNeedPin}, #{priority}, #{noticeStatus}, NOW())
     </insert>
+
+    <!--메인노출 공지 작성시 기존 노출공지 비활성-->
+    <update id="unsetMainNotice">
+        UPDATE NOTICE
+        SET IS_MAIN = 0
+        WHERE IS_MAIN = 1
+    </update>
 
     <!-- 공지사항 수정 -->
     <update id="updateNotice" parameterType="com.team2.dto.notice.NoticeDTO">
@@ -117,8 +83,63 @@
     </delete>
 
 <!-- 전체 공지 개수 조회 -->
-    <select id="countNotices" resultType="int">
-        SELECT COUNT(*) FROM NOTICE
+    <select id="countNotices" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM NOTICE
+        <where>
+            <if test="isAdmin == false">
+                NOTICE_STATUS = 'ACT'
+            </if>
+        </where>
+    </select>
+
+
+
+    <!-- 상단 고정 공지 (메인공지 + 상단공지) -->
+    <select id="getPinnedNotices" resultType="com.team2.dto.notice.NoticeDTO">
+        SELECT
+            NOTICE_ID AS noticeId,
+            WRITER_ADMIN_ID AS writerAdminId,
+            NOTICE_TITLE AS title,
+            NOTICE_DETAIL AS content,
+            POSTED_AT AS postedAt,
+            UPDATED_AT AS updatedAt,
+            UPDATED_BY AS updatedBy,
+            NOTICE_STATUS AS noticeStatus,
+            IS_MAIN AS isMain,
+            PRIORITY AS priority,
+            IS_NEED_PIN AS isNeedPin
+        FROM NOTICE
+        WHERE (IS_MAIN = 1 OR IS_NEED_PIN = 1)
+          AND NOTICE_STATUS = 'ACT'
+        ORDER BY PRIORITY DESC, POSTED_AT DESC
+    </select>
+
+
+
+
+    <!-- ✅ 일반 공지 목록: IS_NEED_PIN = 0 (고정되지 않은 공지 전용) -->
+    <select id="getNoticeList" parameterType="map" resultType="com.team2.dto.notice.NoticeDTO">
+        SELECT
+        NOTICE_ID AS noticeId,
+        WRITER_ADMIN_ID AS writerAdminId,
+        NOTICE_TITLE AS title,
+        NOTICE_DETAIL AS content,
+        POSTED_AT AS postedAt,
+        UPDATED_AT AS updatedAt,
+        UPDATED_BY AS updatedBy,
+        NOTICE_STATUS AS noticeStatus,
+        IS_MAIN AS isMain,
+        PRIORITY AS priority,
+        IS_NEED_PIN AS isNeedPin
+        FROM NOTICE
+        WHERE IS_NEED_PIN = 0
+        AND IS_MAIN = 0
+        <if test="isAdmin == false">
+            AND NOTICE_STATUS = 'ACT'
+        </if>
+        ORDER BY POSTED_AT DESC
+        LIMIT #{limit} OFFSET #{offset}
     </select>
 
 
