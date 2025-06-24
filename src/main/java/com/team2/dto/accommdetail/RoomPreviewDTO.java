@@ -11,6 +11,7 @@ import java.util.List;
 @ToString
 public class RoomPreviewDTO {
     private int roomId;
+    private int accommodationId;
     private boolean isAvailable;
     private int price;
     private String roomCategory;
@@ -20,6 +21,10 @@ public class RoomPreviewDTO {
     private int roomCount;
     private int standardCapacity;
     private int maximumCapacity;
+
+    private String basicInfo;
+    private String facilityServiceInfo;
+    private int roomSize;
 
     private List<RoomBedDTO> bedList;
     private List<RoomImageDTO> imageList;

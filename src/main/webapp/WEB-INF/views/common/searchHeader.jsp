@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/searchHeader.css">
 <header>
   <div class="header">
     <button onclick="history.back()">←</button>

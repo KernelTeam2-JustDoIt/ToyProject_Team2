@@ -10,6 +10,7 @@
     <title>${accomm.accommodationName} - 상세보기</title>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/accommDetail_style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/searchHeader.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/roomPreview.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/reviewPreview.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/noticeAccomm.css">
@@ -88,7 +89,9 @@
     <!-- 객실 정보 섹션 -->
     <div class="room-list">
         <c:forEach var="room" items="${roomList}">
-            <div class="room-card">
+            <div class="room-card"
+                 onclick="goToRoomDetail('${room.roomId}', '${room.accommodationId}')"
+                 style="cursor: pointer;">
 
                 <!-- 왼쪽: 이미지 슬라이드 -->
                 <div class="room-image-slider">
@@ -108,8 +111,8 @@
                             </c:if>
                         </c:forEach>
                     </div>
-                    <button class="left" onclick="changeRoomImage(this, -1)">❮</button>
-                    <button class="right" onclick="changeRoomImage(this, 1)">❯</button>
+                    <button class="left" onclick="event.stopPropagation(); changeRoomImage(this, -1)">❮</button>
+                    <button class="right" onclick="event.stopPropagation(); changeRoomImage(this, 1)">❯</button>
                 </div>
 
                 <!-- 오른쪽: 객실 정보 -->
@@ -126,8 +129,8 @@
                     <p class="room-price"><strong><fmt:formatNumber value="${room.price}" type="number"/>원</strong>/1박</p>
 
                     <div class="room-buttons">
-                        <button class="cart-btn">🛒</button>
-                        <button class="reserve-btn">예약하기</button>
+                        <button class="cart-btn" onclick="event.stopPropagation(); addToCart('${room.roomId}')">🛒</button>
+                        <button class="reserve-btn" onclick="event.stopPropagation(); reserveRoom('${room.roomId}')">예약하기</button>
                     </div>
                 </div>
             </div>
@@ -233,6 +236,21 @@
     });
 </script>
 
+<script>
+    function goToRoomDetail(roomId, accommodationId) {
+        window.location.href = '/yanupja/domestic/room/' + roomId + '?accommodationId=' + accommodationId;
+    }
+
+    function addToCart(roomId) {
+        console.log("장바구니 추가:", roomId);
+        // 여기에 AJAX 또는 form 처리 로직 추가
+    }
+
+    function reserveRoom(roomId) {
+        console.log("예약하기 클릭:", roomId);
+        // 예약 로직 처리
+    }
+</script>
 
 
 </body>

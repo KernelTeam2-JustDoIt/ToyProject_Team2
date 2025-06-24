@@ -59,4 +59,20 @@ public class SearchAccommController {
         return "accommDetail";
     }
 
+    @GetMapping("/room/{id}")
+    public String showRoom(@PathVariable int id,
+                           @RequestParam("accommodationId") int accommId,
+                           Model model) {
+
+        List<RoomPreviewDTO> roomPreviewDTOList = accommDetailService.getRoomPreview(accommId);
+
+        RoomPreviewDTO selectedRoom = roomPreviewDTOList.stream()
+                .filter(room -> room.getRoomId() == id)
+                .findFirst()
+                .orElse(null);
+
+        model.addAttribute("room", selectedRoom);
+
+        return "roomDetail";
+    }
 }

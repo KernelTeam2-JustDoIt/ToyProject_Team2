@@ -56,28 +56,33 @@
     </select>
 
     <select id="getRoomPreview" parameterType="int" resultMap="roomPreviewMap">
-        SELECT r.ROOM_ID, r.IS_AVAILABLE, r.PRICE,
+        SELECT r.ROOM_ID, r.IS_AVAILABLE, r.PRICE, r.ACCOMMODATION_ID,
                r.ROOM_CATEGORY, r.ROOM_NAME, r.CHECKIN_TIME,
                r.CHECKOUT_TIME, r.ROOM_COUNT, r.STANDARD_CAPACITY,
-               r.MAXIMUM_CAPACITY, b.BED_TYPE, b.BED_COUNT,
-               i.IS_THUMBNAIL, i.ROOM_IMAGE_FILE_PATH, i.PRIORITY
+               r.MAXIMUM_CAPACITY, r.BASIC_INFO, r.FACILITY_SERVICE_INFO,
+               r.ROOM_SIZE, b.BED_TYPE, b.BED_COUNT, i.IS_THUMBNAIL,
+               i.ROOM_IMAGE_FILE_PATH, i.PRIORITY
         FROM ROOM r
-        LEFT JOIN ROOM_BED b ON r.ROOM_ID = b.ROOM_ID
-        LEFT JOIN ROOM_IMAGE i ON r.ROOM_ID = i.ROOM_ID
+                 LEFT JOIN ROOM_BED b ON r.ROOM_ID = b.ROOM_ID
+                 LEFT JOIN ROOM_IMAGE i ON r.ROOM_ID = i.ROOM_ID
         WHERE r.ACCOMMODATION_ID = #{id}
     </select>
 
     <resultMap id="roomPreviewMap" type="RoomPreviewDTO">
         <id property="roomId" column="ROOM_ID"/>
+        <result property="accommodationId" column="ACCOMMODATION_ID"/>
         <result property="isAvailable" column="IS_AVAILABLE"/>
         <result property="price" column="PRICE"/>
         <result property="roomCategory" column="ROOM_CATEGORY"/>
         <result property="roomName" column="ROOM_NAME"/>
         <result property="checkinTime" column="CHECKIN_TIME"/>
         <result property="checkoutTime" column="CHECKOUT_TIME"/>
-        <result property="roomCnt" column="ROOM_CNT"/>
+        <result property="roomCount" column="ROOM_COUNT"/>
         <result property="standardCapacity" column="STANDARD_CAPACITY"/>
         <result property="maximumCapacity" column="MAXIMUM_CAPACITY"/>
+        <result property="basicInfo" column="BASIC_INFO"/>
+        <result property="facilityServiceInfo" column="FACILITY_SERVICE_INFO"/>
+        <result property="roomSize" column="ROOM_SIZE"/>
 
         <collection property="bedList" ofType="RoomBedDTO">
             <result property="bedType" column="BED_TYPE"/>
