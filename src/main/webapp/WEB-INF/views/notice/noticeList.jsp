@@ -5,79 +5,10 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/noticeList.css" />
     <meta charset="UTF-8">
     <title>공지사항</title>
-    <style>
 
-        .page-link {
-            display: inline-block;
-            margin: 0 4px;
-            padding: 6px 12px;
-            border-radius: 6px;
-            background-color: #f4f4f4;
-            color: #333;
-            text-decoration: none;
-            transition: background-color 0.2s;
-            font-weight: 500;
-        }
-
-        .page-link:hover {
-            background-color: #e0ecff;
-        }
-
-        .page-link.active {
-            background-color: #0066cc;
-            color: white;
-            font-weight: bold;
-            cursor: default;
-        }
-        .body {
-            font-family: 'Segoe UI', sans-serif;
-            margin: 50px;
-        }
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .home-icon {
-            font-size: 20px;
-            text-decoration: none;
-        }
-        .title {
-            text-align: center;
-            flex-grow: 1;
-            margin-left: -20px;
-            font-size: 24px;
-            font-weight: bold;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 30px;
-        }
-        thead {
-            background-color: #f0f0f0;
-        }
-        th, td {
-            padding: 12px;
-            border-bottom: 1px solid #ccc;
-            text-align: left;
-        }
-        a {
-            text-decoration: none;
-            color: #0066cc;
-        }
-        .write-btn {
-            margin-top: 20px;
-            padding: 8px 16px;
-            background-color: #0066cc;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            display: inline-block;
-        }
-    </style>
 </head>
 <body>
 <a href="<c:url value='/' />">
