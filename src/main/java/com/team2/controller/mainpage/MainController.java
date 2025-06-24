@@ -21,8 +21,8 @@ public class MainController {
 //        List<EventDto> activeEvents = eventService.getActiveEvents();
 //        model.addAttribute("activeEvents", activeEvents); // 모델에 이벤트 목록 추가
         // TODO 공지사항중에 중요한 것은 메인 페이지에서 보여줘야함
-        NoticeDTO latestNotice = noticeService.getLatestNotice();
-        model.addAttribute("latestNotice", latestNotice);
+        NoticeDTO getMainNotice = noticeService.getMainNotice();
+        model.addAttribute("getMainNotice", getMainNotice);
         return "index";
     }
 }
