@@ -1,11 +1,18 @@
+html, body, header {
+    margin: 0;
+    padding: 0;
+}
+
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #ffffff;
+    background: linear-gradient(to right, #4a6cf7, #4fa3f7);
+    color: white;
     border-bottom: 1px solid #ddd;
 }
+
 
 .header button,
 .header a {

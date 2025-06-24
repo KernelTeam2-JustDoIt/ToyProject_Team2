@@ -17,4 +17,7 @@ public interface AccommDetailMapper {
 
     List<RoomPreviewDTO> getRoomPreview(int id);
 
+    AccommThumbnailImageDTO getAccommThumbnailImage(int id);
+
+    int getRandomAccommId();
 }

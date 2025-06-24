@@ -18,20 +18,7 @@
 <body>
 
 <!-- Header -->
-<div class="header">
-    <button onclick="history.back()">←</button>
-
-    <input type="text" placeholder="숙소 검색...">
-
-    <div class="right-icons">
-        <a href="/index.jsp">
-            <img src="${pageContext.request.contextPath}/resources/image/home.png" alt="홈" />
-        </a>
-        <a href="/cart.jsp">
-            <img src="${pageContext.request.contextPath}/resources/image/cart.png" alt="장바구니" />
-        </a>
-    </div>
-</div>
+<%@ include file="common/searchHeader.jsp"%>
 
 <!-- Body -->
 <div class="hotel-container">
@@ -39,16 +26,15 @@
     <!-- 이미지 슬라이더 -->
     <div class="slider">
         <c:forEach var="img" items="${accommImage}" varStatus="status">
-            <c:if test="${img.isThumbnail == 1}">
-                <img class="slide-image <c:if test='${status.first}'>active</c:if>'"
-                     src="/yanupja${img.accommodationImageFilePath}"
-                     alt="숙소 이미지 ${status.index + 1}" />
-            </c:if>
+            <img class="slide-image <c:if test='${status.first}'>active</c:if>"
+                 src="${pageContext.request.contextPath}${img.accommodationImageFilePath}"
+                 alt="숙소 이미지 ${status.index + 1}" />
         </c:forEach>
 
         <button class="left" onclick="changeImage(-1)">❮</button>
         <button class="right" onclick="changeImage(1)">❯</button>
     </div>
+
 
     <!-- 숙소 정보 -->
     <div class="hotel-info">

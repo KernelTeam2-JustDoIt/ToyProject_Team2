@@ -100,6 +100,7 @@ public class SearchAccommController {
         return "review";
     }
 
+    /* ajax 렌더링 페이지 */
     @GetMapping("/review/more")
     @ResponseBody
     public String getMoreReviews(@RequestParam int accommodationId,

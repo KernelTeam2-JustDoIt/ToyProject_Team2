@@ -31,6 +31,24 @@
         ORDER BY i.PRIORITY
     </select>
 
+    <!-- 랜덤으로 id 한개 뽑기 -->
+    <select id="getRandomAccommId" resultType="int">
+        SELECT ACCOMMODATION_ID
+        FROM ACCOMMODATION
+        ORDER BY RAND()
+            LIMIT 1
+    </select>
+
+    <!-- 숙소 썸네일 이미지 얻기 -->
+    <select id="getAccommThumbnailImage" parameterType="int" resultType="AccommThumbnailImageDTO">
+        SELECT a.ACCOMMODATION_ID, i.PRIORITY, i.ACCOMMODATION_IMAGE_FILE_PATH, a.ACCOMMODATION_NAME
+        FROM ACCOMMODATION a
+        LEFT JOIN ACCOMMODATION_IMAGE i ON A.ACCOMMODATION_ID = i.ACCOMMODATION_ID
+        WHERE a.ACCOMMODATION_ID = #{id}
+        ORDER BY i.PRIORITY
+        LIMIT 1
+    </select>
+
     <!-- 숙소와 리뷰 -->
     <select id="getAccommReview" parameterType="int" resultType="AccommReviewDTO">
         SELECT a.ACCOMMODATION_ID,
