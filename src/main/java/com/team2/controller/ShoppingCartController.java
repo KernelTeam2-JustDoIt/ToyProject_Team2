@@ -44,7 +44,7 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/add")
-    public String addCart(CartDTO cartDTO, HttpSession session
+    public String addCart(@ModelAttribute CartDTO cartDTO, HttpSession session, Model model
 //                          ,@SessionAttribute("loginCustomer") Customer loginCustomer
     ) {
 //        if (loginCustomer == null) {
@@ -58,7 +58,8 @@ public class ShoppingCartController {
         String originUrl = (String) session.getAttribute("originUrl"); // 상품팀에 url attribute 요청
         if (originUrl == null) originUrl = "/cart/list";
         cartService.addCart(cartDTO);
-        System.out.println("[TEST] addCart 호출: " + cartDTO);
+        System.out.println("✨[TEST] addCart 호출: " + cartDTO);
+        System.out.println(model.getAttribute("condition"));
         return "redirect:" + originUrl;
     }
 
