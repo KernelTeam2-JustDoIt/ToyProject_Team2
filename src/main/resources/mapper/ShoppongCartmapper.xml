@@ -63,6 +63,7 @@ FROM SHOPPING_CART s
         AND room_id = #{roomId}
     </select>
 
+    <!-- 회원&카트번호로 타회원 카트 삭제방지 -->
     <select id="findByCustomerIdAndCartId" resultType="CartDTO" parameterType="int" >
         SELECT *
         FROM SHOPPING_CART
