@@ -13,6 +13,27 @@
       font-family: 'Segoe UI', sans-serif;
     }
 
+    .action-button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 8px 16px;
+      text-decoration: none;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    .delete-button {
+      background-color: #f44336;
+    }
+
+    .action-buttons {
+      margin-top: 30px;
+      text-align: right;
+    }
+
     .notice-header {
       display: flex;
       justify-content: space-between;
@@ -81,6 +102,24 @@
   <div class="notice-date">작성일: ${formattedPostedAt}</div>
   <hr class="divider" />
   <div class="notice-content">${notice.content}</div>
+  <!-- 관리자 전용 수정/삭제 버튼 -->
+  <c:if test="${not empty sessionScope.loginAdmin}">
+    <div class="action-buttons">
+      <a href="${pageContext.request.contextPath}/notice/updateForm/${notice.noticeId}" class="action-button">
+        수정
+      </a>
+
+      <form action="${pageContext.request.contextPath}/notice/delete/${notice.noticeId}" method="post" style="display:inline;">
+        <button type="submit"
+                onclick="return confirm('정말 삭제하시겠습니까?');"
+                class="action-button delete-button">
+          삭제
+        </button>
+      </form>
+    </div>
+  </c:if>
+
+
 </div>
 
 </body>
