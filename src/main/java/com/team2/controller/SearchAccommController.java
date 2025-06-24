@@ -4,6 +4,7 @@ import com.team2.dto.accommdetail.*;
 import com.team2.dto.paging.PagingAccommDTO;
 import com.team2.dto.previewaccomm.ConditionDTO;
 import com.team2.service.AccommDetailService;
+import com.team2.service.AccommReviewService;
 import com.team2.service.PagingAccommService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,9 @@ public class SearchAccommController {
 
     @Autowired
     private AccommDetailService accommDetailService;
+
+    @Autowired
+    private AccommReviewService accommReviewService;
 
     /* 숙소 검색 메인 페이지 */
     @GetMapping("/hotel")
@@ -78,10 +82,37 @@ public class SearchAccommController {
 
     @GetMapping("/review/{id}")
     public String showReview(@PathVariable int id,
+                             @RequestParam(defaultValue = "1") int page,
                              Model model) {
 
-        System.out.println(id);
+        AccommReviewDTO accommReviewDTO = accommDetailService.getAccommReview(id);
+        List<AccommImageDTO> accommImageDTOList = accommDetailService.getAccommImageList(id);
+
+        int size = 5;
+        int offset = (page - 1) * size;
+
+        List<ReviewDTO> reviewDTOList = accommReviewService.getReviewInfo(id, offset, size);
+
+        model.addAttribute("review", accommReviewDTO);
+        model.addAttribute("reviewImages", accommImageDTOList);
+        model.addAttribute("reviewList", reviewDTOList);
 
         return "review";
     }
+
+    @GetMapping("/review/more")
+    @ResponseBody
+    public String getMoreReviews(@RequestParam int accommodationId,
+                                 @RequestParam(defaultValue = "1") int page,
+                                 Model model) {
+
+        int size = 5;
+        int offset = (page - 1) * size;
+
+        List<ReviewDTO> reviews = accommReviewService.getReviewInfo(accommodationId, offset, size);
+        model.addAttribute("reviewList", reviews);
+
+        return "reviewFragment";
+    }
+
 }

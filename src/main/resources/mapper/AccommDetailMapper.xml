@@ -21,6 +21,7 @@
         ORDER BY a.ACCOMMODATION_ID
     </select>
 
+    <!-- 숙소 이미지 얻기 -->
     <select id="getAccommImage" parameterType="int" resultType="AccommImageDTO">
         SELECT a.ACCOMMODATION_ID, i.PRIORITY, i.IS_THUMBNAIL,
                i.ACCOMMODATION_IMAGE_FILE_PATH

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team2.mapper.ReviewMapper">
+    <!-- 후기 리스트 페이징 -->
+    <select id="getPagedReviews" resultType="ReviewDTO">
+        SELECT r.REVIEW_ID, r.ACCOMMODATION_ID, a.ACCOMMODATION_NAME,
+               r.REVIEW_DETAIL, r.REVIEW_SCORE, r.CREATED_AT,
+               a.RATING
+        FROM REVIEW r
+        JOIN ACCOMMODATION a ON r.ACCOMMODATION_ID = a.ACCOMMODATION_ID
+        WHERE r.ACCOMMODATION_ID = #{id}
+        ORDER BY r.CREATED_AT
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+</mapper>
