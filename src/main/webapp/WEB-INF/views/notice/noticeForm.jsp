@@ -21,22 +21,34 @@
             const needPinCheckbox = document.getElementById("needPinCheck");
             const needPinHidden = document.getElementById("needPinHidden");
 
+            // 상태 체크박스 변경 시
             statusCheckbox.addEventListener("change", () => {
                 statusHidden.value = statusCheckbox.checked ? "ACT" : "NOACT";
             });
 
+            // 메인 체크 시
             mainCheckbox.addEventListener("change", () => {
                 mainHidden.value = mainCheckbox.checked ? "true" : "false";
-                if (isMain) {
-                    needPinCheckbox.checked = true;
-                    needPinHidden.value = "true";
-                    }
+
+                if (mainCheckbox.checked) {
+                    // 메인 체크되면 활성화도 같이 체크
+                    statusCheckbox.checked = true;
+                    statusHidden.value = "ACT";
+                }
             });
 
+            // 상단고정 체크 시
             needPinCheckbox.addEventListener("change", () => {
                 needPinHidden.value = needPinCheckbox.checked ? "true" : "false";
+
+                if (needPinCheckbox.checked) {
+                    // 상단고정 체크되면 활성화도 같이 체크
+                    statusCheckbox.checked = true;
+                    statusHidden.value = "ACT";
+                }
             });
         });
+
     </script>
 </head>
 <body>
