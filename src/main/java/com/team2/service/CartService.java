@@ -7,7 +7,6 @@ import com.team2.model.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -21,6 +20,7 @@ public class CartService {
 
     // 회원의 장바구니 리스트 조회
     public List<CartResponse> getCartList(CartDTO cartDTO) {
+        System.out.println("@@"+cartDTO.getCustomerId());
         List<CartResponse> result = cartMapper.getCartList(cartDTO.getCustomerId());
         return result;
 
@@ -29,7 +29,7 @@ public class CartService {
     // 장바구니 추가
     public void addCart(CartDTO cartDTO) {
         Cart cart = new Cart();
-        if (!cart.isValidDateRange()) {
+        if (!isValidDateRange(cart)) {
             throw new IllegalArgumentException("체크아웃 날짜는 체크인 이후여야 합니다.");
         }
 
@@ -65,7 +65,7 @@ public class CartService {
         cart.setDesiredCheckInAt(cartDTO.getDesiredCheckInAt());
         cart.setDesiredCheckOutAt(cartDTO.getDesiredCheckOutAt());
 
-        if (!cart.isValidDateRange()) {
+        if (!isValidDateRange(cart)) {
             throw new IllegalArgumentException("체크아웃 날짜는 체크인 날짜 이후여야 합니다.");
         }
         return cartMapper.updatePeopleCnt(cartDTO);
@@ -91,4 +91,8 @@ public class CartService {
         cartMapper.deleteAllCart();
     }
 
+    private boolean isValidDateRange(Cart cart) {
+        if (cart.getDesiredCheckInAt() == null || cart.getDesiredCheckOutAt() == null) return true;
+        return cart.getDesiredCheckInAt().before(cart.getDesiredCheckOutAt());
+    }
 }

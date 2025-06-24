@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -18,13 +18,13 @@ public class CartResponse {
     private int cartId;
     private int roomId;
     private int customerId;
-    private LocalDateTime desiredCheckInAt;
-    private LocalDateTime desiredCheckOutAt;
+    private Date desiredCheckInAt;
+    private Date desiredCheckOutAt;
     private Integer adultCount;
     private Integer childCount;
-    private LocalDateTime shoppingCartCreatedAt;
+    private Date shoppingCartCreatedAt;
     private Integer shoppingCartCreatedBy;
-    private LocalDateTime shoppingCartUpdatedAt;
+    private Date shoppingCartUpdatedAt;
     private Integer shoppingCartUpdatedBy;
 
     // ROOM columns
@@ -47,9 +47,9 @@ public class CartResponse {
     private Integer maximumCapacity;
     private LocalDate roomCheckinDate;
     private LocalDate roomCheckoutDate;
-    private LocalDateTime roomCreatedAt;
+    private Date roomCreatedAt;
     private Integer roomCreatedBy;
-    private LocalDateTime roomUpdatedAt;
+    private Date roomUpdatedAt;
     private Integer roomUpdatedBy;
 
 

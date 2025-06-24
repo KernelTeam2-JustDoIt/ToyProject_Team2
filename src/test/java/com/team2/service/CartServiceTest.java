@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -25,7 +25,7 @@ public class CartServiceTest extends TestCase {
 
     @Test
     public void testGetCartList() {
-        LocalDateTime now = LocalDateTime.now();
+        Date now = new Date(System.currentTimeMillis());
         CartDTO cartDTO = new CartDTO(50000,1,1,2,now,now);
         cartDTO.setCustomerId(1);
 
@@ -34,7 +34,7 @@ public class CartServiceTest extends TestCase {
     }
     @Test
     public void testAddCart() {
-        LocalDateTime now = LocalDateTime.now();
+        Date now = new Date(System.currentTimeMillis());
         CartDTO cartDTO = new CartDTO(50000,1,1,2,now,now);
         cartService.addCart(cartDTO);
         List<CartResponse> cartList = cartService.getCartList(cartDTO);
@@ -47,7 +47,7 @@ public class CartServiceTest extends TestCase {
 
     @Test
     public void testDeleteCart() {
-        LocalDateTime now = LocalDateTime.now();
+        Date now = new Date(System.currentTimeMillis());
         CartDTO cartDTO = new CartDTO(50000,1,1,2,now,now);
 
         cartService.addCart(cartDTO);

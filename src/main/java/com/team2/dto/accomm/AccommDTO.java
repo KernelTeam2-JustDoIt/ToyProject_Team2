@@ -3,7 +3,7 @@ package com.team2.dto.accomm;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -24,8 +24,8 @@ public class AccommDTO {
     private String roadName;
     private int buildingNumber;
     private int buildingSubNumber;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Date createdAt;
+    private Date updatedAt;
     private int createdBy;
     private int updatedBy;
 
