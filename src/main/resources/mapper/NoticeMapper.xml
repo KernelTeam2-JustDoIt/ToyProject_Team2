@@ -76,11 +76,14 @@
         WHERE NOTICE_ID = #{noticeId}
     </update>
 
-    <!-- 공지사항 삭제 -->
-    <delete id="deleteNotice" parameterType="int">
-        DELETE FROM NOTICE
+    <!-- 공지사항 삭제 DB삭제 안하고 상태 업데이트로 뷰에 표기 안하기 위함 -->
+    <update id="noticeDeleted">
+        UPDATE NOTICE
+        SET NOTICE_STATUS = 'DEL',
+            UPDATED_AT = NOW(),
+            UPDATED_BY = #{adminId}
         WHERE NOTICE_ID = #{noticeId}
-    </delete>
+    </update>
 
 <!-- 전체 공지 개수 조회 -->
     <select id="countNotices" parameterType="map" resultType="int">
@@ -112,6 +115,7 @@
         FROM NOTICE
         WHERE (IS_MAIN = 1 OR IS_NEED_PIN = 1)
           AND NOTICE_STATUS = 'ACT'
+          AND NOTICE_STATUS != 'DEL'
         ORDER BY PRIORITY DESC, POSTED_AT DESC
     </select>
 
@@ -138,6 +142,9 @@
         <if test="isAdmin == false">
             AND NOTICE_STATUS = 'ACT'
         </if>
+        <if test="isAdmin == true">
+        AND NOTICE_STATUS != 'DEL'
+    </if>
         ORDER BY POSTED_AT DESC
         LIMIT #{limit} OFFSET #{offset}
     </select>

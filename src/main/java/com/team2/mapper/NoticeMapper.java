@@ -30,4 +30,6 @@ public interface NoticeMapper {
     List<NoticeDTO> getPinnedNotices();
 
     List<NoticeDTO> getNoticeList(Map<String, Object> param);
+
+    void noticeDeleted(@Param("noticeId") int noticeId, @Param("adminId") int adminId);
 }
