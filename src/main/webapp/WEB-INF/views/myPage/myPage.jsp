@@ -29,7 +29,7 @@
                 <li><a href="${pageContext.request.contextPath}/customer/reservation" class="nav-item">예약 내역</a></li>
                 <li><a href="${pageContext.request.contextPath}/customer/reviews" class="nav-item">리뷰 관리</a></li>
                 <li><a href="${pageContext.request.contextPath}/customer/settings" class="nav-item">회원 정보 수정</a></li>
-                <li><a href="${pageContext.request.contextPath}/logout" class="nav-item logout-link">로그아웃</a></li>
+                <li><a href="${pageContext.request.contextPath}/customer/logout" class="nav-item logout-link">로그아웃</a></li>
             </ul>
         </nav>
     </aside>
