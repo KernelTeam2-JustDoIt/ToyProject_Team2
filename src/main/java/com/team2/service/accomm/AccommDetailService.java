@@ -37,4 +37,9 @@ public class AccommDetailService {
     public void increaseViews(int id) {
         accommDetailMapper.increaseViews(id);
     }
+
+    public List<TopAccommDTO> getTopAccomm() {
+        return accommDetailMapper.getTop10Accomm();
+    }
+
 }

@@ -72,16 +72,13 @@
             <div class="hot-slider">
                 <button class="hot-prev">&#10094;</button>
                 <div class="hot-track">
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소1" />
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소2" />
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소3" />
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소4" />
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소5" />
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소6" />
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소7" />
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소8" />
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소9" />
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소10" />
+                    <c:forEach var="accomm" items="${topViewedList}">
+                        <a href="${pageContext.request.contextPath}/hotel/${accomm.accommId}">
+                            <img
+                                    src="<c:out value='${empty accomm.imagePath ? pageContext.request.contextPath + "/resources/image/default.png" : accomm.imagePath}'/>"
+                                    alt="${accomm.name}" />
+                        </a>
+                    </c:forEach>
                 </div>
                 <button class="hot-next">&#10095;</button>
             </div>

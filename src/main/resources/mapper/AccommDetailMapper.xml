@@ -120,4 +120,18 @@
         SET CLICK_VIEWS = CLICK_VIEWS + 1
         WHERE ACCOMMODATION_ID = #{id}
     </update>
+
+    <select id="getTop10Accomm" resultType="TopAccommDTO">
+        SELECT a.ACCOMMODATION_ID, a.ACCOMMODATION_NAME,
+               i.ACCOMMODATION_IMAGE_FILE_PATH, a.CLICK_VIEWS
+        FROM accommodation a
+        JOIN (
+            SELECT ACCOMMODATION_ID, MIN(ACCOMMODATION_IMAGE_FILE_PATH) AS ACCOMMODATION_IMAGE_FILE_PATH
+            FROM ACCOMMODATION_IMAGE
+            GROUP BY ACCOMMODATION_ID
+        ) i ON a.ACCOMMODATION_ID = i.ACCOMMODATION_ID
+        ORDER BY a.CLICK_VIEWS DESC
+            LIMIT 10;
+    </select>
+
 </mapper>
