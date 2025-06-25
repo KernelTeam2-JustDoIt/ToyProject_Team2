@@ -32,4 +32,6 @@ public interface NoticeMapper {
     List<NoticeDTO> getNoticeList(Map<String, Object> param);
 
     void noticeDeleted(@Param("noticeId") int noticeId, @Param("adminId") int adminId);
+
+    void incrementViewCount(int noticeId);
 }

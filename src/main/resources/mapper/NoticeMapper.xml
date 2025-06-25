@@ -19,9 +19,11 @@
             NOTICE_STATUS AS noticeStatus,
             IS_MAIN AS isMain,
             PRIORITY AS priority,
-            IS_NEED_PIN AS isNeedPin
+            IS_NEED_PIN AS isNeedPin,
+            VIEW_COUNT AS viewCount
         FROM NOTICE
         WHERE IS_MAIN = 1
+          AND NOTICE_STATUS = 'ACT'
         ORDER BY POSTED_AT DESC
             LIMIT 1
     </select>
@@ -41,7 +43,8 @@
             NOTICE_STATUS AS noticeStatus,
             IS_MAIN AS isMain,
             PRIORITY AS priority,
-            IS_NEED_PIN AS isNeedPin
+            IS_NEED_PIN AS isNeedPin,
+            VIEW_COUNT AS viewCount
         FROM NOTICE
         WHERE NOTICE_ID = #{noticeId}
     </select>
@@ -111,11 +114,12 @@
             NOTICE_STATUS AS noticeStatus,
             IS_MAIN AS isMain,
             PRIORITY AS priority,
-            IS_NEED_PIN AS isNeedPin
+            IS_NEED_PIN AS isNeedPin,
+            VIEW_COUNT AS viewCount
         FROM NOTICE
         WHERE (IS_MAIN = 1 OR IS_NEED_PIN = 1)
           AND NOTICE_STATUS = 'ACT'
-          AND NOTICE_STATUS != 'DEL'
+
         ORDER BY PRIORITY DESC, POSTED_AT DESC
     </select>
 
@@ -135,7 +139,8 @@
         NOTICE_STATUS AS noticeStatus,
         IS_MAIN AS isMain,
         PRIORITY AS priority,
-        IS_NEED_PIN AS isNeedPin
+        IS_NEED_PIN AS isNeedPin,
+        VIEW_COUNT AS viewCount
         FROM NOTICE
         WHERE IS_NEED_PIN = 0
         AND IS_MAIN = 0
@@ -145,9 +150,19 @@
         <if test="isAdmin == true">
         AND NOTICE_STATUS != 'DEL'
     </if>
+        <if test="keyword != null and keyword.trim() != ''">
+            AND (NOTICE_TITLE LIKE CONCAT('%', #{keyword}, '%')
+            OR NOTICE_DETAIL LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
         ORDER BY POSTED_AT DESC
         LIMIT #{limit} OFFSET #{offset}
     </select>
+<!--조회수 증가 쿼리 -->
+    <update id="incrementViewCount" parameterType="int">
+        UPDATE NOTICE
+        SET VIEW_COUNT = VIEW_COUNT + 1
+        WHERE NOTICE_ID = #{noticeId}
+    </update>
 
 
 </mapper>
