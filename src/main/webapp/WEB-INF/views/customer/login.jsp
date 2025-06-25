@@ -11,15 +11,15 @@
     <div class="logo">YANUPJA</div>
     <div class="header-right">
         <div class="auth-links">
-            <a href="/customer/login">로그인</a>
-            <a href="/customer/join">회원가입</a>
+            <a href="${pageContext.request.contextPath}/customer/login">로그인</a>
+            <a href="${pageContext.request.contextPath}/customer/join">회원가입</a>
         </div>
     </div>
 </header>
 
 <div class="login-container">
     <h2>로그인</h2>
-    <form action="/customer/login" method="post" class="login-form">
+    <form action="${pageContext.request.contextPath}/customer/login" method="post" class="login-form">
         <!-- 오류 메시지 표시 영역 -->
         <c:if test="${not empty error}">
             <div class="error-message" style="color: red; margin-bottom: 10px;">
@@ -36,7 +36,7 @@
         <span>|</span>
         <a href="${pageContext.request.contextPath}/customer/findPassword">비밀번호 변경 및 잠금계정 해제</a>
     </div>
-
+</div>
     <footer>
         &copy; 2025 YANUPJA. All rights reserved.
     </footer>

@@ -41,8 +41,8 @@
     <div class="logo">YANUPJA</div>
     <div class="header-right">
         <div class="auth-links">
-            <a href="/customer/login">로그인</a>
-            <a href="/customer">회원가입</a>
+            <a href="${pageContext.request.contextPath}/customer/login">로그인</a>
+            <a href="${pageContext.request.contextPath}/customer">회원가입</a>
         </div>
     </div>
 </header>
@@ -54,7 +54,7 @@
         <div class="error-message" style="color: red;">${error}</div>
     </c:if>
 
-    <form action="/customer/join" method="post" class="login-form" onsubmit="return validateForm()">
+    <form action="${pageContext.request.contextPath}/customer/join" method="post" class="login-form" onsubmit="return validateForm()">
         <div class="form-group">
             <input type="text" id="customerName" name="customerName" placeholder="이름" required>
         </div>
@@ -119,9 +119,9 @@
     </form>
 
     <div class="login-links">
-        <a href="/customer/login">로그인</a>
+        <a href="${pageContext.request.contextPath}/customer/login">로그인</a>
         <span>|</span>
-        <a href="/customer/findPassword">비밀번호 변경 및 잠금계정 해제</a>
+        <a href="${pageContext.request.contextPath}/customer/findPassword">비밀번호 변경 및 잠금계정 해제</a>
     </div>
 </div>
 
@@ -135,7 +135,7 @@
         if (!loginId) return;
 
         $.ajax({
-            url: '/customer/check-id',
+            url: '${pageContext.request.contextPath}/customer/check-id',
             type: 'GET',
             data: { customerLoginId: loginId },
             success: function(isDuplicate) {
@@ -153,7 +153,7 @@
         if (!email) return;
 
         $.ajax({
-            url: '/customer/check-email',
+            url: '${pageContext.request.contextPath}/customer/check-email',
             type: 'GET',
             data: { customerEmail: email },
             success: function(result) {
@@ -180,7 +180,7 @@
             return;
         }
 
-        $.post('/customer/sendEmailVerification', { customerEmail: email }, function(response) {
+        $.post('${pageContext.request.contextPath}/customer/sendEmailVerification', { customerEmail: email }, function(response) {
             alert(response === 'success' ? "인증코드가 이메일로 전송되었습니다." : "인증코드 전송 실패");
         });
     }
@@ -192,7 +192,7 @@
             return;
         }
 
-        $.post('/customer/verifyEmailCode', { inputCode: inputCode }, function(result) {
+        $.post('${pageContext.request.contextPath}/customer/verifyEmailCode', { inputCode: inputCode }, function(result) {
             if (result === 'success') {
                 $('#verificationResult').text("✅ 이메일 인증 성공").css('color', 'green');
                 sessionStorage.setItem("emailVerified", "true");
