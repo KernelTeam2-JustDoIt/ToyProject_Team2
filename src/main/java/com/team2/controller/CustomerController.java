@@ -301,9 +301,10 @@ public class CustomerController {
         try {
             // 4. 서비스 계층에 업데이트 위임
             // Service에서 DB 업데이트 및 세션 정보 갱신을 위한 최신 CustomerVO 반환
-            CustomerVO newlyUpdatedCustomer = customerService.updateCustomerInfo(loginCustomer, updatedCustomerVo);
+            customerService.updateCustomerInfo(loginCustomer, updatedCustomerVo);
 
             // 세션 정보 갱신
+            CustomerVO newlyUpdatedCustomer = customerService.findByLoginId(loginCustomer.getCustomerLoginId());
             session.setAttribute("loginCustomer", newlyUpdatedCustomer);
 
             ra.addFlashAttribute("successMessage", "회원 정보가 성공적으로 수정되었습니다.");

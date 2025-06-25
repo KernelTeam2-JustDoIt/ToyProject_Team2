@@ -7,6 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import static org.springframework.util.StringUtils.*;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -63,7 +66,7 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         // 입력한 비밀번호가 일치하지 않는 경우
-        if (isPasswordCorrect(customerPassword, foundCustomer.getCustomerPassword())) {
+        if (!isPasswordCorrect(customerPassword, foundCustomer.getCustomerPassword())) {
             log.warn("로그인 실패 - 비밀번호 불일치: {}", customerLoginId);
 
             // 로그인 실패 횟수 증가
@@ -145,32 +148,37 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerVO updateCustomerInfo(CustomerVO loginCustomer, CustomerVO updatedCustomer) {
         // TODO updatedCustomer 를 확인해서 입력 안한 값들은 어떻게 값이 넘어오나 확인후 입력 안된 값은 loginCustomer 에서 꺼내서 체우기
         modifyInfo(updatedCustomer, loginCustomer);
+        System.out.println("loginCustomer = " + loginCustomer);
+        System.out.println("updatedCustomer = " + updatedCustomer);
         customerMapper.updateCustomerInfo(updatedCustomer);
         return updatedCustomer;
     }
 
     private void modifyInfo(CustomerVO updatedCustomer, CustomerVO loginCustomer) {
         updatedCustomer.setCustomerId(loginCustomer.getCustomerId());
-        if (updatedCustomer.getCustomerName() == null) {
+        if (!hasText(updatedCustomer.getCustomerName())) {
             updatedCustomer.setCustomerName(loginCustomer.getCustomerName());
         }
-        if (updatedCustomer.getCustomerTel() == null) {
+        if (!hasText(updatedCustomer.getCustomerTel())) {
             updatedCustomer.setCustomerTel(loginCustomer.getCustomerTel());
         }
-        if (updatedCustomer.getCustomerEmail() == null) {
+        if (!hasText(updatedCustomer.getCustomerEmail())) {
             updatedCustomer.setCustomerEmail(loginCustomer.getCustomerEmail());
         }
-        if (updatedCustomer.getCustomerLoginId() == null) {
+        if (!hasText(updatedCustomer.getCustomerLoginId())) {
             updatedCustomer.setCustomerLoginId(loginCustomer.getCustomerLoginId());
         }
-        if (updatedCustomer.getCustomerJob() == null) {
+        if (!hasText(updatedCustomer.getCustomerJob())) {
             updatedCustomer.setCustomerJob(loginCustomer.getCustomerJob());
         }
-        if (updatedCustomer.getCustomerAge() == 0) {
+        if (updatedCustomer.getCustomerAge() == null) {
             updatedCustomer.setCustomerAge(loginCustomer.getCustomerAge());
         }
-        if (updatedCustomer.getCustomerGender() == null) {
+        if (!hasText(updatedCustomer.getCustomerGender())) {
             updatedCustomer.setCustomerGender(loginCustomer.getCustomerGender());
+        }
+        if (updatedCustomer.getIsMarketingUseAgreed() == null){
+            updatedCustomer.setIsMarketingUseAgreed(loginCustomer.getIsMarketingUseAgreed());
         }
     }
 }
