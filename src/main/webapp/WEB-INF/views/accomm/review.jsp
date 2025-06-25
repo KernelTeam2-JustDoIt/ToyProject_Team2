@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/review.css"/>
 </head>
 <body>
-<%@ include file="/WEB-INF/views/common/searchHeader.jsp" %>
+<%@ include file="/WEB-INF/views/accomm/searchHeader.jsp" %>
 
 <div class="review-container">
 

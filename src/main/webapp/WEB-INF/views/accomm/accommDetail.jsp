@@ -18,20 +18,7 @@
 <body>
 
 <!-- Header -->
-<div class="header">
-    <button onclick="history.back()">←</button>
-
-    <input type="text" placeholder="숙소 검색...">
-
-    <div class="right-icons">
-        <a href="/index.jsp">
-            <img src="${pageContext.request.contextPath}/resources/image/home.png" alt="홈" />
-        </a>
-        <a href="/cart.jsp">
-            <img src="${pageContext.request.contextPath}/resources/image/cart.png" alt="장바구니" />
-        </a>
-    </div>
-</div>
+<%@ include file="searchHeader.jsp"%>
 
 <!-- Body -->
 <div class="hotel-container">
@@ -39,11 +26,9 @@
     <!-- 이미지 슬라이더 -->
     <div class="slider">
         <c:forEach var="img" items="${accommImage}" varStatus="status">
-            <c:if test="${img.isThumbnail == 1}">
-                <img class="slide-image <c:if test='${status.first}'>active</c:if>'"
-                     src="/yanupja${img.accommodationImageFilePath}"
-                     alt="숙소 이미지 ${status.index + 1}" />
-            </c:if>
+            <img class="slide-image <c:if test='${status.first}'>active</c:if>"
+                 src="${pageContext.request.contextPath}${img.accommodationImageFilePath}"
+                 alt="숙소 이미지 ${status.index + 1}" />
         </c:forEach>
 
         <button class="left" onclick="changeImage(-1)">❮</button>
@@ -129,7 +114,7 @@
                     <p class="room-price"><strong><fmt:formatNumber value="${room.price}" type="number"/>원</strong>/1박</p>
 
                     <div class="room-buttons">
-                        <button class="cart-btn" onclick="event.stopPropagation(); addToCart('${room.roomId}')">🛒</button>
+                        <button class="cart-btn" onclick="event.stopPropagation(); postAddToCart('${room.roomId}')">🛒</button>
                         <button class="reserve-btn" onclick="event.stopPropagation(); reserveRoom('${room.roomId}')">예약하기</button>
                     </div>
                 </div>
@@ -178,6 +163,40 @@
 
     </div>
 
+<script>
+    function postAddToCart(roomId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '${pageContext.request.contextPath}/cart/add'; // <- 원하는 컨트롤러 URL로 수정
+
+        // roomId
+        const inputRoomId = document.createElement('input');
+        inputRoomId.type = 'hidden';
+        inputRoomId.name = 'roomId';
+        inputRoomId.value = roomId;
+        form.appendChild(inputRoomId);
+
+        // JSTL param에서 받은 값 추가
+        const params = {
+            checkIn: '${param.checkIn}',
+            checkOut: '${param.checkOut}',
+            adultCnt: '${param.adultCnt}',
+            babyCnt: '${param.babyCnt}',
+            district: '${param.district}'
+        };
+
+        for (const key in params) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = params[key];
+            form.appendChild(input);
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
 
 </div>
 

@@ -1,11 +1,11 @@
-package com.team2.controller;
+package com.team2.controller.accomm;
 
 import com.team2.dto.accommdetail.*;
 import com.team2.dto.paging.PagingAccommDTO;
 import com.team2.dto.previewaccomm.ConditionDTO;
-import com.team2.service.AccommDetailService;
-import com.team2.service.AccommReviewService;
-import com.team2.service.PagingAccommService;
+import com.team2.service.accomm.AccommDetailService;
+import com.team2.service.accomm.AccommReviewService;
+import com.team2.service.accomm.PagingAccommService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,8 +34,7 @@ public class SearchAccommController {
         /* 디폴트 검색 */ // 영경 여기 잠깐 수정해봄
         if (conditionDTO.getDistrict() == null
                 || conditionDTO.getDistrict().trim().isEmpty()) {
-            return "hotelMotelSearch";
-        }
+            return "accomm/hotelMotelSearch";
 
         int totalPages = pagingAccommService.getTotalPages(conditionDTO, conditionDTO.getSize());
         List<PagingAccommDTO> previewAccomm = pagingAccommService.getSearchAccommPaging(conditionDTO);
@@ -44,7 +43,7 @@ public class SearchAccommController {
         model.addAttribute("condition", conditionDTO);
         model.addAttribute("totalPages", totalPages);
 
-        return "hotelMotelSearch";
+        return "accomm/hotelMotelSearch";
     }
 
     @GetMapping("/hotel/{id}")
@@ -61,7 +60,7 @@ public class SearchAccommController {
         model.addAttribute("reviews", accommReviewImageDTO);
         model.addAttribute("roomList", roomPreviewDTOList);
 
-        return "accommDetail";
+        return "accomm/accommDetail";
     }
 
     @GetMapping("/room/{id}")
@@ -78,7 +77,7 @@ public class SearchAccommController {
 
         model.addAttribute("room", selectedRoom);
 
-        return "roomDetail";
+        return "accomm/roomDetail";
     }
 
     @GetMapping("/review/{id}")
@@ -98,9 +97,10 @@ public class SearchAccommController {
         model.addAttribute("reviewImages", accommImageDTOList);
         model.addAttribute("reviewList", reviewDTOList);
 
-        return "review";
+        return "accomm/review";
     }
 
+    /* ajax 렌더링 페이지 */
     @GetMapping("/review/more")
     @ResponseBody
     public String getMoreReviews(@RequestParam int accommodationId,
@@ -113,7 +113,7 @@ public class SearchAccommController {
         List<ReviewDTO> reviews = accommReviewService.getReviewInfo(accommodationId, offset, size);
         model.addAttribute("reviewList", reviews);
 
-        return "reviewFragment";
+        return "accomm/reviewFragment";
     }
 
 }
