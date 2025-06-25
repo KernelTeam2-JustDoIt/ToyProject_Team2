@@ -37,6 +37,7 @@ public class SearchAccommController {
             List<PagingAccommDTO> pagingAccommDTOList = new ArrayList<>();
             ConditionDTO con = pagingAccommService.getDefaultCondition();
             pagingAccommDTOList = pagingAccommService.getSearchAccommPaging(con);
+            pagingAccommDTOList = pagingAccommService.setCalendar(pagingAccommDTOList, con);
             int totalPages = pagingAccommService.getTotalPages(con, con.getSize());
 
             model.addAttribute("roomList", pagingAccommDTOList);
@@ -48,6 +49,7 @@ public class SearchAccommController {
 
         int totalPages = pagingAccommService.getTotalPages(conditionDTO, conditionDTO.getSize());
         List<PagingAccommDTO> pagingAccommDTOList = pagingAccommService.getSearchAccommPaging(conditionDTO);
+        pagingAccommDTOList = pagingAccommService.setCalendar(pagingAccommDTOList, conditionDTO);
 
         model.addAttribute("roomList", pagingAccommDTOList);
         model.addAttribute("condition", conditionDTO);
