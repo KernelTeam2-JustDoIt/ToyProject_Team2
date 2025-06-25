@@ -26,6 +26,8 @@ header {
     font-weight: bold;
     margin-left: 60px;
     color: #ffffff; /* 원본의 마지막 .logo 스타일 적용 */
+    text-decoration: none;
+    cursor: pointer; /* 포인터 커서 추가 */
 }
 
 /* 검색 바 입력 필드 스타일 */

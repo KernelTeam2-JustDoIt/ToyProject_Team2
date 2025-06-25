@@ -40,7 +40,6 @@
     <!-- Mapper 스캔 설정 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.team2.mapper"/>
-
     </bean>
 
 </beans>

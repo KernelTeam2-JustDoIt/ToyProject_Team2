@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team2.mapper.CustomerMapper">
+
+    <!--  회원 가입 (고객 정보 INSERT) -->
+    <insert id="insertCustomer" parameterType="com.team2.model.CustomerVO">
+        INSERT INTO CUSTOMER (
+            CUSTOMER_STATUS_ID,
+            CUSTOMER_LOGIN_ID,
+            CUSTOMER_PASSWORD,
+            CUSTOMER_NAME,
+            JOINED_AT,
+            CUSTOMER_GENDER,
+            CUSTOMER_TEL,
+            CUSTOMER_AGE,
+            CUSTOMER_JOB,
+            CUSTOMER_EMAIL,
+            GRADE_ID,
+            GRADE_EXPIRE_DATE,
+            IS_MARKETING_USE_AGREED
+        )
+        VALUES (
+                   1,
+                   #{customerLoginId},
+                   #{customerPassword},
+                   #{customerName},
+                   #{joinedAt},
+                   #{customerGender},
+                   #{customerTel},
+                   #{customerAge},
+                   #{customerJob},
+                   #{customerEmail},
+                   1,
+                   #{gradeExpireDate},
+                   #{isMarketingUseAgreed}
+               )
+    </insert>
+
+    <!-- ️ 암호화 적용 전 방식 - 향후 삭제 권장 -->
+    <select id="findByLoginIdAndPassword" resultType="com.team2.model.CustomerVO">
+        SELECT *
+        FROM CUSTOMER
+        WHERE CUSTOMER_LOGIN_ID = #{customerLoginId}
+          AND CUSTOMER_PASSWORD = #{customerPassword}
+    </select>
+
+    <!--  암호화 방식 로그인용: ID로 고객 1명 조회 -->
+    <select id="findByLoginId" parameterType="string" resultType="com.team2.model.CustomerVO">
+        SELECT *
+        FROM CUSTOMER
+        WHERE CUSTOMER_LOGIN_ID = #{customerLoginId}
+    </select>
+
+    <!--  아이디 중복 체크 -->
+    <select id="countByLoginId" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM CUSTOMER
+        WHERE CUSTOMER_LOGIN_ID = #{customerLoginId}
+    </select>
+
+    <!--  이메일 중복 체크 -->
+    <select id="countByEmail" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM CUSTOMER
+        WHERE CUSTOMER_EMAIL = #{customerEmail}
+    </select>
+
+    <!--  로그인 실패 횟수 조회 (가장 최근 성공 이후부터) -->
+    <select id="getLoginFailedCount" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM LOGIN_LOG
+        WHERE CUSTOMER_ID = #{customerId}
+          and IS_SUCCESS = 0
+          and LOGIN_AT > COALESCE((
+                                      SELECT MAX(LOGIN_AT)
+                                      FROM LOGIN_LOG
+                                      WHERE CUSTOMER_ID = #{customerId}
+                                        and IS_SUCCESS = 1
+                                  ), '1000-01-01 00:00:00')
+    </select>
+
+    <!--  로그인 성공 기록 저장 -->
+    <insert id="loginSuccess" parameterType="int">
+        INSERT INTO LOGIN_LOG(CUSTOMER_ID, LOGIN_AT, IS_SUCCESS)
+        VALUES (#{customerId}, now(), 1)
+    </insert>
+
+    <!--  로그인 실패 기록 저장 -->
+    <insert id="loginFail" parameterType="int">
+        INSERT INTO LOGIN_LOG(CUSTOMER_ID, LOGIN_AT, IS_SUCCESS, FAIL_CAUSE)
+        VALUES (#{customerId}, now(), 0, '비밀번호 불일치')
+    </insert>
+
+    <!--  계정 잠금 처리 -->
+    <update id="lockAccount" parameterType="int">
+        UPDATE CUSTOMER
+        SET CUSTOMER_STATUS_ID = 2
+        WHERE CUSTOMER_ID = #{customerId}
+    </update>
+
+    <!--  계정 잠금 해제 처리 -->
+    <update id="unlockAccount" parameterType="int">
+        UPDATE CUSTOMER
+        SET CUSTOMER_STATUS_ID = 1
+        WHERE CUSTOMER_ID = #{customerId}
+    </update>
+
+    <!--  회원 탈퇴 처리 (상태 변경) -->
+    <update id="deactivateCustomer" parameterType="int">
+        UPDATE CUSTOMER
+        SET CUSTOMER_STATUS_ID = 3
+        WHERE CUSTOMER_ID = #{customerId}
+    </update>
+
+    <!--  비밀번호 찾기용 - 로그인 ID + 이메일로 조회 -->
+    <select id="selectByLoginIdAndEmail" resultType="com.team2.model.CustomerVO">
+        SELECT *
+        FROM CUSTOMER
+        WHERE CUSTOMER_LOGIN_ID = #{customerLoginId}
+          AND CUSTOMER_EMAIL = #{email}
+    </select>
+
+    <!--  비밀번호 변경 처리 -->
+    <update id="updatePassword">
+        UPDATE CUSTOMER
+        SET CUSTOMER_PASSWORD = #{encoded}
+        WHERE CUSTOMER_LOGIN_ID = #{customerLoginId}
+    </update>
+
+</mapper>
