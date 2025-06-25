@@ -1,4 +1,4 @@
-package com.team2.service;
+package com.team2.service.accomm;
 
 import com.team2.dto.accommdetail.*;
 import com.team2.mapper.AccommDetailMapper;

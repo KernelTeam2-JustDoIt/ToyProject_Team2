@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/domesticMain.css"/>
 </head>
 <body>
-<%@ include file="common/searchHeader.jsp" %>
+<%@ include file="searchHeader.jsp" %>
 
 <div class="category-container">
     <a href="${pageContext.request.contextPath}/domestic/hotel" class="category-card">

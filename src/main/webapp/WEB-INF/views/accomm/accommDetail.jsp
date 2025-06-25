@@ -18,7 +18,7 @@
 <body>
 
 <!-- Header -->
-<%@ include file="common/searchHeader.jsp"%>
+<%@ include file="searchHeader.jsp"%>
 
 <!-- Body -->
 <div class="hotel-container">
@@ -34,7 +34,6 @@
         <button class="left" onclick="changeImage(-1)">❮</button>
         <button class="right" onclick="changeImage(1)">❯</button>
     </div>
-
 
     <!-- 숙소 정보 -->
     <div class="hotel-info">
@@ -115,7 +114,7 @@
                     <p class="room-price"><strong><fmt:formatNumber value="${room.price}" type="number"/>원</strong>/1박</p>
 
                     <div class="room-buttons">
-                        <button class="cart-btn" onclick="event.stopPropagation(); addToCart('${room.roomId}')">🛒</button>
+                        <button class="cart-btn" onclick="event.stopPropagation(); postAddToCart('${room.roomId}')">🛒</button>
                         <button class="reserve-btn" onclick="event.stopPropagation(); reserveRoom('${room.roomId}')">예약하기</button>
                     </div>
                 </div>
@@ -164,6 +163,40 @@
 
     </div>
 
+<script>
+    function postAddToCart(roomId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '${pageContext.request.contextPath}/cart/add'; // <- 원하는 컨트롤러 URL로 수정
+
+        // roomId
+        const inputRoomId = document.createElement('input');
+        inputRoomId.type = 'hidden';
+        inputRoomId.name = 'roomId';
+        inputRoomId.value = roomId;
+        form.appendChild(inputRoomId);
+
+        // JSTL param에서 받은 값 추가
+        const params = {
+            checkIn: '${param.checkIn}',
+            checkOut: '${param.checkOut}',
+            adultCnt: '${param.adultCnt}',
+            babyCnt: '${param.babyCnt}',
+            district: '${param.district}'
+        };
+
+        for (const key in params) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = params[key];
+            form.appendChild(input);
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
 
 </div>
 

@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<%@ include file="common/searchHeader.jsp"%>
+<%@ include file="searchHeader.jsp"%>
 
 <form id="searchForm" action="/yanupja/domestic/hotel" method="get">
 
@@ -21,13 +21,13 @@
     <input type="hidden" name="adultCnt" id="adultInput" value="${adultCnt}">
     <input type="hidden" name="babyCnt" id="babyInput" value="${babyCnt}">
 
-    <%@ include file="common/searchBar.jsp"%>
-    <%@ include file="common/searchPopup.jsp"%>
-    <%@ include file="common/accommList.jsp"%>
+    <%@ include file="searchBar.jsp"%>
+    <%@ include file="searchPopup.jsp"%>
+    <%@ include file="accommList.jsp"%>
 
 </form>
 
-    <%@include file="common/accommPaging.jsp"%>
+    <%@include file="accommPaging.jsp"%>
 
 <script src="${pageContext.request.contextPath}/resources/js/searchBar.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/searchCalendar.js"></script>

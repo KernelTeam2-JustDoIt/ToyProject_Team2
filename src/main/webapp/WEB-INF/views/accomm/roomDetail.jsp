@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/roomDetail.css">
 </head>
 <body>
- <%@ include file="common/searchHeader.jsp"%>
+ <%@ include file="searchHeader.jsp"%>
 
  <div class="room-container">
 

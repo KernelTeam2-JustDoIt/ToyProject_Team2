@@ -1,8 +1,7 @@
-package com.team2.controller;
+package com.team2.controller.accomm;
 
 import com.team2.dto.accommdetail.AccommThumbnailImageDTO;
-import com.team2.service.AccommDetailService;
-import com.team2.service.RandomAccommService;
+import com.team2.service.accomm.RandomAccommService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +26,6 @@ public class DomesticAccommController {
         System.out.println(imageDTOList);
 
 
-        return "domesticMain";
+        return "accomm/domesticMain";
     }
 }
