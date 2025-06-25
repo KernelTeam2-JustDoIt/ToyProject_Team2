@@ -57,6 +57,9 @@ public class CustomerServiceImpl implements CustomerService {
             throw new IllegalStateException("UNKNOWN_ID");
         }
 
+        if (foundCustomer.getCustomerStatusId() == 3) { // 탈퇴
+            throw new IllegalStateException("DELETED");
+        }
         // 계정이 잠긴 상태인 경우
         if (foundCustomer.getCustomerStatusId() == 2) {
             throw new IllegalStateException("LOCKED");

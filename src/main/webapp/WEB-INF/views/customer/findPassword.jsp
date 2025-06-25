@@ -86,8 +86,8 @@
     <div class="logo">YANUPJA</div>
     <div class="header-right">
         <div class="auth-links">
-            <a href="/customer/login">로그인</a>
-            <a href="/customer">회원가입</a>
+            <a href="${pageContext.request.contextPath}/customer/login">로그인</a>
+            <a href="${pageContext.request.contextPath}/customer">회원가입</a>
         </div>
     </div>
 </header>
@@ -131,9 +131,9 @@
 
     <!-- 로그인/회원가입 링크 -->
     <div class="find-links">
-        <a href="/customer/login">로그인</a>
+        <a href="${pageContext.request.contextPath}/customer/login">로그인</a>
         <span>|</span>
-        <a href="/customer">회원가입</a>
+        <a href="${pageContext.request.contextPath}/customer">회원가입</a>
     </div>
 </div>
 
