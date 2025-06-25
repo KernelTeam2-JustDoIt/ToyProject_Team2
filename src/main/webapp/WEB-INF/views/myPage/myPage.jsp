@@ -20,8 +20,8 @@
     <aside class="sidebar">
         <div class="user-info-summary">
             <img src="https://via.placeholder.com/80/3498DB/FFFFFF?text=User" alt="프로필 사진" class="profile-pic">
-            <h3><c:out value="${loginUser.customerName}" default="방문자" />님</h3> <%-- CUSTOMER_NAME --%>
-            <p><c:out value="${loginUser.customerLoginId}" default="로그인ID" /></p> <%-- CUSTOMER_LOGIN_ID --%>
+            <h3><c:out value="${sessionScope.loginCustomer.customerName}" default="방문자" />님</h3> <%-- CUSTOMER_NAME --%>
+            <p><c:out value="${sessionScope.loginCustomer.customerLoginId}" default="로그인ID" /></p> <%-- CUSTOMER_LOGIN_ID --%>
         </div>
         <nav class="my-page-nav">
             <ul>
@@ -37,18 +37,18 @@
     <main class="my-page-content">
         <h2>내 정보</h2>
         <div class="content-box">
-            <p><strong>고객 아이디:</strong> <c:out value="${loginUser.customerLoginId}" /></p>
-            <p><strong>고객명:</strong> <c:out value="${loginUser.customerName}" /></p>
-            <p><strong>이메일:</strong> <c:out value="${loginUser.customerEmail}" /></p>
-            <p><strong>연락처:</strong> <c:out value="${loginUser.customerTel}" /></p>
-            <p><strong>성별:</strong> <c:out value="${loginUser.customerGender eq 'M' ? '남성' : (loginUser.customerGender eq 'F' ? '여성' : '미정')}" /></p>
-            <p><strong>나이:</strong> <c:out value="${loginUser.customerAge}" />세</p>
-            <p><strong>직업:</strong> <c:out value="${loginUser.customerJob}" /></p>
-            <p><strong>포인트:</strong> <c:out value="${loginUser.point}" />점</p>
-            <p><strong>회원가입일:</strong> <fmt:formatDate value="${loginUser.joinedAt}" pattern="yyyy년 MM월 dd일 HH시 mm분" /></p>
-            <p><strong>등급:</strong> <c:out value="${loginUser.gradeId}" /></p>
-            <p><strong>등급 만료일:</strong> <fmt:formatDate value="${loginUser.gradeExpireDate}" pattern="yyyy년 MM월 dd일" /></p>
-            <p><strong>마케팅 활용 동의:</strong> <c:out value="${loginUser.isMarketingUseAgreed == 1 ? '동의' : '비동의'}" /></p>
+            <p><strong>고객 아이디:</strong> <c:out value="${sessionScope.loginCustomer.customerLoginId}" /></p>
+            <p><strong>고객명:</strong> <c:out value="${sessionScope.loginCustomer.customerName}" /></p>
+            <p><strong>이메일:</strong> <c:out value="${sessionScope.loginCustomer.customerEmail}" /></p>
+            <p><strong>연락처:</strong> <c:out value="${sessionScope.loginCustomer.customerTel}" /></p>
+            <p><strong>성별:</strong> <c:out value="${sessionScope.loginCustomer.customerGender eq 'M' ? '남성' : (sessionScope.loginCustomer.customerGender eq 'F' ? '여성' : '미정')}" /></p>
+            <p><strong>나이:</strong> <c:out value="${sessionScope.loginCustomer.customerAge}" />세</p>
+            <p><strong>직업:</strong> <c:out value="${sessionScope.loginCustomer.customerJob}" /></p>
+            <p><strong>포인트:</strong> <c:out value="${sessionScope.loginCustomer.point}" />점</p>
+            <p><strong>회원가입일:</strong> <fmt:formatDate value="${sessionScope.loginCustomer.joinedAt}" pattern="yyyy년 MM월 dd일 HH시 mm분" /></p>
+            <p><strong>등급:</strong> <c:out value="${sessionScope.loginCustomer.gradeId}" /></p>
+            <p><strong>등급 만료일:</strong> <fmt:formatDate value="${sessionScope.loginCustomer.gradeExpireDate}" pattern="yyyy년 MM월 dd일" /></p>
+            <p><strong>마케팅 활용 동의:</strong> <c:out value="${sessionScope.loginCustomer.isMarketingUseAgreed == 1 ? '동의' : '비동의'}" /></p>
 
             <button class="btn primary-btn">정보 수정</button>
         </div>
