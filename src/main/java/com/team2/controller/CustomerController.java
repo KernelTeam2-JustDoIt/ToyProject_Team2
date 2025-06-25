@@ -124,6 +124,9 @@ public class CustomerController {
                 case "WRONG_PASSWORD":
                     model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
                     return "customer/login";
+                case "DELETED":
+                    model.addAttribute("error", "탈퇴한 계정입니다.");
+                    return "customer/login";
                 default:
                     model.addAttribute("error", "다시 시도하십셔.");
                     return "customer/login";
@@ -269,5 +272,18 @@ public class CustomerController {
         session.invalidate();
         return "redirect:/";
     }
+    @GetMapping("/withdraw")
+    public String withdraw(HttpSession session) {
+        CustomerVO loginCustomer = (CustomerVO) session.getAttribute("loginCustomer");
+
+        if (loginCustomer != null) {
+            int customerId = loginCustomer.getCustomerId();
+            customerService.deactivateCustomer(customerId);  // 상태 3으로 업데이트
+            session.invalidate();  // 세션 초기화
+        }
+        return "redirect:/";
+    }
+
+
 }
 
