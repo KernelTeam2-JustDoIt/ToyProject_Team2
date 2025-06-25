@@ -23,7 +23,4 @@ public class CustomerVO {
     private Timestamp joinedAt; // 가입일
     private Timestamp gradeExpireDate; // 등급 만료일
     private int point; //고객 포인트
-
-
-
 }

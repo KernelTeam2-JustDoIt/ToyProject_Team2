@@ -130,4 +130,17 @@
         WHERE CUSTOMER_LOGIN_ID = #{customerLoginId}
     </update>
 
+    <update id="updateCustomerInfo" parameterType="com.team2.model.CustomerVO">
+        UPDATE CUSTOMER
+            SET CUSTOMER_NAME = #{customerName},
+            SET CUSTOMER_TEL = #{customerTel},
+            SET CUSTOMER_EMAIL = #{customerEmail},
+            SET CUSTOMER_LOGIN_ID = #{customerLoginId},
+            SET CUSTOMER_JOB = #{customerJob},
+            SET CUSTOMER_AGE = #{customerAge},
+            SET CUSTOMER_GENDER = #{customerGender},
+            SET IS_MARKETING_USE_AGREED = #{isMarketingUseAgreed}
+        WHERE
+            CUSTOMER_ID = #{customerId}
+    </update>
 </mapper>
