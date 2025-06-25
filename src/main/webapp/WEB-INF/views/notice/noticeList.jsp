@@ -8,121 +8,108 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/noticeList.css" />
     <meta charset="UTF-8">
     <title>공지사항</title>
-
 </head>
 <body>
-<a href="<c:url value='/' />">
-    <img src="${pageContext.request.contextPath}/resources/image/home_icon.png" alt="홈" style="width: 24px;" />
-</a>
+<!-- ✅ 상단 헤더 (홈 + 제목 + 관리자 페이지 버튼) -->
+<div class="notice-header">
+    <!-- 홈 버튼 -->
+    <a href="<c:url value='/' />">
+        <img src="${pageContext.request.contextPath}/resources/image/home_icon.png" alt="홈" class="home-icon" />
+    </a>
 
-    <div class="title">공지사항</div>
-<hr style="border: none; border-top: 1px solid #ccc; margin: 20px 0;">
-    <div style="width: 24px;"></div> <!-- 우측 공간 맞추기 -->
-<div class="notice-list-container">
-<table>
-    <thead>
-    <tr>
-        <th>제목</th>
-        <th>작성일</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- 상단 고정 공지 -->
-    <c:forEach var="notice" items="${pinnedNotices}">
-        <tr style="background-color: #fff9e6;"> <!-- 연한 노란색 배경 -->
-            <td>
-                <span style="color: #ff9800;">📌</span>
-                <a href="${pageContext.request.contextPath}/notice/${notice.noticeId}" style="font-weight: bold;">
-                        ${notice.title}
-                </a>
-            </td>
-            <td>
-                <c:choose>
-                    <c:when test="${not empty notice.formattedDate}">
-                        ${notice.formattedDate}
-                    </c:when>
-                    <c:otherwise>
-                        -
-                    </c:otherwise>
-                </c:choose>
-            </td>
+    <!-- 공지사항 제목 -->
+    <div class="notice-title">공지사항</div>
 
-        </tr>
-    </c:forEach>
-
-    <!-- 일반 공지 -->
-    <c:forEach var="notice" items="${noticeList}">
-        <tr
-                <c:if test="${notice.noticeStatus == 'NOACT'}">
-                    style="background-color: #f2f2f2; color: #888; font-style: italic;"
-                </c:if>
-        >
-            <td>
-                <a href="${pageContext.request.contextPath}/notice/${notice.noticeId}"
-                   style="<c:if test='${notice.noticeStatus == "NOACT"}'>color: #888;</c:if>">
-                        ${notice.title}
-                </a>
-            </td>
-            <td>
-                <c:choose>
-                    <c:when test="${not empty notice.formattedDate}">
-                        ${notice.formattedDate}
-                    </c:when>
-                    <c:otherwise>
-                        -
-                    </c:otherwise>
-                </c:choose>
-            </td>
-        </tr>
-    </c:forEach>
-
-    </tbody>
-</table>
- <!--관리자 전용 작성 버튼-->
+    <!-- 관리자 전용 버튼 -->
     <c:if test="${not empty sessionScope.loginAdmin and sessionScope.loginAdmin.roleId == 1}">
-        <a href="${pageContext.request.contextPath}/notice/form" class="write-btn">공지 작성</a>
+        <a href="${pageContext.request.contextPath}/admin/page" class="admin-link">관리자 페이지</a>
+    </c:if>
+</div>
+
+<hr class="divider" />
+
+<!-- ✅ 검색창 -->
+<form method="get" action="${pageContext.request.contextPath}/notice/list" class="search-bar">
+    <input type="text" name="keyword" value="${keyword}" placeholder="제목 또는 내용을 검색하세요" />
+    <button type="submit">검색</button>
+</form>
+
+<div class="notice-list-container">
+    <table class="notice-table">
+        <thead>
+        <tr>
+            <th>제목</th>
+            <th>작성일</th>
+            <th>조회수</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 상단 고정 공지 -->
+        <c:forEach var="notice" items="${pinnedNotices}">
+            <tr class="pinned">
+                <td>
+                    <span class="pin-icon">📌</span>
+                    <a href="${pageContext.request.contextPath}/notice/${notice.noticeId}" class="pinned-title">
+                            ${notice.title}
+                    </a>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${not empty notice.formattedDate}">
+                            ${notice.formattedDate}
+                        </c:when>
+                        <c:otherwise>-</c:otherwise>
+                    </c:choose>
+                </td>
+                <td>${notice.viewCount}</td>
+            </tr>
+        </c:forEach>
+
+        <!-- 일반 공지 -->
+        <c:forEach var="notice" items="${noticeList}">
+            <tr class="${notice.noticeStatus == 'NOACT' ? 'inactive' : ''}">
+                <td>
+                    <a href="${pageContext.request.contextPath}/notice/${notice.noticeId}" class="${notice.noticeStatus == 'NOACT' ? 'inactive-title' : ''}">
+                            ${notice.title}
+                    </a>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${not empty notice.formattedDate}">
+                            ${notice.formattedDate}
+                        </c:when>
+                        <c:otherwise>-</c:otherwise>
+                    </c:choose>
+                </td>
+                <td>${notice.viewCount}</td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+
+    <!-- 관리자 작성 버튼 -->
+    <c:if test="${not empty sessionScope.loginAdmin and sessionScope.loginAdmin.roleId == 1}">
+        <div class="write-btn-wrapper">
+            <a href="${pageContext.request.contextPath}/notice/form" class="write-btn">공지 작성</a>
+        </div>
     </c:if>
 
-    <!-- 공지사항 페이징처리 -->
-    <div style="margin-top: 30px; text-align: center;">
-        <!-- 이전 버튼 -->
+    <!-- ✅ 페이징 -->
+    <div class="pagination">
         <c:if test="${hasPrevBlock}">
-            <a href="${pageContext.request.contextPath}/notice/list?page=${startPage - 1}"
-               class="page-link"
-               style="margin-right: 10px; padding: 6px 12px; background-color: #eee; border-radius: 4px; text-decoration: none;">
-                &laquo; 이전
-            </a>
+            <a href="${pageContext.request.contextPath}/notice/list?page=${startPage - 1}&keyword=${keyword}" class="page-link">&laquo; 이전</a>
         </c:if>
 
-        <!-- 페이지 번호 반복 -->
         <c:forEach begin="${startPage}" end="${endPage}" var="i">
-            <a href="${pageContext.request.contextPath}/notice/list?page=${i}"
-               class="page-link"
-               style="
-                       display: inline-block;
-                       margin: 0 4px;
-                       padding: 6px 12px;
-                       border-radius: 4px;
-                       background-color: ${i == currentPage ? '#0066cc' : '#f0f0f0'};
-                       color: ${i == currentPage ? 'white' : '#333'};
-                       text-decoration: none;
-                       font-weight: ${i == currentPage ? 'bold' : 'normal'};
-                       ">
+            <a href="${pageContext.request.contextPath}/notice/list?page=${i}&keyword=${keyword}" class="page-link ${i == currentPage ? 'active' : ''}">
                     ${i}
             </a>
         </c:forEach>
 
-        <!-- 다음 버튼 -->
         <c:if test="${hasNextBlock}">
-            <a href="${pageContext.request.contextPath}/notice/list?page=${endPage + 1}"
-               class="page-link"
-               style="margin-left: 10px; padding: 6px 12px; background-color: #eee; border-radius: 4px; text-decoration: none;">
-                다음 &raquo;
-            </a>
+            <a href="${pageContext.request.contextPath}/notice/list?page=${endPage + 1}&keyword=${keyword}" class="page-link">다음 &raquo;</a>
         </c:if>
     </div>
-
 </div>
-
 </body>
 </html>
