@@ -20,4 +20,7 @@ public interface AccommDetailMapper {
     AccommThumbnailImageDTO getAccommThumbnailImage(int id);
 
     int getRandomAccommId();
+
+    /*  클릭 시, 조회 수 증가 */
+    void increaseViews(int id);
 }

@@ -36,7 +36,6 @@
         </c:otherwise>
     </c:choose>
 
-
     <section class="section">
         <div class="category-boxes">
             <a href="${pageContext.request.contextPath}/domestic" class="category-box">

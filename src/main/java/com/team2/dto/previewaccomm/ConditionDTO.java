@@ -7,6 +7,9 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -27,5 +30,13 @@ public class ConditionDTO {
     private int size = 6;
     private int limit;
     private int offset;
+
+    /* Mapper에서 사용 */
+    public List<String> getDistrictList() {
+        if (district == null || district.isEmpty()) return null;
+        return Arrays.stream(district.split("/"))
+                .map(String::trim)
+                .collect(Collectors.toList());
+    }
 
 }

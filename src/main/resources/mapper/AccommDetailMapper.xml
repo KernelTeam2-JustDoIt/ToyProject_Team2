@@ -114,4 +114,10 @@
             <result property="priority" column="PRIORITY"/>
         </collection>
     </resultMap>
+
+    <update id="increaseViews">
+        UPDATE ACCOMMODATION
+        SET CLICK_VIEWS = CLICK_VIEWS + 1
+        WHERE ACCOMMODATION_ID = #{id}
+    </update>
 </mapper>
