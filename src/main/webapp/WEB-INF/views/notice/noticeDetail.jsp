@@ -23,9 +23,11 @@
 <!-- 공지 본문 -->
 <div class="notice-container">
   <div class="notice-title">${notice.title}</div>
-  <div class="notice-date">작성일: ${formattedPostedAt}</div>
+  <div class="notice-date">작성일: ${formattedPostedAt} | 조회수: ${notice.viewCount}</div>
   <hr class="divider" />
-  <div class="notice-content">${notice.content}</div>
+  <div class="notice-content">
+    <c:out value="${notice.content}" escapeXml="true"/>
+  </div>
   <!-- 관리자 전용 수정/삭제 버튼 -->
   <c:if test="${not empty sessionScope.loginAdmin}">
     <div class="action-buttons">
