@@ -1,11 +1,11 @@
 package com.team2.controller;
 
+import com.team2.dto.accommdetail.*;
 import com.team2.dto.paging.PagingAccommDTO;
-import com.team2.dto.paging.PagingConditionDTO;
 import com.team2.dto.previewaccomm.ConditionDTO;
+import com.team2.service.AccommDetailService;
+import com.team2.service.AccommReviewService;
 import com.team2.service.PagingAccommService;
-import com.team2.service.PreviewAccommService;
-import com.team2.vo.previewaccomm.PreviewAccommVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +20,12 @@ public class SearchAccommController {
 
     @Autowired
     private PagingAccommService pagingAccommService;
+
+    @Autowired
+    private AccommDetailService accommDetailService;
+
+    @Autowired
+    private AccommReviewService accommReviewService;
 
     /* 숙소 검색 메인 페이지 */
     @GetMapping("/hotel")
@@ -43,9 +49,71 @@ public class SearchAccommController {
 
     @GetMapping("/hotel/{id}")
     public String showHotel(@PathVariable int id, Model model) {
-        System.out.println(id);
+        AccommInfoDTO accommInfoDTO = accommDetailService.getAccommDetail(id);
+        List<AccommImageDTO> accommImageDTO = accommDetailService.getAccommImageList(id);
+        AccommReviewDTO accommReviewDTO = accommDetailService.getAccommReview(id);
+        List<AccommReviewImageDTO> accommReviewImageDTO = accommDetailService.getAccommReviewImage(id);
+        List<RoomPreviewDTO> roomPreviewDTOList = accommDetailService.getRoomPreview(id);
+
+        model.addAttribute("accomm", accommInfoDTO);
+        model.addAttribute("accommImage", accommImageDTO);
+        model.addAttribute("review", accommReviewDTO);
+        model.addAttribute("reviews", accommReviewImageDTO);
+        model.addAttribute("roomList", roomPreviewDTOList);
 
         return "accommDetail";
+    }
+
+    @GetMapping("/room/{id}")
+    public String showRoom(@PathVariable int id,
+                           @RequestParam("accommodationId") int accommId,
+                           Model model) {
+
+        List<RoomPreviewDTO> roomPreviewDTOList = accommDetailService.getRoomPreview(accommId);
+
+        RoomPreviewDTO selectedRoom = roomPreviewDTOList.stream()
+                .filter(room -> room.getRoomId() == id)
+                .findFirst()
+                .orElse(null);
+
+        model.addAttribute("room", selectedRoom);
+
+        return "roomDetail";
+    }
+
+    @GetMapping("/review/{id}")
+    public String showReview(@PathVariable int id,
+                             @RequestParam(defaultValue = "1") int page,
+                             Model model) {
+
+        AccommReviewDTO accommReviewDTO = accommDetailService.getAccommReview(id);
+        List<AccommImageDTO> accommImageDTOList = accommDetailService.getAccommImageList(id);
+
+        int size = 5;
+        int offset = (page - 1) * size;
+
+        List<ReviewDTO> reviewDTOList = accommReviewService.getReviewInfo(id, offset, size);
+
+        model.addAttribute("review", accommReviewDTO);
+        model.addAttribute("reviewImages", accommImageDTOList);
+        model.addAttribute("reviewList", reviewDTOList);
+
+        return "review";
+    }
+
+    @GetMapping("/review/more")
+    @ResponseBody
+    public String getMoreReviews(@RequestParam int accommodationId,
+                                 @RequestParam(defaultValue = "1") int page,
+                                 Model model) {
+
+        int size = 5;
+        int offset = (page - 1) * size;
+
+        List<ReviewDTO> reviews = accommReviewService.getReviewInfo(accommodationId, offset, size);
+        model.addAttribute("reviewList", reviews);
+
+        return "reviewFragment";
     }
 
 }

@@ -15,37 +15,3 @@
     </a>
   </c:forEach>
 </div>
-
-      <!-- ★ 장바구니 아이콘: 카드 우측 상단에 절대 위치 -->
-<%--      <div class="actions">--%>
-<%--        <a class="add-to-cart"--%>
-<%--           href="${pageContext.request.contextPath}/cart/add"--%>
-<%--           title="장바구니 보기">--%>
-<%--          <i class="fas fa-shopping-cart"></i>--%>
-<%--        </a>--%>
-<%--      </div>--%>
-<c:forEach var="room" items="${roomList}">
-      <div class="actions">
-      <form class="add-to-cart-form"
-            action="${pageContext.request.contextPath}/cart/add"
-            method="post"
-            style="position:absolute; top:8px; right:8px;">
-        <!-- 필요한 파라미터들을 hidden 으로 -->
-        <input type="hidden" name="roomId" value="${room.accommodationId}" />
-        <input type="hidden" name="adultCount" value="${condition.adultCnt}" />
-        <input type="hidden" name="childCount" value="${condition.babyCnt}" />
-
-
-        <button type="submit"
-                class="add-to-cart"
-                title="장바구니에 담기"
-                >
-          <i class="fas fa-shopping-cart"></i>
-        </button>
-      </form>
-      </div>
-
-
-    </div>
-</c:forEach>
-</div>

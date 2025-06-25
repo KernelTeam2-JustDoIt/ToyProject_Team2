@@ -309,34 +309,3 @@ form {
     color: #ccc;
     pointer-events: none;
 }
-
-.accommodation-card {
-    position: relative;    /* actions가 이 안에서 절대 위치를 가짐 */
-    /* 기존 카드 스타일 그대로 */
-}
-
-.actions {
-    position: absolute;
-    top: 12px;             /* 위에서 12px */
-    right: 12px;           /* 오른쪽에서 12px */
-    z-index: 10;           /* 이미지 위로 올라오게 */
-}
-
-.add-to-cart {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    font-size: 1.2rem;
-    color: #333;
-    background: #fff;
-    border-radius: 50%;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    transition: background .2s, transform .1s;
-}
-
-.add-to-cart:hover {
-    background: #f0f0f0;
-    transform: scale(1.05);
-}
