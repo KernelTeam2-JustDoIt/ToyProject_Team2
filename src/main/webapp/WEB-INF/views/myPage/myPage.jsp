@@ -12,6 +12,43 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <%-- jQuery 추가 --%>
+    <style>
+        /* 새로운 버튼 래퍼 스타일 (myPage.css로 옮길 수 있습니다) */
+        .reservation-button-wrapper {
+            text-align: center; /* 버튼을 중앙 정렬 */
+            margin-top: 30px; /* my-page-container와 간격 */
+            margin-bottom: 50px; /* 푸터와의 간격 */
+        }
+
+        /* login-form-select 및 button-group, form-group 등 기존 스타일 유지 또는 myPage.css에 추가 */
+        .login-form-select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .checkbox-label { /* .checkbox-group 대신 사용될 수 있음 */
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
 <%-- 헤더 포함 --%>
@@ -27,7 +64,7 @@
         <nav class="my-page-nav">
             <ul>
                 <li><a href="${pageContext.request.contextPath}/customer/info" class="nav-item active" data-tab="info">내 정보</a></li>
-                <li><a href="${pageContext.request.contextPath}/customer/reservation" class="nav-item" data-tab="reservation">예약 내역</a></li>
+                <%-- 예약 내역 메뉴 제거됨 --%>
                 <li><a href="${pageContext.request.contextPath}/customer/settings" class="nav-item" data-tab="settings">회원 정보 수정</a></li>
                 <li><a href="${pageContext.request.contextPath}/customer/logout" class="nav-item logout-link">로그아웃</a></li>
                 <li><a href="${pageContext.request.contextPath}/customer/withdraw" class="nav-item withdraw-link" onclick="return confirm('정말로 회원 탈퇴를 하시겠습니까? 모든 정보가 삭제되며 되돌릴 수 없습니다.');">회원 탈퇴</a></li>
@@ -52,46 +89,10 @@
                 <p><strong>등급 만료일:</strong> <fmt:formatDate value="${sessionScope.loginCustomer.gradeExpireDate}" pattern="yyyy년 MM월 dd일" /></p>
                 <p><strong>마케팅 활용 동의:</strong> <c:out value="${sessionScope.loginCustomer.isMarketingUseAgreed == 1 ? '동의' : '비동의'}" /></p>
             </div>
+            <%-- 예약 내역 보기 버튼 제거 (아래로 이동) --%>
         </section>
 
-        <section id="reservation" class="tab-content">
-            <h2>예약 내역</h2>
-            <div class="content-box reservation-list-container">
-                <c:choose>
-                    <c:when test="${not empty customerReservations}">
-                        <div class="reservation-grid">
-                            <c:forEach var="reservation" items="${customerReservations}">
-                                <div class="reservation-card">
-                                    <div class="card-header">
-                                        <h3><c:out value="${reservation.accommodationName}" /></h3>
-                                        <span class="reservation-status ${reservation.status == '완료' ? 'status-completed' : (reservation.status == '예정' ? 'status-upcoming' : 'status-cancelled')}">
-                                            <c:out value="${reservation.status}" />
-                                        </span>
-                                    </div>
-                                    <div class="card-body">
-                                        <p><strong>객실:</strong> <c:out value="${reservation.roomType}" /></p>
-                                        <p><strong>체크인:</strong> <fmt:formatDate value="${reservation.checkInDate}" pattern="yyyy.MM.dd" /></p>
-                                        <p><strong>체크아웃:</strong> <fmt:formatDate value="${reservation.checkOutDate}" pattern="yyyy.MM.dd" /></p>
-                                        <p><strong>결제 금액:</strong> <fmt:formatNumber value="${reservation.paymentAmount}" type="currency" currencySymbol="₩" /></p>
-                                        <p><strong>예약 번호:</strong> <c:out value="${reservation.reservationId}" /></p>
-                                        <p><strong>예약일:</strong> <fmt:formatDate value="${reservation.reservedAt}" pattern="yyyy.MM.dd HH:mm" /></p>
-                                    </div>
-                                    <div class="card-footer">
-                                        <button class="btn primary-btn btn-small">상세보기</button>
-                                        <c:if test="${reservation.status == '예정'}">
-                                            <button class="btn secondary-btn btn-small">예약 취소</button>
-                                        </c:if>
-                                    </div>
-                                </div>
-                            </c:forEach>
-                        </div>
-                    </c:when>
-                    <c:otherwise>
-                        <p class="no-reservations">아직 예약 내역이 없습니다.</p>
-                    </c:otherwise>
-                </c:choose>
-            </div>
-        </section>
+        <%-- 예약 내역 섹션 제거됨 --%>
 
         <section id="settings" class="tab-content">
             <h2>회원 정보 수정</h2>
@@ -178,6 +179,11 @@
         </section>
 
     </main>
+</div>
+
+<%-- my-page-container 외부에 예약 내역 보기 버튼 배치 --%>
+<div class="reservation-button-wrapper">
+    <a href="${pageContext.request.contextPath}/customer/reservation" class="btn primary-btn">예약 내역 보기</a>
 </div>
 
 <%-- 푸터 포함 --%>
@@ -342,7 +348,8 @@
 
         // URL 해시 값을 확인하여 초기 활성화 탭 설정
         const currentHash = window.location.hash;
-        let initialTabId = currentHash ? currentHash.substring(1) : 'info'; // 기본은 'info'
+        // 'reservation' 탭이 제거되었으므로, 기본값은 'info' 또는 'settings'로 유지합니다.
+        let initialTabId = currentHash ? currentHash.substring(1) : 'info';
         let initialNavLink = document.querySelector(`.my-page-nav .nav-item[data-tab="${initialTabId}"]`);
 
         // 유효하지 않은 해시인 경우 'info'로 재설정
