@@ -13,6 +13,13 @@
     --logout-text: #1a5e7a;         /* 로그아웃 버튼 글씨 (짙은 파랑) */
     --withdraw-bg: #ffebee;         /* 탈퇴하기 버튼 배경 (아주 옅은 빨강) */
     --withdraw-text: #c62828;       /* 탈퇴하기 버튼 글씨 (짙은 빨강) */
+
+    /* 예약 내역 관련 색상 */
+    --status-completed: #27ae60;    /* 완료: 진한 초록 */
+    --status-upcoming: #f39c12;     /* 예정: 주황 */
+    --status-cancelled: #e74c3c;    /* 취소: 빨강 */
+    --card-bg: #ffffff;             /* 카드 배경 */
+    --card-border: #e0e0e0;         /* 카드 테두리 */
 }
 
 
@@ -106,31 +113,30 @@
 
 
 .my-page-nav .logout-link {
-    margin-top: 24px; /* 로그아웃과 탈퇴하기 링크 위에 여백 추가 */
-    background-color: var(--logout-bg); /* 부드러운 파란색 배경 */
-    color: var(--logout-text); /* 짙은 파란색 글씨 */
+    margin-top: 24px;
+    background-color: var(--logout-bg);
+    color: var(--logout-text);
     text-align: center;
 }
 
 .my-page-nav .logout-link:hover {
-    background-color: #cce7f0; /* 조금 더 진한 파랑 */
+    background-color: #cce7f0;
     color: var(--logout-text);
 }
 
-/* 탈퇴하기 링크 스타일 추가 */
+/* 탈퇴하기 링크 스타일 */
 .my-page-nav .withdraw-link {
-    background-color: var(--withdraw-bg); /* 옅은 빨간색 배경 */
-    color: var(--withdraw-text); /* 짙은 빨간색 글씨 */
+    background-color: var(--withdraw-bg);
+    color: var(--withdraw-text);
     text-align: center;
-    margin-top: 8px; /* 로그아웃 링크와의 간격 */
-    border: 1px solid var(--withdraw-text); /* 빨간색 테두리 추가 */
+    margin-top: 8px;
+    border: 1px solid var(--withdraw-text);
 }
 
 .my-page-nav .withdraw-link:hover {
-    background-color: #ffcdd2; /* 호버 시 더 진한 빨강 */
+    background-color: #ffcdd2;
     color: var(--withdraw-text);
 }
-
 
 /* 메인 콘텐츠 영역 스타일 */
 .my-page-content {
@@ -145,17 +151,26 @@
     font-size: 28px;
     color: var(--text-dark);
     margin-bottom: 24px;
-    border-bottom: 2px solid var(--primary-blue); /* 파란색 밑줄 */
+    border-bottom: 2px solid var(--primary-blue);
     padding-bottom: 12px;
 }
 
+/* 탭 콘텐츠 숨기기/보이기 */
+.tab-content {
+    display: none; /* 기본적으로 모든 탭 콘텐츠 숨김 */
+}
+
+.tab-content.active {
+    display: block; /* active 클래스가 있는 탭 콘텐츠만 보임 */
+}
+
 .content-box {
-    background-color: #fefefe; /* 거의 흰색 */
-    border: 1px solid var(--light-gray-blue); /* 연한 파란색 테두리 */
+    background-color: #fefefe;
+    border: 1px solid var(--light-gray-blue);
     border-radius: 8px;
     padding: 24px;
     margin-bottom: 24px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03); /* 더 미세한 그림자 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
 }
 
 .content-box p {
@@ -184,14 +199,226 @@
 }
 
 .primary-btn {
-    background-color: var(--primary-blue); /* 파란색 */
+    background-color: var(--primary-blue);
     color: white;
 }
 
 .primary-btn:hover {
-    background-color: var(--dark-blue); /* 더 진한 파란색 */
-    transform: translateY(-2px); /* 호버 시 약간 위로 이동 */
+    background-color: var(--dark-blue);
+    transform: translateY(-2px);
 }
+
+.btn-small { /* 예약 내역 카드 내 버튼용 */
+    padding: 6px 12px;
+    font-size: 14px;
+}
+
+.secondary-btn { /* 예약 취소 버튼 등 */
+    background-color: #e7e7e7;
+    color: var(--text-dark);
+    border: 1px solid #ccc;
+    margin-left: 8px;
+}
+
+.secondary-btn:hover {
+    background-color: #d7d7d7;
+    transform: translateY(-2px);
+}
+
+
+/* 예약 내역 리스트 컨테이너 (스크롤바 적용) */
+.reservation-list-container {
+    max-height: 700px; /* 최대 높이 설정 */
+    overflow-y: auto; /* 세로 스크롤바 */
+    padding-right: 15px; /* 스크롤바 공간 확보 */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: var(--primary-blue) var(--light-gray-blue); /* Firefox */
+}
+
+/* 웹킷 (크롬, 사파리) 스크롤바 스타일 */
+.reservation-list-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.reservation-list-container::-webkit-scrollbar-thumb {
+    background-color: var(--primary-blue);
+    border-radius: 4px;
+}
+
+.reservation-list-container::-webkit-scrollbar-track {
+    background-color: var(--light-gray-blue);
+}
+
+
+/* 예약 내역 그리드 레이아웃 */
+.reservation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 반응형 그리드 */
+    gap: 20px; /* 카드 사이 간격 */
+    padding-right: 5px; /* 컨테이너 스크롤바와의 간섭 방지 */
+}
+
+/* 개별 예약 카드 스타일 */
+.reservation-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reservation-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: var(--light-gray-blue);
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--card-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--text-dark);
+}
+
+.reservation-status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+}
+
+.status-completed {
+    background-color: var(--status-completed);
+}
+.status-upcoming {
+    background-color: var(--status-upcoming);
+}
+.status-cancelled {
+    background-color: var(--status-cancelled);
+}
+
+.card-body {
+    padding: 15px 20px;
+    flex-grow: 1; /* 내용이 많아도 footer가 아래로 밀착되도록 */
+}
+
+.card-body p {
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.card-body p:last-child {
+    margin-bottom: 0;
+}
+
+.card-footer {
+    padding: 15px 20px;
+    border-top: 1px solid var(--card-border);
+    background-color: #f9f9f9;
+    text-align: right;
+}
+
+.no-reservations {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 18px;
+    padding: 40px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+
+/* 폼 그룹 */
+.form-group {
+    margin-bottom: 20px; /* 각 폼 요소 그룹 간의 간격 */
+}
+
+.form-group label {
+    display: block; /* 레이블을 블록 요소로 만들어 줄 바꿈 */
+    font-weight: bold;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+.form-group label .required {
+    color: var(--status-cancelled); /* 필수 입력 표시 (빨간색) */
+    font-size: 1.1em;
+    margin-left: 5px;
+}
+
+.form-control {
+    width: calc(100% - 22px); /* padding과 border 포함하여 너비 계산 */
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 16px;
+    color: var(--text-dark);
+    box-sizing: border-box; /* 패딩과 보더가 너비에 포함되도록 설정 */
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus {
+    border-color: var(--primary-blue);
+    outline: none; /* 기본 아웃라인 제거 */
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); /* 포커스 시 부드러운 그림자 */
+}
+
+/* 현재 값 표시 (폼 내부) */
+.form-group p {
+    font-size: 14px;
+    color: var(--text-light);
+    margin-bottom: 5px; /* 입력 필드와의 간격 조절 */
+}
+
+.form-group p strong {
+    color: var(--primary-blue); /* 현재 값 강조 */
+}
+
+/* 비밀번호 가이드 메시지 */
+.password-guide {
+    font-size: 12px;
+    color: #7f8c8d; /* 회색 텍스트 */
+    margin-top: 5px;
+    line-height: 1.4;
+}
+
+/* 체크박스 레이블 스타일 */
+.checkbox-label {
+    display: flex;
+    align-items: center; /* 체크박스와 텍스트를 수직 중앙 정렬 */
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--text-dark);
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 10px; /* 체크박스와 텍스트 사이 간격 */
+    transform: scale(1.2); /* 체크박스 크기 약간 키움 */
+}
+
+/* 에러 메시지 */
+.error-message {
+    color: var(--status-cancelled); /* 빨간색 에러 메시지 */
+    font-size: 14px;
+    margin-top: 5px;
+    display: block; /* 블록 요소로 만들어 줄 바꿈 */
+}
+
+/* --- 회원 정보 수정 폼 관련 CSS 추가 끝 --- */
+
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
@@ -199,13 +426,13 @@
         flex-direction: column;
         margin: 20px;
         padding: 20px;
-        gap: 20px; /* 간격 조절 */
+        gap: 20px;
     }
 
     .sidebar {
         flex: none;
         width: 100%;
-        margin-bottom: 0; /* 세로 정렬 시 필요 없음 */
+        margin-bottom: 0;
     }
 
     .my-page-nav ul {
@@ -213,7 +440,7 @@
         overflow-x: auto;
         white-space: nowrap;
         padding-bottom: 10px;
-        justify-content: flex-start; /* 왼쪽 정렬 */
+        justify-content: flex-start;
     }
 
     .my-page-nav li {
@@ -223,12 +450,12 @@
 
     .my-page-nav .logout-link {
         margin-top: 0;
-        margin-left: 0; /* 가로 메뉴에서는 오른쪽 정렬보다는 왼쪽 정렬이 자연스러움 */
+        margin-left: 0;
     }
 
-    .my-page-nav .withdraw-link { /* 모바일에서 간격 조절 */
+    .my-page-nav .withdraw-link {
         margin-top: 0;
-        margin-left: 10px; /* 로그아웃 버튼과의 간격 */
+        margin-left: 10px;
     }
 
     .my-page-content h2 {
@@ -237,5 +464,14 @@
 
     .content-box {
         padding: 18px;
+    }
+
+    .reservation-grid {
+        grid-template-columns: 1fr; /* 모바일에서는 한 줄에 한 카드만 표시 */
+    }
+
+    /* 모바일에서 폼 컨트롤 너비 조정 */
+    .form-control {
+        width: 100%;
     }
 }
