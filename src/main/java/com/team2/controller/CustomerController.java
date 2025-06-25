@@ -260,8 +260,14 @@ public class CustomerController {
 
         customerService.updatePassword(customerLoginId, newPassword);
         session.invalidate(); // 로그인 관련 세션 정보 초기화
-
         return "redirect:/customer/login";
     }
 
+    // [GET] /customer/logout → 로그아웃 처리
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
+    }
 }
+
