@@ -29,7 +29,9 @@
                 <li><a href="${pageContext.request.contextPath}/customer/reservation" class="nav-item">예약 내역</a></li>
                 <li><a href="${pageContext.request.contextPath}/customer/reviews" class="nav-item">리뷰 관리</a></li>
                 <li><a href="${pageContext.request.contextPath}/customer/settings" class="nav-item">회원 정보 수정</a></li>
-                <li><a href="${pageContext.request.contextPath}/logout" class="nav-item logout-link">로그아웃</a></li>
+                <li><a href="${pageContext.request.contextPath}/customer/logout" class="nav-item logout-link">로그아웃</a></li>
+                <%-- 탈퇴하기 기능 추가 --%>
+                <li><a href="${pageContext.request.contextPath}/customer/withdraw" class="nav-item withdraw-link" onclick="return confirm('정말로 회원 탈퇴를 하시겠습니까? 모든 정보가 삭제되며 되돌릴 수 없습니다.');">회원 탈퇴</a></li>
             </ul>
         </nav>
     </aside>
