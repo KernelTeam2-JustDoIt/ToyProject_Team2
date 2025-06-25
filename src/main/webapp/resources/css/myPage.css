@@ -1,0 +1,219 @@
+/* /resources/css/myPage.css */
+
+/* 색상 팔레트 변수 정의 (재사용성을 위해) */
+:root {
+    --primary-blue: #3498db;        /* 밝은 파랑 */
+    --dark-blue: #2980b9;           /* 진한 파랑 */
+    --light-gray-blue: #ecf0f1;     /* 배경/구분선용 아주 밝은 파랑/회색 */
+    --text-dark: #34495e;           /* 짙은 텍스트 색상 */
+    --text-light: #555;             /* 중간 텍스트 색상 */
+    --border-color: #ddd;           /* 기본 테두리 색상 */
+    --shadow-color: rgba(0, 0, 0, 0.05); /* 부드러운 그림자 */
+    --logout-bg: #e0f2f7;           /* 로그아웃 버튼 배경 (옅은 파랑) */
+    --logout-text: #1a5e7a;         /* 로그아웃 버튼 글씨 (짙은 파랑) */
+}
+
+
+/* 마이페이지 전체 컨테이너 (header와 footer 사이) */
+.my-page-container {
+    display: flex;
+    gap: 32px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 32px;
+    box-sizing: border-box;
+    background-color: var(--light-gray-blue); /* 전체 배경색 */
+    border-radius: 8px; /* 컨테이너 자체에도 둥근 모서리 */
+    box-shadow: 0 6px 12px var(--shadow-color); /* 더 부드러운 그림자 */
+}
+
+/* 사이드바 스타일 */
+.sidebar {
+    flex: 0 0 250px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    padding: 24px;
+    height: fit-content;
+}
+
+.user-info-summary {
+    text-align: center;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--light-gray-blue); /* 구분선 색상 변경 */
+    margin-bottom: 24px;
+}
+
+.profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 12px;
+    border: 3px solid var(--primary-blue); /* 파란색 테두리 */
+}
+
+.user-info-summary h3 {
+    font-size: 20px;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.user-info-summary p {
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+/* 사이드바 네비게이션 */
+.my-page-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.my-page-nav li {
+    margin-bottom: 8px;
+}
+
+.my-page-nav .nav-item {
+    display: block;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: var(--text-light);
+    font-size: 16px;
+    border-radius: 6px;
+    transition: background-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.my-page-nav .nav-item:hover {
+    background-color: var(--light-gray-blue); /* 호버 시 밝은 파랑 배경 */
+    color: var(--dark-blue); /* 글자색 진한 파랑 */
+    transform: translateX(5px); /* 약간의 이동 효과 */
+}
+
+.my-page-nav .nav-item.active {
+    background-color: var(--primary-blue); /* 활성화된 메뉴는 주 색상 */
+    color: white; /* 글자색 흰색 */
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.my-page-nav .nav-item.active:hover {
+    background-color: var(--dark-blue); /* 활성화된 메뉴 호버 시 더 진한 파랑 */
+}
+
+
+.my-page-nav .logout-link {
+    margin-top: 24px;
+    background-color: var(--logout-bg); /* 부드러운 파란색 배경 */
+    color: var(--logout-text); /* 짙은 파란색 글씨 */
+    text-align: center;
+}
+
+.my-page-nav .logout-link:hover {
+    background-color: #cce7f0; /* 조금 더 진한 파랑 */
+    color: var(--logout-text);
+}
+
+/* 메인 콘텐츠 영역 스타일 */
+.my-page-content {
+    flex: 1;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    padding: 32px;
+}
+
+.my-page-content h2 {
+    font-size: 28px;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--primary-blue); /* 파란색 밑줄 */
+    padding-bottom: 12px;
+}
+
+.content-box {
+    background-color: #fefefe; /* 거의 흰색 */
+    border: 1px solid var(--light-gray-blue); /* 연한 파란색 테두리 */
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03); /* 더 미세한 그림자 */
+}
+
+.content-box p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--text-light);
+    margin-bottom: 10px;
+}
+
+.content-box p strong {
+    color: var(--text-dark);
+}
+
+/* 버튼 스타일 */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s, transform 0.1s ease-out;
+}
+
+.primary-btn {
+    background-color: var(--primary-blue); /* 파란색 */
+    color: white;
+}
+
+.primary-btn:hover {
+    background-color: var(--dark-blue); /* 더 진한 파란색 */
+    transform: translateY(-2px); /* 호버 시 약간 위로 이동 */
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .my-page-container {
+        flex-direction: column;
+        margin: 20px;
+        padding: 20px;
+        gap: 20px; /* 간격 조절 */
+    }
+
+    .sidebar {
+        flex: none;
+        width: 100%;
+        margin-bottom: 0; /* 세로 정렬 시 필요 없음 */
+    }
+
+    .my-page-nav ul {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 10px;
+        justify-content: flex-start; /* 왼쪽 정렬 */
+    }
+
+    .my-page-nav li {
+        flex-shrink: 0;
+        margin-right: 10px;
+    }
+
+    .my-page-nav .logout-link {
+        margin-top: 0;
+        margin-left: 0; /* 가로 메뉴에서는 오른쪽 정렬보다는 왼쪽 정렬이 자연스러움 */
+    }
+
+    .my-page-content h2 {
+        font-size: 24px;
+    }
+
+    .content-box {
+        padding: 18px;
+    }
+}

@@ -13,7 +13,7 @@
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
         <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/JDI?serverTimezone=Asia/Seoul"/>
         <property name="username" value="root"/>
-        <property name="password" value="Censim1020"/>
+        <property name="password" value="bill1104@"/>
         <property name="maximumPoolSize" value="10"/>
     </bean>
 
