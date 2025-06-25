@@ -36,9 +36,9 @@ public class SearchAccommController {
         if (conditionDTO.getDistrict() == null) {
             List<PagingAccommDTO> pagingAccommDTOList = new ArrayList<>();
             ConditionDTO con = pagingAccommService.getDefaultCondition();
+            int totalPages = pagingAccommService.getTotalPages(con, con.getSize());
             pagingAccommDTOList = pagingAccommService.getSearchAccommPaging(con);
             pagingAccommDTOList = pagingAccommService.setCalendar(pagingAccommDTOList, con);
-            int totalPages = pagingAccommService.getTotalPages(con, con.getSize());
 
             model.addAttribute("roomList", pagingAccommDTOList);
             model.addAttribute("condition", conditionDTO);
@@ -100,10 +100,10 @@ public class SearchAccommController {
         AccommReviewDTO accommReviewDTO = accommDetailService.getAccommReview(id);
         List<AccommImageDTO> accommImageDTOList = accommDetailService.getAccommImageList(id);
 
-        int size = 5;
-        int offset = (page - 1) * size;
+        int limit = 5;
+        int offset = (page - 1) * limit;
 
-        List<ReviewDTO> reviewDTOList = accommReviewService.getReviewInfo(id, offset, size);
+        List<ReviewDTO> reviewDTOList = accommReviewService.getReviewInfo(id, offset, limit);
 
         model.addAttribute("review", accommReviewDTO);
         model.addAttribute("reviewImages", accommImageDTOList);

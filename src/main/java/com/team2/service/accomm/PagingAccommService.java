@@ -66,7 +66,6 @@ public class PagingAccommService {
 
     public List<PagingAccommDTO> setCalendar(List<PagingAccommDTO> pagingAccommDTOList, ConditionDTO conditionDTO) {
 
-        System.out.println(conditionDTO.getCheckIn());
         for (PagingAccommDTO pagingAccommDTO : pagingAccommDTOList) {
 
             pagingAccommDTO.setCheckIn(conditionDTO.getCheckIn());
