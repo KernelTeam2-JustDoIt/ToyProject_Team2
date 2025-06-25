@@ -35,6 +35,14 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         log.info("회원가입 요청: {}", customer.getCustomerLoginId());
+        //  아이디 중복 체크
+        if (isLoginIdDuplicate(customer.getCustomerLoginId())) {
+            throw new IllegalArgumentException("이미 사용중인 아이디입니다.");
+        }
+        //  이메일 중복 체크
+        if (isEmailDuplicate(customer.getCustomerEmail())) {
+            throw new IllegalArgumentException("이미 사용중인 이메일입니다.");
+        }
 
         // 비밀번호 암호화
         String rawPassword = customer.getCustomerPassword();
