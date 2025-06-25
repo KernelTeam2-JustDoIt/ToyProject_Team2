@@ -59,6 +59,7 @@
         SELECT COUNT(*)
         FROM CUSTOMER
         WHERE CUSTOMER_LOGIN_ID = #{customerLoginId}
+          AND CUSTOMER_STATUS_ID != 3
     </select>
 
     <!--  이메일 중복 체크 -->
@@ -66,6 +67,7 @@
         SELECT COUNT(*)
         FROM CUSTOMER
         WHERE CUSTOMER_EMAIL = #{customerEmail}
+          AND CUSTOMER_STATUS_ID != 3
     </select>
 
     <!--  로그인 실패 횟수 조회 (가장 최근 성공 이후부터) -->
