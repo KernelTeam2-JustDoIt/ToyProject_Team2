@@ -163,40 +163,37 @@
 
     </div>
 
-<script>
-    function postAddToCart(roomId) {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '${pageContext.request.contextPath}/cart/add'; // <- 원하는 컨트롤러 URL로 수정
+    <script>
+        function postAddToCart(roomId) {
+            const data = {
+                roomId: roomId,
+                checkIn: '${param.checkIn}',
+                checkOut: '${param.checkOut}',
+                adultCnt: '${param.adultCnt}',
+                babyCnt: '${param.babyCnt}',
+                district: '${param.district}'
+            };
 
-        // roomId
-        const inputRoomId = document.createElement('input');
-        inputRoomId.type = 'hidden';
-        inputRoomId.name = 'roomId';
-        inputRoomId.value = roomId;
-        form.appendChild(inputRoomId);
-
-        // JSTL param에서 받은 값 추가
-        const params = {
-            checkIn: '${param.checkIn}',
-            checkOut: '${param.checkOut}',
-            adultCnt: '${param.adultCnt}',
-            babyCnt: '${param.babyCnt}',
-            district: '${param.district}'
-        };
-
-        for (const key in params) {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = params[key];
-            form.appendChild(input);
+            fetch('${pageContext.request.contextPath}/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'  // 서버가 JSON 받을 준비가 되어 있어야 함
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert("장바구니에 추가되었습니다!");
+                    } else {
+                        alert("추가 실패 😥");
+                    }
+                })
+                .catch(error => {
+                    console.error("에러 발생:", error);
+                    alert("오류가 발생했습니다.");
+                });
         }
-
-        document.body.appendChild(form);
-        form.submit();
-    }
-</script>
+    </script>
 
 </div>
 

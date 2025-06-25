@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // 호텔/모텔 나눌 시 메서드 이름 재설정
@@ -33,13 +34,22 @@ public class SearchAccommController {
 
         /* 디폴트 검색 */
         if (conditionDTO.getDistrict() == null) {
+            List<PagingAccommDTO> pagingAccommDTOList = new ArrayList<>();
+            ConditionDTO con = pagingAccommService.getDefaultCondition();
+            pagingAccommDTOList = pagingAccommService.getSearchAccommPaging(con);
+            int totalPages = pagingAccommService.getTotalPages(con, con.getSize());
+
+            model.addAttribute("roomList", pagingAccommDTOList);
+            model.addAttribute("condition", conditionDTO);
+            model.addAttribute("totalPages", totalPages);
+
             return "accomm/hotelMotelSearch";
         }
 
         int totalPages = pagingAccommService.getTotalPages(conditionDTO, conditionDTO.getSize());
-        List<PagingAccommDTO> previewAccomm = pagingAccommService.getSearchAccommPaging(conditionDTO);
+        List<PagingAccommDTO> pagingAccommDTOList = pagingAccommService.getSearchAccommPaging(conditionDTO);
 
-        model.addAttribute("roomList", previewAccomm);
+        model.addAttribute("roomList", pagingAccommDTOList);
         model.addAttribute("condition", conditionDTO);
         model.addAttribute("totalPages", totalPages);
 

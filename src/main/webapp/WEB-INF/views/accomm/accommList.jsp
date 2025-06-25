@@ -10,7 +10,7 @@
     <a href="${pageContext.request.contextPath}/domestic/hotel/${room.accommodationId}?${queryParams}"
        class="accommodation-card">
 
-      <img class="thumbnail" src="/yanupja${room.accommodationImageFilePath}" alt="${room.accommodationName}">
+      <img class="thumbnail" src="${pageContext.request.contextPath}${room.accommodationImageFilePath}" alt="${room.accommodationName}">
 
       <div class="info">
         <div class="name">${room.accommodationName}</div>
