@@ -5,7 +5,7 @@
   <div class="header">
     <button onclick="history.back()">←</button>
 
-    <input type="text" placeholder="숙소 검색...">
+    <input type="text" id="searchInput" placeholder="숙소 검색...">
 
     <div class="right-icons">
       <a href="${pageContext.request.contextPath}">
