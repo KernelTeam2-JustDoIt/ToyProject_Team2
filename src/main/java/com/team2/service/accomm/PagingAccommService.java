@@ -58,8 +58,8 @@ public class PagingAccommService {
         now.add(Calendar.DATE, 1);
         String checkOutStr = sdf.format(now.getTime());
 
-        conditionDTO.setCheckIn(checkInStr);
-        conditionDTO.setCheckOut(checkOutStr);
+        conditionDTO.setCheckIn(LocalDate.parse(checkInStr));
+        conditionDTO.setCheckOut(LocalDate.parse(checkOutStr));
 
         return conditionDTO;
     }
@@ -68,8 +68,8 @@ public class PagingAccommService {
 
         for (PagingAccommDTO pagingAccommDTO : pagingAccommDTOList) {
 
-            pagingAccommDTO.setCheckIn(conditionDTO.getCheckIn());
-            pagingAccommDTO.setCheckOut(conditionDTO.getCheckOut());
+            pagingAccommDTO.setCheckIn(conditionDTO.getCheckIn() != null ? conditionDTO.getCheckIn().toString() : "");
+            pagingAccommDTO.setCheckOut(conditionDTO.getCheckOut() != null ? conditionDTO.getCheckOut().toString() : "");
         }
 
         return pagingAccommDTOList;

@@ -7,7 +7,7 @@ import java.util.List;
 public interface AccommDetailMapper {
 
     /* id로 호텔 정보 및 호텔 상세 정보 찾기 1:1관계 */
-    AccommInfoDTO getAccommInfo(int id);
+    AccommDetailDTO getAccommInfo(int id);
 
     List<AccommImageDTO> getAccommImage(int id);
 
@@ -22,4 +22,8 @@ public interface AccommDetailMapper {
     int getRandomAccommId();
 
     RoomDTO findRoomById(int roomId);
+
+    void increaseViews(int id);
+
+    List<TopAccommDTO> getTop10Accomm();
 }

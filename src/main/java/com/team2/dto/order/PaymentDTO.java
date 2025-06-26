@@ -1,10 +1,15 @@
 package com.team2.dto.order;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 /**
  * PAYMENT 테이블 매핑 DTO (간소화).
  */
+@Getter
+@Setter
 public class PaymentDTO {
     private int paymentId;
     private int reserveId;
@@ -13,20 +18,4 @@ public class PaymentDTO {
     private int price;
     private int isRefundable = 1;
     private LocalDateTime createdAt;
-
-    // getters / setters
-    public int getPaymentId() {return paymentId;}
-    public void setPaymentId(int paymentId) {this.paymentId = paymentId;}
-    public int getReserveId() {return reserveId;}
-    public void setReserveId(int reserveId) {this.reserveId = reserveId;}
-    public int getPaymentOptionId() {return paymentOptionId;}
-    public void setPaymentOptionId(int paymentOptionId) {this.paymentOptionId = paymentOptionId;}
-    public int getPaymentStatusId() {return paymentStatusId;}
-    public void setPaymentStatusId(int paymentStatusId) {this.paymentStatusId = paymentStatusId;}
-    public int getPrice() {return price;}
-    public void setPrice(int price) {this.price = price;}
-    public int getIsRefundable() {return isRefundable;}
-    public void setIsRefundable(int isRefundable) {this.isRefundable = isRefundable;}
-    public LocalDateTime getCreatedAt() {return createdAt;}
-    public void setCreatedAt(LocalDateTime createdAt) {this.createdAt = createdAt;}
 } 

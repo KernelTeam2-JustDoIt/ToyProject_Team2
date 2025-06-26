@@ -49,7 +49,7 @@ public class SearchAccommController {
 
     @GetMapping("/hotel/{id}")
     public String showHotel(@PathVariable int id, Model model) {
-        AccommInfoDTO accommInfoDTO = accommDetailService.getAccommDetail(id);
+        AccommDetailDTO accommInfoDTO = accommDetailService.getAccommDetail(id);
         List<AccommImageDTO> accommImageDTO = accommDetailService.getAccommImageList(id);
         AccommReviewDTO accommReviewDTO = accommDetailService.getAccommReview(id);
         List<AccommReviewImageDTO> accommReviewImageDTO = accommDetailService.getAccommReviewImage(id);

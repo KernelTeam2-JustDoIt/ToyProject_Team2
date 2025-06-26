@@ -1,6 +1,6 @@
 package com.team2.service;
 
-import com.team2.dto.RoomDTO;
+import com.team2.dto.accommdetail.RoomDTO;
 import com.team2.mapper.RoomMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

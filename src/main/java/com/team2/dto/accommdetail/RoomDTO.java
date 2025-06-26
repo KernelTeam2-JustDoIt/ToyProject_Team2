@@ -32,4 +32,10 @@ public class RoomDTO {
     private Integer maximumCapacity;
     private LocalDate checkinDate;
     private LocalDate checkoutDate;
+    
+    // 기존 RoomBasicDTO 호환성을 위한 추가 필드들
+    private String accommodationName;
+    private Integer bedCount;
+    private String checkInTime;  // String 타입도 유지 (호환성)
+    private String checkOutTime; // String 타입도 유지 (호환성)
 }
