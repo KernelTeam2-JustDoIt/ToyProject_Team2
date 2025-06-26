@@ -1,8 +1,13 @@
 package com.team2.dto.order;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 주문 하위 항목(객실/상품)을 나타내는 DTO.
  */
+@Getter
+@Setter
 public class OrderItemDTO {
     private int itemId;      // PK
     private int orderId;     // 주문 PK (FK)
@@ -19,124 +24,4 @@ public class OrderItemDTO {
     private String accommodationName; // 숙소명
     private String thumbnailUrl; // 썸네일 이미지 URL
     private int reserveId; // 예약 ID (reserve 테이블 FK)
-
-    public int getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
-    }
-
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
-
-    public int getAccommId() {
-        return accommId;
-    }
-
-    public void setAccommId(int accommId) {
-        this.accommId = accommId;
-    }
-
-    public String getRoomName() {
-        return roomName;
-    }
-
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getCheckInAt() {
-        return checkInAt;
-    }
-
-    public void setCheckInAt(String checkInAt) {
-        this.checkInAt = checkInAt;
-    }
-
-    public String getCheckOutDate() {
-        return checkOutDate;
-    }
-
-    public void setCheckOutDate(String checkOutDate) {
-        this.checkOutDate = checkOutDate;
-    }
-
-    public String getCheckInTime() {
-        return checkInTime;
-    }
-
-    public void setCheckInTime(String checkInTime) {
-        this.checkInTime = checkInTime;
-    }
-
-    public String getCheckOutTime() {
-        return checkOutTime;
-    }
-
-    public void setCheckOutTime(String checkOutTime) {
-        this.checkOutTime = checkOutTime;
-    }
-
-    public int getStandardCapacity() {
-        return standardCapacity;
-    }
-
-    public void setStandardCapacity(int standardCapacity) {
-        this.standardCapacity = standardCapacity;
-    }
-
-    public int getMaximumCapacity() {
-        return maximumCapacity;
-    }
-
-    public void setMaximumCapacity(int maximumCapacity) {
-        this.maximumCapacity = maximumCapacity;
-    }
-
-    public String getAccommodationName() {
-        return accommodationName;
-    }
-
-    public void setAccommodationName(String accommodationName) {
-        this.accommodationName = accommodationName;
-    }
-
-    public String getThumbnailUrl() {
-        return thumbnailUrl;
-    }
-
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
-    }
-
-    public int getReserveId() {
-        return reserveId;
-    }
-
-    public void setReserveId(int reserveId) {
-        this.reserveId = reserveId;
-    }
 } 

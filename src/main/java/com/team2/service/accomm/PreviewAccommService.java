@@ -58,8 +58,8 @@ public class PreviewAccommService {
                     .accommodationImageWidth(image.getAccommodationImageWidth())
                     .reviewScore(review.getReviewScore())
                     .reviewCnt(review.getReviewCnt())
-                    .checkIn(conditionDTO.getCheckIn())
-                    .checkOut(conditionDTO.getCheckOut())
+                    .checkIn(conditionDTO.getCheckIn() != null ? conditionDTO.getCheckIn().toString() : "")
+                    .checkOut(conditionDTO.getCheckOut() != null ? conditionDTO.getCheckOut().toString() : "")
                     .build();
 
             result.add(vo);

@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="<c:url value='/resources/css/cart.css'/>">
 </head>
 <body>
+<h2>장바구니</h2>
+<c:if test="${param.added eq 'true'}">
+    <p style="color:green;">장바구니에 상품을 담았습니다!</p>
+</c:if>
 
 <header class="header">
     <div class="back" title="뒤로가기" onclick="history.back()"></div>

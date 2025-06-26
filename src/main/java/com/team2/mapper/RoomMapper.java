@@ -1,6 +1,6 @@
 package com.team2.mapper;
 
-import com.team2.dto.RoomDTO;
+import com.team2.dto.accommdetail.RoomDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

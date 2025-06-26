@@ -6,7 +6,7 @@
 <mapper namespace="com.team2.mapper.AccommDetailMapper">
 
     <!-- 숙소와 숙소상세정보-->
-    <select id="getAccommInfo" parameterType="int" resultType="AccommInfoDTO">
+    <select id="getAccommInfo" parameterType="int" resultType="AccommDetailDTO">
         SELECT a.ACCOMMODATION_ID, a.ACCOMMODATION_NAME, a.PROVINCE_NAME,
                a.DISTRICT_NAME, a.RATING, inf.DESCRIPTION,
                inf.GUIDE_LINE, inf.RESERVE_NOTICE, inf.SUMMARY_REVIEW,

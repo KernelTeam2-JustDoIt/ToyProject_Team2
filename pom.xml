@@ -131,26 +131,6 @@
             <version>2.15.2</version>
         </dependency>
 
-        <!-- 로그용 slf4j, logback -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.36</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
-        </dependency>
-
-        <!-- lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.30</version> <!-- 안정 최신 버전 -->
-            <scope>provided</scope>
-        </dependency>
-
         <!-- jUnit4 for test -->
         <dependency>
             <groupId>junit</groupId>

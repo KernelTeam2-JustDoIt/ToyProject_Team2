@@ -13,7 +13,7 @@ public class AccommDetailService {
     @Autowired
     private AccommDetailMapper accommDetailMapper;
 
-    public AccommInfoDTO getAccommDetail(int id) {
+    public AccommDetailDTO getAccommDetail(int id) {
         return accommDetailMapper.getAccommInfo(id);
     }
 

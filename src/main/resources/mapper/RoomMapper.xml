@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.team2.mapper.RoomMapper">
 
-    <resultMap id="roomMap" type="com.team2.dto.RoomDTO">
+    <resultMap id="roomMap" type="com.team2.dto.accommdetail.RoomDTO">
         <id property="roomId" column="room_id"/>
         <result property="roomName" column="room_name"/>
         <result property="price" column="price"/>

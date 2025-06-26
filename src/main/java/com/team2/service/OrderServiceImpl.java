@@ -5,7 +5,7 @@ import com.team2.dto.order.OrderDTO;
 import com.team2.dto.order.OrderItemDTO;
 import com.team2.dto.order.ReserveDTO;
 import com.team2.dto.order.PaymentDTO;
-import com.team2.dto.RoomDTO;
+import com.team2.dto.accommdetail.RoomDTO;
 import com.team2.mapper.OrderMapper;
 import com.team2.mapper.ReserveMapper;
 import com.team2.mapper.PaymentMapper;
@@ -79,8 +79,9 @@ public class OrderServiceImpl implements OrderService {
             item.setCheckInAt(checkIn);
             item.setCheckOutDate(checkOut);
             if (roomInfo != null) {
-                item.setCheckInTime(roomInfo.getCheckInTime());
-                item.setCheckOutTime(roomInfo.getCheckOutTime());
+                // LocalTime을 String으로 변환하여 설정
+                item.setCheckInTime(roomInfo.getCheckinTime() != null ? roomInfo.getCheckinTime().toString() : "");
+                item.setCheckOutTime(roomInfo.getCheckoutTime() != null ? roomInfo.getCheckoutTime().toString() : "");
                 item.setStandardCapacity(roomInfo.getStandardCapacity());
                 item.setMaximumCapacity(roomInfo.getMaximumCapacity());
             }
@@ -121,8 +122,9 @@ public class OrderServiceImpl implements OrderService {
                 RoomDTO roomInfo = roomService.getRoom(item.getAccommId());
                 if (roomInfo != null) {
                     item.setAccommodationName(roomInfo.getAccommodationName());
-                    item.setCheckInTime(roomInfo.getCheckInTime());
-                    item.setCheckOutTime(roomInfo.getCheckOutTime());
+                    // LocalTime을 String으로 변환하여 설정
+                    item.setCheckInTime(roomInfo.getCheckinTime() != null ? roomInfo.getCheckinTime().toString() : "");
+                    item.setCheckOutTime(roomInfo.getCheckoutTime() != null ? roomInfo.getCheckoutTime().toString() : "");
                     item.setStandardCapacity(roomInfo.getStandardCapacity());
                     item.setMaximumCapacity(roomInfo.getMaximumCapacity());
                 }
@@ -141,8 +143,9 @@ public class OrderServiceImpl implements OrderService {
                 RoomDTO roomInfo = roomService.getRoom(item.getAccommId());
                 if (roomInfo != null) {
                     item.setAccommodationName(roomInfo.getAccommodationName());
-                    item.setCheckInTime(roomInfo.getCheckInTime());
-                    item.setCheckOutTime(roomInfo.getCheckOutTime());
+                    // LocalTime을 String으로 변환하여 설정  
+                    item.setCheckInTime(roomInfo.getCheckinTime() != null ? roomInfo.getCheckinTime().toString() : "");
+                    item.setCheckOutTime(roomInfo.getCheckoutTime() != null ? roomInfo.getCheckoutTime().toString() : "");
                     item.setStandardCapacity(roomInfo.getStandardCapacity());
                     item.setMaximumCapacity(roomInfo.getMaximumCapacity());
                 }
