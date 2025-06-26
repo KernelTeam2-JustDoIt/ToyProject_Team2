@@ -11,6 +11,8 @@ public interface CustomerService {
     // 로그인
     CustomerVO login(String customerLoginId, String customerPassword);
 
+    boolean isPasswordCorrect(String rawPassword, String encodedPassword);
+
     // 아이디 중복 체크: true면 이미 존재하는 아이디
     boolean isLoginIdDuplicate(String customerLoginId);
 
@@ -33,4 +35,6 @@ public interface CustomerService {
     CustomerVO findCustomerById(int customerId);
 
     Integer insertNonMember();
+
+    CustomerVO updateCustomerInfo(CustomerVO loginCustomer, CustomerVO updatedCustomerVo);
 }

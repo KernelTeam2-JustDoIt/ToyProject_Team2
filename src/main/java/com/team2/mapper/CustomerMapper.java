@@ -59,4 +59,7 @@ public interface CustomerMapper {
 
 
     void insertNonMember(CustomerVO nonMember);
+
+    // 고객 정보 수정
+    void updateCustomerInfo(CustomerVO updatedCustomer);
 }

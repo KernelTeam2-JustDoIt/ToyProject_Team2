@@ -24,6 +24,24 @@ public class CustomerVO {
     private Timestamp gradeExpireDate; // 등급 만료일
     private Integer point; //고객 포인트
 
-
-
+    @Override
+    public String toString() {
+        return "CustomerVO{" +
+                "customerId=" + customerId +
+                ", customerStatusId=" + customerStatusId +
+                ", customerName='" + customerName + '\'' +
+                ", customerTel='" + customerTel + '\'' +
+                ", customerEmail='" + customerEmail + '\'' +
+                ", customerLoginId='" + customerLoginId + '\'' +
+                ", customerPassword='" + customerPassword + '\'' +
+                ", customerGender='" + customerGender + '\'' +
+                ", customerAge=" + customerAge +
+                ", isMarketingUseAgreed=" + isMarketingUseAgreed +
+                ", customerJob='" + customerJob + '\'' +
+                ", gradeId=" + gradeId +
+                ", joinedAt=" + joinedAt +
+                ", gradeExpireDate=" + gradeExpireDate +
+                ", point=" + point +
+                '}';
+    }
 }
