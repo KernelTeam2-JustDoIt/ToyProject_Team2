@@ -1,6 +1,6 @@
 package com.team2.service;
 
-import com.team2.dto.order.CartItemDTO;
+import com.team2.dto.order.ShoppingCartItemDTO;
 import com.team2.dto.order.OrderDTO;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public interface OrderService {
      * @param cartItems 결제할 장바구니 항목
      * @return 생성된 주문 정보
      */
-    OrderDTO createOrder(int customerId, List<CartItemDTO> cartItems);
+    OrderDTO createOrder(int customerId, List<ShoppingCartItemDTO> cartItems);
 
     /**
      * 특정 사용자에 대한 주문(예약) 목록
