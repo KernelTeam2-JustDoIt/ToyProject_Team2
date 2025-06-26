@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team2.mapper.ReserveMapper">
+
+    <resultMap id="reserveMap" type="com.team2.dto.order.ReserveDTO">
+        <id property="reserveId" column="reserve_id"/>
+        <result property="reserverId" column="reserver_id"/>
+        <result property="roomId" column="room_id"/>
+        <result property="checkInAt" column="check_in_at"/>
+        <result property="checkOutDate" column="check_out_date"/>
+        <result property="reserveStatusId" column="reserve_status_id"/>
+        <result property="isCancelable" column="is_cancelable"/>
+        <result property="reserveDate" column="reserve_date"/>
+    </resultMap>
+
+    <insert id="insertReserve" parameterType="com.team2.dto.order.ReserveDTO" useGeneratedKeys="true" keyProperty="reserveId">
+        INSERT INTO reserve (reserver_id, room_id, check_in_at, check_out_date, reserve_status_id, is_cancelable, reserve_date, created_at)
+        VALUES (#{reserverId}, #{roomId}, #{checkInAt}, #{checkOutDate}, #{reserveStatusId}, #{isCancelable}, NOW(), NOW())
+    </insert>
+
+    <select id="selectById" parameterType="int" resultMap="reserveMap">
+        SELECT * FROM reserve WHERE reserve_id = #{reserveId}
+    </select>
+
+</mapper> 
