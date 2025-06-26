@@ -35,6 +35,14 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         log.info("회원가입 요청: {}", customer.getCustomerLoginId());
+        //  아이디 중복 체크
+        if (isLoginIdDuplicate(customer.getCustomerLoginId())) {
+            throw new IllegalArgumentException("이미 사용중인 아이디입니다.");
+        }
+        //  이메일 중복 체크
+        if (isEmailDuplicate(customer.getCustomerEmail())) {
+            throw new IllegalArgumentException("이미 사용중인 이메일입니다.");
+        }
 
         // 비밀번호 암호화
         String rawPassword = customer.getCustomerPassword();
@@ -57,6 +65,9 @@ public class CustomerServiceImpl implements CustomerService {
             throw new IllegalStateException("UNKNOWN_ID");
         }
 
+        if (foundCustomer.getCustomerStatusId() == 3) { // 탈퇴
+            throw new IllegalStateException("DELETED");
+        }
         // 계정이 잠긴 상태인 경우
         if (foundCustomer.getCustomerStatusId() == 2) {
             throw new IllegalStateException("LOCKED");
@@ -136,4 +147,15 @@ public class CustomerServiceImpl implements CustomerService {
         customerMapper.deactivateCustomer(customerId);
     }
 
+    @Override
+    public CustomerVO findCustomerById(int customerId) {
+        return customerMapper.findCustomerById(customerId);
+    }
+
+    @Override
+    public Integer insertNonMember() {
+        CustomerVO nonMember = new CustomerVO();
+        customerMapper.insertNonMember(nonMember);
+        return nonMember.getCustomerId();
+    }
 }

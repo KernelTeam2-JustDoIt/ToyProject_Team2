@@ -15,10 +15,10 @@ public class MyPageController {
     public String showMyPageMain(HttpSession session){
         // login 한 사용자인지 확인
         // TODO loginUser DTO 를 따로 만들어서 세션에 저장해도 될까? id 만 저장하면 부족할 수도?
-        CustomerVO customer = (CustomerVO) session.getAttribute("loginUser");
+        CustomerVO customer = (CustomerVO) session.getAttribute("loginCustomer");
         // login 안 돼있으면 login 페이지로 redirect
         if(customer == null){
-            return "redirect:/login"; // TODO redirect 잘 되는지 확인, 경로 안맞을 수 있음
+            return "redirect:/login";
         }
         return "myPage/myPage";
     }

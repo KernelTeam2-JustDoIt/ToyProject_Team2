@@ -1,4 +1,3 @@
-/* Test 용 FK 제약조건 없는 DDL */
 drop schema if exists jdi;
 create schema jdi;
 USE JDI;
@@ -44,19 +43,19 @@ DROP TABLE IF EXISTS `CUSTOMER`;
 CREATE TABLE `CUSTOMER` (
                             `CUSTOMER_ID`	INT	NOT NULL,
                             `CUSTOMER_STATUS_ID`	INT	NOT NULL,
-                            `CUSTOMER_LOGIN_ID`	VARCHAR(30)	NOT NULL,
-                            `CUSTOMER_PASSWORD`	VARCHAR(30)	NOT NULL,
+                            `CUSTOMER_LOGIN_ID`	VARCHAR(30) NULL,
+                            `CUSTOMER_PASSWORD`	VARCHAR(100)	NULL,
                             `POINT`	INT	NULL,
-                            `CUSTOMER_NAME`	VARCHAR(30)	NOT NULL,
+                            `CUSTOMER_NAME`	VARCHAR(30)	NULL,
                             `JOINED_AT`	DATETIME	NOT NULL,
                             `CUSTOMER_GENDER`	CHAR	NULL,
-                            `CUSTOMER_TEL`	CHAR(20)	NOT NULL,
+                            `CUSTOMER_TEL`	CHAR(20)	NULL,
                             `CUSTOMER_AGE`	INT	NULL,
                             `CUSTOMER_JOB`	VARCHAR(30)	NULL,
                             `CUSTOMER_EMAIL`	VARCHAR(100)	NULL,
                             `GRADE_ID`	INT	NULL,
                             `GRADE_EXPIRE_DATE`	DATETIME	NULL,
-                            `IS_MARKETING_USE_AGREED`	TINYINT	NOT NULL,
+                            `IS_MARKETING_USE_AGREED`	TINYINT	 NULL,
                             `UPDATED_AT`	DATETIME	NULL,
                             `UPDATED_BY`	INT	NULL,
                             `CREATED_BY`	INT	NULL

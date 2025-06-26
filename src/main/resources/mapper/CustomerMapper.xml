@@ -52,6 +52,7 @@
         SELECT *
         FROM CUSTOMER
         WHERE CUSTOMER_LOGIN_ID = #{customerLoginId}
+          AND CUSTOMER_STATUS_ID != 3
     </select>
 
     <!--  아이디 중복 체크 -->
@@ -59,6 +60,7 @@
         SELECT COUNT(*)
         FROM CUSTOMER
         WHERE CUSTOMER_LOGIN_ID = #{customerLoginId}
+          AND CUSTOMER_STATUS_ID != 3
     </select>
 
     <!--  이메일 중복 체크 -->
@@ -66,6 +68,7 @@
         SELECT COUNT(*)
         FROM CUSTOMER
         WHERE CUSTOMER_EMAIL = #{customerEmail}
+          AND CUSTOMER_STATUS_ID != 3
     </select>
 
     <!--  로그인 실패 횟수 조회 (가장 최근 성공 이후부터) -->
@@ -129,5 +132,26 @@
         SET CUSTOMER_PASSWORD = #{encoded}
         WHERE CUSTOMER_LOGIN_ID = #{customerLoginId}
     </update>
+
+    <delete id="deleteAllCustomers">
+        Delete from CUSTOMER
+    </delete>
+
+    <select id="findCustomerById" parameterType="int" resultType="com.team2.model.CustomerVO">
+    select *
+    from CUSTOMER
+    WHERE CUSTOMER_ID = #{customerId}
+    </select>
+
+    <insert id="insertNonMember" parameterType="com.team2.model.CustomerVO" useGeneratedKeys="true" keyProperty="customerId" keyColumn="CUSTOMER_ID">
+        insert into CUSTOMER(
+                             CUSTOMER_STATUS_ID,
+                             JOINED_AT
+        )
+        values (
+                0,
+                now()
+               )
+    </insert>
 
 </mapper>
