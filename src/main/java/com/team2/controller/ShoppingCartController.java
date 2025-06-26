@@ -4,6 +4,8 @@ import com.team2.dto.cart.CartResponse;
 import com.team2.model.CustomerVO;
 import com.team2.service.CartService;
 import com.team2.service.CustomerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,11 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/cart")
 @SessionAttributes("cartListSession")// 클래스 레벨에서 세션 선언에서 어디서나 쓸 수 있게
 public class ShoppingCartController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ShoppingCartController.class);
 
     @Autowired
     CartService cartService;
@@ -57,35 +62,49 @@ public class ShoppingCartController {
         return "cart";
     }
 
-@PostMapping("/add")
-@ResponseBody
-public ResponseEntity<String> addCart(@RequestBody CartDTO cartDTO,
-                                      HttpServletResponse response,
-                                      HttpSession session) {
-    CustomerVO customer = (CustomerVO)session.getAttribute("loginCustomer");
-    if (customer == null) {
-        Integer nonMemberId = customerService.insertNonMember();
-        Cookie cookie = new Cookie("nonMemberId", nonMemberId.toString());
-        response.addCookie(cookie);
-        customer = customerService.findCustomerById(nonMemberId);
+    @PostMapping("/add")
+    @ResponseBody
+    public ResponseEntity<String> addCart(@RequestBody CartDTO cartDTO,
+                                          HttpServletResponse response,
+                                          HttpSession session
+                                         , HttpServletRequest request) {
+        CustomerVO customer = (CustomerVO) session.getAttribute("loginCustomer");
+        if (customer == null) {
+            String nonMemberIdStr = null;
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals("nonMemberId")) {
+                    nonMemberIdStr = cookie.getValue();
+                }
+            }
+            if (nonMemberIdStr == null) {
+                Integer nonMemberId = customerService.insertNonMember();
+                Cookie cookie = new Cookie("nonMemberId", nonMemberId.toString());
+                response.addCookie(cookie);
+            }
+            else {
+                cartDTO.setCustomerId(Integer.parseInt(nonMemberIdStr));
+            }
+        }
+        else {
+            cartDTO.setCustomerId(customer.getCustomerId());
+        }
+        cartService.addCart(cartDTO);
+        return ResponseEntity.ok("added");
     }
-    cartDTO.setCustomerId(customer.getCustomerId());
-
-    cartService.addCart(cartDTO);
-    return ResponseEntity.ok("added");
-}
 
     @PostMapping("/update")
     public String updatePeopleCnt(CartDTO cartDTO) {
-
-        cartService.updatePeopleCnt(cartDTO);
+        try {
+            cartService.updatePeopleCnt(cartDTO);
+        } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage());
+        }
         return "redirect:/cart/list";
     }
 
     @PostMapping("/delete")
     public String deleteCart(
-            @RequestParam("cartId") int cartId
-            , @SessionAttribute("loginCustomer") CustomerVO loginCustomer) {
+            @RequestParam("cartId") int cartId) {
         cartService.deleteCart(cartId);
         return "redirect:/cart/list";
     }

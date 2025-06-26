@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-@Controller
+//@Controller
 @RequestMapping("/cart")
 public class CartController {
 
-    @Autowired
+//    @Autowired
     private ShoppingCartService shoppingCartService;
 
     /**
