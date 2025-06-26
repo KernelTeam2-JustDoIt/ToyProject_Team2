@@ -1,8 +1,9 @@
 package com.team2.controller;
 
-import com.team2.dto.order.CartItemDTO;
 import com.team2.dto.order.OrderDTO;
+import com.team2.dto.order.ShoppingCartItemDTO;
 import com.team2.service.OrderService;
+import com.team2.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,19 +21,31 @@ public class ReservationController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private ShoppingCartService shoppingCartService;
+
     /**
-     * 예약/결제 화면
+     * 예약/결제 화면 출력
      */
     @GetMapping("reservation")
     public String reservationPage(HttpSession session, Model model) {
-        List<CartItemDTO> cart = (List<CartItemDTO>) session.getAttribute("cart");
-        if (cart == null || cart.isEmpty()) {
+        List<Integer> selectedIds = (List<Integer>) session.getAttribute("selectedCartIds");
+        com.team2.model.CustomerVO loginCustomer = (com.team2.model.CustomerVO) session.getAttribute("loginCustomer");
+        if (selectedIds == null || selectedIds.isEmpty() || loginCustomer == null) {
             return "redirect:/cart";
         }
-        model.addAttribute("cart", cart);
-        int totalPrice = cart.stream().filter(CartItemDTO::isSelected).mapToInt(CartItemDTO::getPrice).sum();
+
+        Integer customerId = loginCustomer.getCustomerId();
+        List<ShoppingCartItemDTO> items = shoppingCartService.getCartItems(customerId);
+        items.removeIf(i -> !selectedIds.contains(i.getCartId()));
+        if (items.isEmpty()) {
+            return "redirect:/cart";
+        }
+
+        model.addAttribute("cart", items);
+        int totalPrice = items.stream().mapToInt(ShoppingCartItemDTO::getPrice).sum();
         model.addAttribute("totalPrice", totalPrice);
-        return "reservation";
+        return "order/reservation";
     }
 
     /**
@@ -40,26 +53,32 @@ public class ReservationController {
      */
     @PostMapping("reservation/complete")
     public String completeReservation(HttpSession session, Model model) {
-        // 임시 로그인 고객 ID (테스트용)
-        Integer customerId = (Integer) session.getAttribute("loginCustomerId");
-        if (customerId == null) {
-            customerId = 1; // 테스트 용 기본값
-            session.setAttribute("loginCustomerId", customerId);
-        }
-
-        List<CartItemDTO> cart = (List<CartItemDTO>) session.getAttribute("cart");
-        if (cart == null || cart.isEmpty()) {
+        List<Integer> selectedIds = (List<Integer>) session.getAttribute("selectedCartIds");
+        if (selectedIds == null || selectedIds.isEmpty()) {
             return "redirect:/cart";
         }
 
-        OrderDTO order = orderService.createOrder(customerId, cart);
+        com.team2.model.CustomerVO loginCustomer = (com.team2.model.CustomerVO) session.getAttribute("loginCustomer");
+        if (loginCustomer == null) {
+            return "redirect:/customer/login"; // 로그인 필요
+        }
 
-        // 장바구니 비우기
-        session.removeAttribute("cart");
+        Integer customerId = loginCustomer.getCustomerId();
+        List<ShoppingCartItemDTO> items = shoppingCartService.getCartItems(customerId);
+        items.removeIf(i -> !selectedIds.contains(i.getCartId()));
+        if (items.isEmpty()) {
+            return "redirect:/cart";
+        }
+
+        OrderDTO order = orderService.createOrder(customerId, items);
+
+        shoppingCartService.removeCartItems(selectedIds);
+
+        session.removeAttribute("selectedCartIds");
 
         // 완료 화면에 표시할 데이터
         model.addAttribute("order", order);
-        return "orderComplete";
+        return "order/payment_success";
     }
 
     /**
@@ -67,13 +86,14 @@ public class ReservationController {
      */
     @GetMapping("orders")
     public String orderList(HttpSession session, Model model) {
-        Integer customerId = (Integer) session.getAttribute("loginCustomerId");
-        if (customerId == null) {
-            return "redirect:/test/login";
+        com.team2.model.CustomerVO loginCustomer = (com.team2.model.CustomerVO) session.getAttribute("loginCustomer");
+        if (loginCustomer == null) {
+            return "redirect:/customer/login";
         }
+        Integer customerId = loginCustomer.getCustomerId();
         List<OrderDTO> orders = orderService.getOrdersByCustomer(customerId);
         model.addAttribute("orders", orders);
-        return "orderList";
+        return "order/orderList";
     }
 
     /**
@@ -86,6 +106,6 @@ public class ReservationController {
             return "redirect:/orders";
         }
         model.addAttribute("order", order);
-        return "orderDetail";
+        return "order/orderDetail";
     }
 } 
