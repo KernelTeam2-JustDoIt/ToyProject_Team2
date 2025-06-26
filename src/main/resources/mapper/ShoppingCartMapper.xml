@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team2.mapper.ShoppingCartMapper">
+
+    <resultMap id="cartItemMap" type="com.team2.dto.order.ShoppingCartItemDTO">
+        <id property="cartId" column="cart_id"/>
+        <result property="roomId" column="room_id"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="desiredCheckInAt" column="desired_check_in_at"/>
+        <result property="desiredCheckOutAt" column="desired_check_out_at"/>
+        <result property="adultCount" column="adult_count"/>
+        <result property="childCount" column="child_count"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="roomName" column="room_name"/>
+        <result property="price" column="price"/>
+    </resultMap>
+
+    <select id="selectCartItemsByCustomer" parameterType="int" resultMap="cartItemMap">
+        SELECT sc.cart_id,
+               sc.room_id,
+               sc.customer_id,
+               sc.desired_check_in_at,
+               sc.desired_check_out_at,
+               sc.adult_count,
+               sc.child_count,
+               sc.created_at,
+               r.room_name,
+               r.price
+        FROM shopping_cart sc
+                 JOIN room r ON sc.room_id = r.room_id
+        WHERE sc.customer_id = #{customerId}
+        ORDER BY sc.created_at DESC
+    </select>
+
+    <select id="selectById" parameterType="int" resultMap="cartItemMap">
+        SELECT sc.cart_id,
+               sc.room_id,
+               sc.customer_id,
+               sc.desired_check_in_at,
+               sc.desired_check_out_at,
+               sc.adult_count,
+               sc.child_count,
+               sc.created_at,
+               r.room_name,
+               r.price
+        FROM shopping_cart sc
+                 JOIN room r ON sc.room_id = r.room_id
+        WHERE sc.cart_id = #{cartId}
+    </select>
+
+    <insert id="insertCartItem" parameterType="com.team2.dto.order.ShoppingCartItemDTO" useGeneratedKeys="true" keyProperty="cartId">
+        INSERT INTO shopping_cart (room_id, customer_id, desired_check_in_at, desired_check_out_at, adult_count, child_count, created_at)
+        VALUES (#{roomId}, #{customerId}, #{desiredCheckInAt}, #{desiredCheckOutAt}, #{adultCount}, #{childCount}, NOW())
+    </insert>
+
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM shopping_cart WHERE cart_id = #{cartId}
+    </delete>
+
+    <delete id="deleteByIds" parameterType="java.util.List">
+        DELETE FROM shopping_cart WHERE cart_id IN
+        <foreach collection="cartIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper> 
