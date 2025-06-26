@@ -4,13 +4,11 @@
 <div class="accommodation-list">
   <c:forEach var="room" items="${roomList}">
     <div class="accommodation-card">
-      <img class="thumbnail" src="${room.accommodationImageFilePath}" alt="${room.accommodationName}">
+      <img class="thumbnail" src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="${room.roomName}">
       <div class="info">
-        <div class="name">${room.accommodationName}</div>
-        <div class="location">📍 ${room.provinceName} ${room.districtName}</div>
-        <div class="rating">⭐ ${room.reviewScore} (${room.reviewCnt})</div>
-        <div class="checkin">숙박 ${room.checkIn} ~ ${room.checkOut}</div>
-        <div class="price">최저가 <span class="final-price">${room.price}원~</span></div>
+        <div class="name">${room.roomName}</div>
+        <div class="price">가격 <span class="final-price">${room.price}원~</span></div>
+        <div class="detail-link"><a href="${pageContext.request.contextPath}/room/${room.roomId}">상세보기</a></div>
       </div>
     </div>
   </c:forEach>
