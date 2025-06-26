@@ -133,4 +133,25 @@
         WHERE CUSTOMER_LOGIN_ID = #{customerLoginId}
     </update>
 
+    <delete id="deleteAllCustomers">
+        Delete from CUSTOMER
+    </delete>
+
+    <select id="findCustomerById" parameterType="int" resultType="com.team2.model.CustomerVO">
+    select *
+    from CUSTOMER
+    WHERE CUSTOMER_ID = #{customerId}
+    </select>
+
+    <insert id="insertNonMember" parameterType="com.team2.model.CustomerVO" useGeneratedKeys="true" keyProperty="customerId" keyColumn="CUSTOMER_ID">
+        insert into CUSTOMER(
+                             CUSTOMER_STATUS_ID,
+                             JOINED_AT
+        )
+        values (
+                0,
+                now()
+               )
+    </insert>
+
 </mapper>

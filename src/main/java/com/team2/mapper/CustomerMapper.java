@@ -50,4 +50,13 @@ public interface CustomerMapper {
     // 비밀번호 변경 처리 (새 비밀번호는 암호화된 상태로 전달됨)
     void updatePassword(@Param("customerLoginId") String customerLoginId,
                         @Param("encoded") String encoded);
+
+    //Customer DB 날림
+    void deleteAllCustomers();
+
+
+    CustomerVO findCustomerById(int customerId);
+
+
+    void insertNonMember(CustomerVO nonMember);
 }

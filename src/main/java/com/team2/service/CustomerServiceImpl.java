@@ -147,4 +147,15 @@ public class CustomerServiceImpl implements CustomerService {
         customerMapper.deactivateCustomer(customerId);
     }
 
+    @Override
+    public CustomerVO findCustomerById(int customerId) {
+        return customerMapper.findCustomerById(customerId);
+    }
+
+    @Override
+    public Integer insertNonMember() {
+        CustomerVO nonMember = new CustomerVO();
+        customerMapper.insertNonMember(nonMember);
+        return nonMember.getCustomerId();
+    }
 }

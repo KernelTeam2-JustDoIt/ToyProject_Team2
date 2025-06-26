@@ -28,4 +28,9 @@ public interface CustomerService {
 
     //고객 계정을 탈퇴 처리
     void deactivateCustomer(int customerId);
+
+    //비회원 customerId
+    CustomerVO findCustomerById(int customerId);
+
+    Integer insertNonMember();
 }
