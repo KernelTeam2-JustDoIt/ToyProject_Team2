@@ -110,19 +110,32 @@
 }
 
 .hot-track {
-    display: flex; /* 필수 */
-    transition: transform 0.4s ease-in-out;
+    display: flex;
+    gap: 1rem;
+    /* …your existing track styles… */
 }
 
-.hot-track img {
-    width: 300px;
-    height: 150px;
-    margin-right: 16px;
+.hot-item {
+    text-align: center;
+    flex: 0 0 auto;           /* keep each item from shrinking */
+    width: 200px;              /* or whatever fixed width you like */
+}
+
+.hot-item img {
+    display: block;
+    width: 100%;
+    height: auto;
     border-radius: 8px;
-    flex-shrink: 0;
-    object-fit: cover;
 }
 
+.hot-item-title {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 /* hot-slider 버튼은 통합해서 정의하거나 각각 명확히 정의 */
 /* 원본의 중복 정의된 .hot-slider button과 .hot-prev, .hot-next를 통합하여 재구성 */
 .hot-slider button { /* 모든 hot-slider 내 버튼에 공통 적용 */

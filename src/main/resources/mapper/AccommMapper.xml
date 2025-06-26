@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team2.mapper.AccommMapper">
+
+    <resultMap id="accMap" type="com.team2.vo.previewaccomm.AccommVO">
+        <!-- 기본키 -->
+        <id     column="ACCOMMODATION_ID"           property="accommodationId"/>
+        <!-- 외래키 -->
+        <result column="ADMIN_ID"                   property="adminId"/>
+        <result column="ACCOMMODATION_CATEGORY_L1_ID" property="categoryL1Id"/>
+        <result column="ACCOMMODATION_CATEGORY_L2_ID" property="categoryL2Id"/>
+        <result column="ACCOMMODATION_CATEGORY_L3_ID" property="categoryL3Id"/>
+        <!-- 일반 속성 -->
+        <result column="ACCOMMODATION_NAME"         property="name"/>
+        <result column="ACCOMMODATION_STATUS"       property="status"/>
+        <result column="CLICK_VIEWS"                property="clickViews"/>
+        <result column="RATING"                     property="rating"/>
+        <result column="PROVINCE_NAME"              property="provinceName"/>
+        <result column="DISTRICT_NAME"              property="districtName"/>
+        <result column="ROAD_NAME"                  property="roadName"/>
+        <result column="BUILDING_NUMBER"            property="buildingNumber"/>
+        <result column="BUILDING_SUB_NUMBER"        property="buildingSubNumber"/>
+        <!-- 날짜/시간 -->
+        <result column="CREATED_AT"                 property="createdAt"/>
+        <result column="UPDATED_AT"                 property="updatedAt"/>
+        <!-- 생성/수정자 -->
+        <result column="CREATED_BY"                 property="createdBy"/>
+        <result column="UPDATED_BY"                 property="updatedBy"/>
+    </resultMap>
+
+    <select id="findBy" parameterType="AccommodationDTO" resultMap="accMap">
+        SELECT *
+        FROM ACCOMMODATION
+        <where>
+            <if test="accommodationId != null">
+                AND ACCOMMODATION_ID = #{accommodationId}
+            </if>
+            <if test="adminId != null">
+                AND ADMIN_ID = #{adminId}
+            </if>
+            <if test="categoryL1Id != null">
+                AND ACCOMMODATION_CATEGORY_L1_ID = #{categoryL1Id}
+            </if>
+            <if test="categoryL2Id != null">
+                AND ACCOMMODATION_CATEGORY_L2_ID = #{categoryL2Id}
+            </if>
+            <if test="categoryL3Id != null">
+                AND ACCOMMODATION_CATEGORY_L3_ID = #{categoryL3Id}
+            </if>
+            <if test="name != null and name != ''">
+                AND ACCOMMODATION_NAME LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="status != null and status != ''">
+                AND ACCOMMODATION_STATUS = #{status}
+            </if>
+            <if test="rating != null and rating != ''">
+                AND RATING = #{rating}
+            </if>
+        </where>
+    </select>
+
+    <update id="update" parameterType="AccommodationDTO">
+        UPDATE ACCOMMODATION
+        <set>
+            <if test="adminId != null">
+                ADMIN_ID = #{adminId},
+            </if>
+            <if test="categoryL1Id != null">
+                ACCOMMODATION_CATEGORY_L1_ID = #{categoryL1Id},
+            </if>
+            <if test="categoryL2Id != null">
+                ACCOMMODATION_CATEGORY_L2_ID = #{categoryL2Id},
+            </if>
+            <if test="categoryL3Id != null">
+                ACCOMMODATION_CATEGORY_L3_ID = #{categoryL3Id},
+            </if>
+            <if test="name != null and name != ''">
+                ACCOMMODATION_NAME = #{name},
+            </if>
+            <if test="status != null">
+                ACCOMMODATION_STATUS = #{status},
+            </if>
+            <if test="rating != null">
+                RATING = #{rating},
+            </if>
+            <if test="updatedBy != null">
+                UPDATED_BY = #{updatedBy}
+            </if>
+            UPDATED_AT = NOW()
+        </set>
+        WHERE ACCOMMODATION_ID = #{accommodationId}
+    </update>
+
+    <update id="delete" parameterType="int">
+        UPDATE ACCOMMODATION
+        SET ACCOMMODATION_STATUS = 0
+        WHERE ACCOMMODATION_ID = #{accommodationId}
+    </update>
+
+    <insert id="insert" parameterType="AccommodationDTO" useGeneratedKeys="true" keyProperty="accommodationId">
+        INSERT INTO ACCOMMODATION (
+            SELLER_ID,
+            ADMIN_ID,
+            ACCOMMODATION_CATEGORY_L1_ID,
+            ACCOMMODATION_CATEGORY_L2_ID,
+            ACCOMMODATION_CATEGORY_L3_ID,
+            ACCOMMODATION_NAME,
+            ACCOMMODATION_STATUS,
+            CLICK_VIEWS,
+            RATING,
+            PROVINCE_NAME,
+            DISTRICT_NAME,
+            ROAD_NAME,
+            BUILDING_NUMBER,
+            BUILDING_SUB_NUMBER,
+            CREATED_AT,
+            UPDATED_AT,
+            CREATED_BY,
+            UPDATED_BY
+        )
+        VALUES (
+                   #{sellerId},
+                   #{adminId},
+                   #{categoryL1Id},
+                   #{categoryL2Id},
+                   #{categoryL3Id},
+                   #{name},
+                   #{status},
+                   #{clickViews},
+                   #{rating},
+                   #{provinceName},
+                   #{districtName},
+                   #{roadName},
+                   #{buildingNumber},
+                   #{buildingSubNumber},
+                   NOW(),
+                   NOW(),
+                   #{createdBy},
+                   #{updatedBy}
+               )
+    </insert>
+
+</mapper>
