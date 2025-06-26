@@ -1,6 +1,6 @@
 package com.team2.dto.order;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,7 +12,7 @@ public class OrderDTO {
     private int customerId;        // 주문자 ID
     private int totalPrice;        // 총 결제 금액
     private String status;         // 결제 상태 (e.g., COMPLETED, CANCELLED)
-    private LocalDateTime orderDate; // 주문일시
+    private Date orderDate;         // 주문일시
 
     // 하위 아이템들 (옵션)
     private List<OrderItemDTO> items;
@@ -49,11 +49,11 @@ public class OrderDTO {
         this.status = status;
     }
 
-    public LocalDateTime getOrderDate() {
+    public Date getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(LocalDateTime orderDate) {
+    public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }
 
