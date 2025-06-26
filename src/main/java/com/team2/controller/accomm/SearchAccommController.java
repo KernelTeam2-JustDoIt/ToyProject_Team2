@@ -36,7 +36,7 @@ public class SearchAccommController {
 
         /* 디폴트 검색 */
         if (conditionDTO.getDistrict() == null && conditionDTO.getKeyword() == null) {
-            ConditionDTO con = pagingAccommService.getDefaultCondition("강남/역삼/삼성");
+            ConditionDTO con = pagingAccommService.getDefaultCondition();
             int totalPages = pagingAccommService.getTotalPages(con, con.getSize());
             pagingAccommDTOList = pagingAccommService.getSearchAccommPaging(con);
             pagingAccommDTOList = pagingAccommService.setCalendar(pagingAccommDTOList, con);
@@ -46,9 +46,9 @@ public class SearchAccommController {
             model.addAttribute("totalPages", totalPages);
         } else {
             if (conditionDTO.getDistrict() == null) {
-                ConditionDTO con = pagingAccommService.getDefaultCondition(conditionDTO.getKeyword());
+                ConditionDTO con = pagingAccommService.getSearchCondition(conditionDTO);
                 int totalPages = pagingAccommService.getTotalPages(con, con.getSize());
-                pagingAccommDTOList = pagingAccommService.getSearchAccommPaging(con);
+                pagingAccommDTOList = pagingAccommService.getSearchAccommKeyword(con);
                 pagingAccommDTOList = pagingAccommService.setCalendar(pagingAccommDTOList, con);
 
                 model.addAttribute("roomList", pagingAccommDTOList);
@@ -125,7 +125,6 @@ public class SearchAccommController {
         return "accomm/review";
     }
 
-    /* ajax 렌더링 페이지 */
     @GetMapping("/review/more")
     @ResponseBody
     public String getMoreReviews(@RequestParam int accommodationId,

@@ -11,6 +11,7 @@ public interface YanupzaPaging {
 
     /* 숙소 검색 페이징 */
     List<PagingAccommDTO> searchAccommPaging(ConditionDTO conditionDTO);
+    List<PagingAccommDTO> searchAccommKeyword(ConditionDTO conditionDTO);
 
     /* 페이징 조건에 맞는 숙소 개수 구하기 */
     int getAccommPagingCnt(ConditionDTO conditionDTO);

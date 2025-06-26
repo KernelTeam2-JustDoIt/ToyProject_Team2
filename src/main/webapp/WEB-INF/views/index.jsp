@@ -73,22 +73,28 @@
                 <button class="hot-prev">&#10094;</button>
                 <div class="hot-track">
                     <c:forEach var="accomm" items="${topViewedList}">
-                        <a href="${pageContext.request.contextPath}/domestic/hotel/${accomm.accommodationId}">
-                            <c:choose>
-                                <c:when test="${empty accomm.accommodationImageFilePath}">
-                                    <img src="${pageContext.request.contextPath}/resources/image/hotel_default.png"
-                                         alt="${accomm.accommodationName}" />
-                                </c:when>
-                                <c:otherwise>
-                                    <img src="${pageContext.request.contextPath}${accomm.accommodationImageFilePath}"
-                                         alt="${accomm.accommodationName}" />
-                                </c:otherwise>
-                            </c:choose>
-                        </a>
+                        <div class="hot-item">
+                            <a href="${pageContext.request.contextPath}/domestic/hotel/${accomm.accommodationId}">
+                                <c:choose>
+                                    <c:when test="${empty accomm.accommodationImageFilePath}">
+                                        <img src="${pageContext.request.contextPath}/resources/image/hotel_default.png"
+                                             alt="${accomm.accommodationName}" />
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="${pageContext.request.contextPath}${accomm.accommodationImageFilePath}"
+                                             alt="${accomm.accommodationName}" />
+                                    </c:otherwise>
+                                </c:choose>
+                            </a>
+                            <div class="hot-item-title">
+                                    ${accomm.accommodationName}
+                            </div>
+                        </div>
                     </c:forEach>
                 </div>
                 <button class="hot-next">&#10095;</button>
             </div>
+
 
             <section class="popular-places">
                 <div class="popular-slider">
