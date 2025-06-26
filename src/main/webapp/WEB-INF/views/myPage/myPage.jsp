@@ -9,50 +9,16 @@
     <meta charset="UTF-8">
     <title>마이페이지 - 야눕자</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage.css"> <%-- CSS 파일 링크 유지 --%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <%-- jQuery 추가 --%>
-    <style>
-        /* 새로운 버튼 래퍼 스타일 (myPage.css로 옮길 수 있습니다) */
-        .reservation-button-wrapper {
-            text-align: center; /* 버튼을 중앙 정렬 */
-            margin-top: 30px; /* my-page-container와 간격 */
-            margin-bottom: 50px; /* 푸터와의 간격 */
-        }
-
-        /* login-form-select 및 button-group, form-group 등 기존 스타일 유지 또는 myPage.css에 추가 */
-        .login-form-select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .checkbox-label { /* .checkbox-group 대신 사용될 수 있음 */
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 14px;
-        }
-    </style>
+    <%-- 이 위치에 있던 <style> 태그와 내용이 myPage.css로 옮겨졌습니다. --%>
 </head>
 <body>
 <%-- 헤더 포함 --%>
 <jsp:include page="/WEB-INF/views/common/header.jsp" flush="false" />
+
+<%-- 예약 내역 섹션은 이미 이전 요청에서 제거되었습니다. --%>
 
 <div class="my-page-container section">
     <aside class="sidebar">
@@ -64,7 +30,6 @@
         <nav class="my-page-nav">
             <ul>
                 <li><a href="${pageContext.request.contextPath}/customer/info" class="nav-item active" data-tab="info">내 정보</a></li>
-                <%-- 예약 내역 메뉴 제거됨 --%>
                 <li><a href="${pageContext.request.contextPath}/customer/settings" class="nav-item" data-tab="settings">회원 정보 수정</a></li>
                 <li><a href="${pageContext.request.contextPath}/customer/logout" class="nav-item logout-link">로그아웃</a></li>
                 <li><a href="${pageContext.request.contextPath}/customer/withdraw" class="nav-item withdraw-link" onclick="return confirm('정말로 회원 탈퇴를 하시겠습니까? 모든 정보가 삭제되며 되돌릴 수 없습니다.');">회원 탈퇴</a></li>
@@ -89,10 +54,7 @@
                 <p><strong>등급 만료일:</strong> <fmt:formatDate value="${sessionScope.loginCustomer.gradeExpireDate}" pattern="yyyy년 MM월 dd일" /></p>
                 <p><strong>마케팅 활용 동의:</strong> <c:out value="${sessionScope.loginCustomer.isMarketingUseAgreed == 1 ? '동의' : '비동의'}" /></p>
             </div>
-            <%-- 예약 내역 보기 버튼 제거 (아래로 이동) --%>
         </section>
-
-        <%-- 예약 내역 섹션 제거됨 --%>
 
         <section id="settings" class="tab-content">
             <h2>회원 정보 수정</h2>
@@ -179,11 +141,6 @@
         </section>
 
     </main>
-</div>
-
-<%-- my-page-container 외부에 예약 내역 보기 버튼 배치 --%>
-<div class="reservation-button-wrapper">
-    <a href="${pageContext.request.contextPath}/customer/reservation" class="btn primary-btn">예약 내역 보기</a>
 </div>
 
 <%-- 푸터 포함 --%>
