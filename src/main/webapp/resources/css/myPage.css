@@ -417,7 +417,28 @@
     display: block; /* 블록 요소로 만들어 줄 바꿈 */
 }
 
-/* --- 회원 정보 수정 폼 관련 CSS 추가 끝 --- */
+/*
+    myPage.jsp에서 이동된 스타일
+*/
+.login-form-select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border-color); /* 변수 사용 */
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+/* form-group은 기존에 정의되어 있어서 합쳐짐 */
+
+/* checkbox-label도 기존에 정의되어 있어서 합쳐짐 */
 
 
 /* 반응형 디자인 */
