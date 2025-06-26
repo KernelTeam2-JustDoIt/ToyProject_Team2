@@ -32,4 +32,13 @@ public class AccommDetailService {
     public List<RoomPreviewDTO> getRoomPreview(int id) {
         return accommDetailMapper.getRoomPreview(id);
     }
+
+    public void increaseViews(int id) {
+        accommDetailMapper.increaseViews(id);
+    }
+
+    public List<TopAccommDTO> getTopAccomm() {
+        return accommDetailMapper.getTop10Accomm();
+    }
+
 }

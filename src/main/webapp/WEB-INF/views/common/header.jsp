@@ -1,5 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%-- JSTL (JSP Standard Tag Library) 사용을 위한 태그 라이브러리 선언 --%>
+<%-- header.jsp fragment: included in other JSPs. No page directive here to avoid duplicate contentType errors. --%>
+<%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <header>
@@ -19,7 +19,7 @@
         <c:if test="${empty sessionScope.loginCustomer}">
             <div class="auth-links">
                 <a href="${pageContext.request.contextPath}/customer/login" class="icon-link">
-                    <img src="${pageContext.request.contextPath}/resources/image/login_image.jpg" alt="로그인" />
+                    <img src="${pageContext.request.contextPath}/resources/image/login_image.png" alt="로그인" />
                     <span>로그인</span>
                 </a>
                 <a href="${pageContext.request.contextPath}/customer" class="icon-link">

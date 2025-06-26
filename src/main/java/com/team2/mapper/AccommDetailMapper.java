@@ -21,5 +21,11 @@ public interface AccommDetailMapper {
 
     int getRandomAccommId();
 
+    /*  클릭 시, 조회 수 증가 */
+    void increaseViews(int id);
+
+    /* 조회 수 TOP 10 숙소 리스트 */
+    List<TopAccommDTO> getTop10Accomm();
+
     RoomDTO findRoomById(int roomId);
 }

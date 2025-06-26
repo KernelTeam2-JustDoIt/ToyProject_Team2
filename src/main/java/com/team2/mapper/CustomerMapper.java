@@ -51,6 +51,9 @@ public interface CustomerMapper {
     void updatePassword(@Param("customerLoginId") String customerLoginId,
                         @Param("encoded") String encoded);
 
+    // 고객 정보 수정
+    void updateCustomerInfo(CustomerVO updatedCustomer);
+
     //Customer DB 날림
     void deleteAllCustomers();
 
@@ -59,7 +62,4 @@ public interface CustomerMapper {
 
 
     void insertNonMember(CustomerVO nonMember);
-
-    // 고객 정보 수정
-    void updateCustomerInfo(CustomerVO updatedCustomer);
 }

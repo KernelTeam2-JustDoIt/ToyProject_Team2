@@ -22,9 +22,6 @@ public class DomesticAccommController {
 
         List<AccommThumbnailImageDTO> imageDTOList = randomAccommService.getRandomAccommImage();
         model.addAttribute("imageList", imageDTOList);
-        System.out.println(imageDTOList.size());
-        System.out.println(imageDTOList);
-
 
         return "accomm/domesticMain";
     }

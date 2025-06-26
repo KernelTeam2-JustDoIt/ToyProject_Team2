@@ -15,5 +15,4 @@
         ORDER BY r.CREATED_AT
         LIMIT #{limit} OFFSET #{offset}
     </select>
-
 </mapper>

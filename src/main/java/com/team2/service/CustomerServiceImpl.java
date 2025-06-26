@@ -99,11 +99,6 @@ public class CustomerServiceImpl implements CustomerService {
         return foundCustomer;
     }
 
-    @Override
-    public boolean isPasswordCorrect(String rawPassword, String encodedPassword) {
-        return passwordEncoder.matches(rawPassword, encodedPassword);
-    }
-
     // 아이디 중복 여부 확인
     @Override
     public boolean isLoginIdDuplicate(String customerLoginId) {
@@ -165,42 +160,5 @@ public class CustomerServiceImpl implements CustomerService {
         CustomerVO nonMember = new CustomerVO();
         customerMapper.insertNonMember(nonMember);
         return nonMember.getCustomerId();
-    }
-    @Override
-    public CustomerVO updateCustomerInfo(CustomerVO loginCustomer, CustomerVO updatedCustomer) {
-        // TODO updatedCustomer 를 확인해서 입력 안한 값들은 어떻게 값이 넘어오나 확인후 입력 안된 값은 loginCustomer 에서 꺼내서 체우기
-        modifyInfo(updatedCustomer, loginCustomer);
-        System.out.println("loginCustomer = " + loginCustomer);
-        System.out.println("updatedCustomer = " + updatedCustomer);
-        customerMapper.updateCustomerInfo(updatedCustomer);
-        return updatedCustomer;
-    }
-
-    private void modifyInfo(CustomerVO updatedCustomer, CustomerVO loginCustomer) {
-        updatedCustomer.setCustomerId(loginCustomer.getCustomerId());
-        if (!hasText(updatedCustomer.getCustomerName())) {
-            updatedCustomer.setCustomerName(loginCustomer.getCustomerName());
-        }
-        if (!hasText(updatedCustomer.getCustomerTel())) {
-            updatedCustomer.setCustomerTel(loginCustomer.getCustomerTel());
-        }
-        if (!hasText(updatedCustomer.getCustomerEmail())) {
-            updatedCustomer.setCustomerEmail(loginCustomer.getCustomerEmail());
-        }
-        if (!hasText(updatedCustomer.getCustomerLoginId())) {
-            updatedCustomer.setCustomerLoginId(loginCustomer.getCustomerLoginId());
-        }
-        if (!hasText(updatedCustomer.getCustomerJob())) {
-            updatedCustomer.setCustomerJob(loginCustomer.getCustomerJob());
-        }
-        if (updatedCustomer.getCustomerAge() == null) {
-            updatedCustomer.setCustomerAge(loginCustomer.getCustomerAge());
-        }
-        if (!hasText(updatedCustomer.getCustomerGender())) {
-            updatedCustomer.setCustomerGender(loginCustomer.getCustomerGender());
-        }
-        if (updatedCustomer.getIsMarketingUseAgreed() == null){
-            updatedCustomer.setIsMarketingUseAgreed(loginCustomer.getIsMarketingUseAgreed());
-        }
     }
 }

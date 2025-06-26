@@ -36,7 +36,6 @@
         </c:otherwise>
     </c:choose>
 
-
     <section class="section">
         <div class="category-boxes">
             <a href="${pageContext.request.contextPath}/domestic" class="category-box">
@@ -73,16 +72,20 @@
             <div class="hot-slider">
                 <button class="hot-prev">&#10094;</button>
                 <div class="hot-track">
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소1" />
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소2" />
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소3" />
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소4" />
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소5" />
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소6" />
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소7" />
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소8" />
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소9" />
-                    <img src="${pageContext.request.contextPath}/resources/image/hotel1.png" alt="숙소10" />
+                    <c:forEach var="accomm" items="${topViewedList}">
+                        <a href="${pageContext.request.contextPath}/domestic/hotel/${accomm.accommodationId}">
+                            <c:choose>
+                                <c:when test="${empty accomm.accommodationImageFilePath}">
+                                    <img src="${pageContext.request.contextPath}/resources/image/hotel_default.png"
+                                         alt="${accomm.accommodationName}" />
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="${pageContext.request.contextPath}${accomm.accommodationImageFilePath}"
+                                         alt="${accomm.accommodationName}" />
+                                </c:otherwise>
+                            </c:choose>
+                        </a>
+                    </c:forEach>
                 </div>
                 <button class="hot-next">&#10095;</button>
             </div>
