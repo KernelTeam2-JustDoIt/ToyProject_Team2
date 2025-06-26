@@ -192,4 +192,15 @@ public class CustomerServiceImpl implements CustomerService {
             updatedCustomer.setIsMarketingUseAgreed(loginCustomer.getIsMarketingUseAgreed());
         }
     }
+    @Override
+    public CustomerVO findCustomerById(int customerId) {
+        return customerMapper.findCustomerById(customerId);
+    }
+
+    @Override
+    public Integer insertNonMember() {
+        CustomerVO nonMember = new CustomerVO();
+        customerMapper.insertNonMember(nonMember);
+        return nonMember.getCustomerId();
+    }
 }
