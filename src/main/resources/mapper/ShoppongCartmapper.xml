@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team2.mapper.CartMapper">
+
+    <!-- 장바구니 조회 -->
+    <select id="getCartList" parameterType="int" resultType="CartResponse">
+        SELECT
+            s.cart_id                      AS cartId,
+            s.room_id                      AS roomId,
+            s.customer_id                  AS customerId,
+            s.adult_count AS adultCount,
+            s.child_count AS childCount,
+
+            r.PRICE as price,
+            r.accommodation_id             AS accommodationId,
+            r.room_name                    AS roomName,
+            r.checkin_time                 AS checkinTime,
+            r.checkout_time                AS checkoutTime,
+            r.standard_capacity            AS standardCapacity,
+            r.maximum_capacity             AS maximumCapacity
+        FROM SHOPPING_CART s
+            JOIN ROOM r on s.room_id = r.room_id
+            JOIN  CUSTOMER c on s.customer_id = c.customer_id
+        WHERE s.CUSTOMER_ID = #{customerId}
+    </select>
+
+    <!-- 회원번호로 찾기 -->
+    <select id="findByCustomer" parameterType="int" resultType="CartAddDTO">
+        SELECT * FROM shopping_cart
+        WHERE customer_id = #{customerId}
+        ORDER BY customer_id DESC
+    </select>
+    
+    <!-- 장바구니 추가 -->
+    <insert id="addCart" parameterType="CartDTO" useGeneratedKeys="true" keyProperty="cartId">
+        INSERT INTO SHOPPING_CART
+            (room_id, customer_id, adult_count, child_count, created_at)
+        VALUES (#{roomId}, #{customerId},#{adultCount},#{childCount},now())
+    </insert>
+
+    <!-- 장바구니 인원 수정 -->
+    <update id="updatePeopleCnt" parameterType="CartDTO">
+        UPDATE SHOPPING_CART
+        <set>
+        <if test="adultCount != null">
+            adult_count = #{adultCount},
+        </if>
+        <if test="childCount != null">
+            child_count = #{childCount}
+        </if>
+        </set>
+        WHERE cart_id = #{cartId}
+    </update>
+
+    <!-- 장바구니 삭제 -->
+    <delete id="deleteCart" parameterType="int">
+        DELETE FROM SHOPPING_CART
+        WHERE cart_id = #{cartId}
+    </delete>
+
+    <!-- 회원&객실번호로 중복담기 방지 -->
+    <select id="findByCustomerAndRoom" resultType="CartDTO" parameterType="CartDTO" >
+        SELECT *
+        FROM SHOPPING_CART
+        WHERE customer_id = #{customerId}
+        AND room_id = #{roomId}
+    </select>
+
+    <!-- 회원&카트번호로 타회원 카트 삭제방지 -->
+    <select id="findByCustomerIdAndCartId" resultType="CartDTO" parameterType="int" >
+        SELECT *
+        FROM SHOPPING_CART
+        WHERE customer_id = #{customerId}
+          AND cart_id = #{cartId}
+    </select>
+
+    <!-- 장바구니 전체 삭제 -->
+    <delete id="deleteAllCart">
+        DELETE FROM SHOPPING_CART
+    </delete>
+</mapper>
+

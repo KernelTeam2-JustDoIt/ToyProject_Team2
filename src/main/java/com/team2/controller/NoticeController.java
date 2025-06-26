@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -31,8 +33,15 @@ public class NoticeController {
     public String noticeDetail(@PathVariable int noticeId, Model model) {
         NoticeDTO notice = noticeService.getNoticeDetail(noticeId);
 
+//        if (notice.getPostedAt() != null) {
+//            String formattedPostedAt = notice.getPostedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+//            model.addAttribute("formattedPostedAt", formattedPostedAt);
+//        }
         if (notice.getPostedAt() != null) {
-            String formattedPostedAt = notice.getPostedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            Date postedAt = notice.getPostedAt();  // java.util.Date
+            // 포맷터 생성 (스레드 세이프하지 않으므로, 메서드 로컬로 두는 게 안전)
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            String formattedPostedAt = sdf.format(postedAt);
             model.addAttribute("formattedPostedAt", formattedPostedAt);
         }
 
@@ -61,13 +70,20 @@ public class NoticeController {
         List<NoticeDTO> noticeList = noticeService.getNoticeList(offset, pageSize);
 
         // 날짜 포맷 변환
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        for (NoticeDTO notice : noticeList) {
+//            if (notice.getPostedAt() != null) {
+//                notice.setFormattedDate(notice.getPostedAt().format(formatter));
+//            }
+//        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         for (NoticeDTO notice : noticeList) {
-            if (notice.getPostedAt() != null) {
-                notice.setFormattedDate(notice.getPostedAt().format(formatter));
+            Date postedAt = notice.getPostedAt();  // java.util.Date 타입
+            if (postedAt != null) {
+                // Date → String 포맷팅
+                notice.setFormattedDate(sdf.format(postedAt));
             }
         }
-
         model.addAttribute("noticeList", noticeList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);

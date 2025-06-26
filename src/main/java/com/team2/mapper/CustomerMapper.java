@@ -51,6 +51,15 @@ public interface CustomerMapper {
     void updatePassword(@Param("customerLoginId") String customerLoginId,
                         @Param("encoded") String encoded);
 
+    //Customer DB 날림
+    void deleteAllCustomers();
+
+
+    CustomerVO findCustomerById(int customerId);
+
+
+    void insertNonMember(CustomerVO nonMember);
+
     // 고객 정보 수정
     void updateCustomerInfo(CustomerVO updatedCustomer);
 }

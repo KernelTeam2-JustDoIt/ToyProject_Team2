@@ -169,9 +169,8 @@
                 roomId: roomId,
                 checkIn: '${param.checkIn}',
                 checkOut: '${param.checkOut}',
-                adultCnt: '${param.adultCnt}',
-                babyCnt: '${param.babyCnt}',
-                district: '${param.district}'
+                adultCount: '${param.adultCnt}',
+                childCount: '${param.babyCnt}'
             };
 
             fetch('${pageContext.request.contextPath}/cart/add', {
@@ -267,7 +266,6 @@
         // 예약 로직 처리
     }
 </script>
-
 
 </body>
 </html>
