@@ -20,4 +20,6 @@ public interface AccommDetailMapper {
     AccommThumbnailImageDTO getAccommThumbnailImage(int id);
 
     int getRandomAccommId();
+
+    RoomDTO findRoomById(int roomId);
 }

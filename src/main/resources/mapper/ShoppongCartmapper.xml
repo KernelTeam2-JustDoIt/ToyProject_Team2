@@ -7,25 +7,31 @@
 
     <!-- 장바구니 조회 -->
     <select id="getCartList" parameterType="int" resultType="CartResponse">
-SELECT
-    s.cart_id                      AS cartId,
-    s.room_id                      AS roomId,
-    s.customer_id                  AS customerId,
-    s.desired_check_in_at          AS desiredCheckInAt,
-    s.desired_check_out_at         AS desiredCheckOutAt,
-    s.adult_count                  AS adultCount,
-    s.child_count                  AS childCount,
+        SELECT
+            s.cart_id                      AS cartId,
+            s.room_id                      AS roomId,
+            s.customer_id                  AS customerId,
+            s.adult_count AS adultCount,
+            s.child_count AS childCount,
 
-    r.accommodation_id             AS accommodationId,
-    r.room_name                    AS roomName,
-    r.checkin_time                 AS checkinTime,
-    r.checkout_time                AS checkoutTime,
-    r.standard_capacity            AS standardCapacity,
-    r.maximum_capacity             AS maximumCapacity
-FROM SHOPPING_CART s
-        JOIN ROOM r on s.room_id = r.room_id
-        JOIN  CUSTOMER c on s.customer_id = c.customer_id
+            r.PRICE as price,
+            r.accommodation_id             AS accommodationId,
+            r.room_name                    AS roomName,
+            r.checkin_time                 AS checkinTime,
+            r.checkout_time                AS checkoutTime,
+            r.standard_capacity            AS standardCapacity,
+            r.maximum_capacity             AS maximumCapacity
+        FROM SHOPPING_CART s
+            JOIN ROOM r on s.room_id = r.room_id
+            JOIN  CUSTOMER c on s.customer_id = c.customer_id
         WHERE s.CUSTOMER_ID = #{customerId}
+    </select>
+
+    <!-- 회원번호로 찾기 -->
+    <select id="findByCustomer" parameterType="int" resultType="CartAddDTO">
+        SELECT * FROM shopping_cart
+        WHERE customer_id = #{customerId}
+        ORDER BY customer_id DESC
     </select>
     
     <!-- 장바구니 추가 -->
@@ -54,7 +60,7 @@ FROM SHOPPING_CART s
         DELETE FROM SHOPPING_CART
         WHERE cart_id = #{cartId}
     </delete>
-    
+
     <!-- 회원&객실번호로 중복담기 방지 -->
     <select id="findByCustomerAndRoom" resultType="CartDTO" parameterType="CartDTO" >
         SELECT *

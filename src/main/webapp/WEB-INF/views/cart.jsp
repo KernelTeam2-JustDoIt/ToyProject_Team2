@@ -35,9 +35,9 @@
                     &nbsp;(숙소ID:<c:out value="${item.accommodationId}"/>) <!-- 객실 구현 시 rooId로 바꾸기-->
                 </div>
                 <div class="dates">
-                    <fmt:formatDate value="${item.desiredCheckInAt}" pattern="yyyy.MM.dd (E)"/>
-                    –
-                    <fmt:formatDate value="${item.desiredCheckOutAt}" pattern="yyyy.MM.dd (E)"/>
+<%--                    <fmt:formatDate value="${item.desiredCheckInAt}" pattern="yyyy.MM.dd (E)"/>--%>
+<%--                    –--%>
+<%--                    <fmt:formatDate value="${item.desiredCheckOutAt}" pattern="yyyy.MM.dd (E)"/>--%>
                 </div>
                 <div class="details">
                     체크인 <c:out value="${item.checkinTime}"/> |
@@ -46,6 +46,7 @@
                     <br/>
                     기준인원 <c:out value="${item.standardCapacity}"/>명 /
                     최대인원 <c:out value="${item.maximumCapacity}"/>명
+                    가격 <c:out value="${item.price}"/>원
                 </div>
             </div>
 
@@ -68,6 +69,31 @@
             </form>
         </div>
     </c:forEach>
+
+
+    <c:set var="totalPrice" value="0" />
+
+    <c:forEach var="item" items="${cartList}">
+        <!-- … 아이템 렌더링 … -->
+        <c:set var="totalPrice" value="${totalPrice + item.price}" />
+    </c:forEach>
+
+
+    <section class="cart-summary">
+        <h2>예약 상품</h2>
+        <dl>
+            <dt>상품 금액</dt>
+            <dd>${totalPrice}원</dd>
+            <dt>할인 금액</dt>
+            <dd>-0원</dd>
+            <dt>결제 예상 금액</dt>
+            <dd class="expected">${totalPrice}원</dd>
+        </dl>
+        <button class="btn-purchase">구매하기</button>
+    </section>
+
+
+
 </div>
 
 </body>

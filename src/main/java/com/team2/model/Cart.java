@@ -27,9 +27,5 @@ public class Cart {
         this.desiredCheckOutAt = desiredCheckOutAt;
     }
 
-    // 희망일자로 추가 가능한지 확인해야 되나...?
-
-    // 체크아웃이 체크인보다 빠른지 확인
-
 
 }

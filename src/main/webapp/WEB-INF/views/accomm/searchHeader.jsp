@@ -11,7 +11,7 @@
       <a href="${pageContext.request.contextPath}">
         <img src="${pageContext.request.contextPath}/resources/image/home.png" alt="홈" />
       </a>
-      <a href="${pageContext.request.contextPath}/cart">
+      <a href="${pageContext.request.contextPath}/cart/list">
         <img src="${pageContext.request.contextPath}/resources/image/cart.png" alt="장바구니" />
       </a>
     </div>

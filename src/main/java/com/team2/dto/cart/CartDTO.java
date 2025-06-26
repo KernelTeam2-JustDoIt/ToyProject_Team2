@@ -12,12 +12,12 @@ import java.util.Date;
 @ToString
 public class CartDTO {
     private int cartId;
-    private long roomId;
+    private int roomId;
     private int customerId;
     private String checkIn;
     private String checkOut;
-    private int adultCnt;
-    private int babyCnt;
+    private int adultCount;
+    private int childCount;
 //    private Date desiredCheckInAt;
 //    private Date desiredCheckOutAt;
 

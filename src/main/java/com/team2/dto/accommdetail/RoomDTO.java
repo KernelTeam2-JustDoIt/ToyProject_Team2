@@ -1,26 +1,19 @@
-package com.team2.dto.cart;
+package com.team2.dto.accommdetail;
 
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
+/**
+ * ROOM 테이블을 위한 Data Transfer Object
+ */
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-public class CartResponse {
-    // SHOPPING_CART columns
-    private int cartId;
-    private int roomId;
-    private int customerId;
-    private int adultCount;
-    private int childCount;
+public class RoomDTO {
 
-    // ROOM columns
-    private Long accommodationId;
+    private Integer roomId;
+    private Integer accommodationId;
     private String roomStatus;
     private Boolean isAvailable;
     private Integer price;
@@ -37,14 +30,6 @@ public class CartResponse {
     private String view;
     private Integer standardCapacity;
     private Integer maximumCapacity;
-    private LocalDate roomCheckinDate;
-    private LocalDate roomCheckoutDate;
-    private Date roomCreatedAt;
-    private Integer roomCreatedBy;
-    private Date roomUpdatedAt;
-    private Integer roomUpdatedBy;
-
-
-
-
+    private LocalDate checkinDate;
+    private LocalDate checkoutDate;
 }

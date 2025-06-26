@@ -35,6 +35,7 @@ public class SearchAccommController {
         if (conditionDTO.getDistrict() == null
                 || conditionDTO.getDistrict().trim().isEmpty()) {
             return "accomm/hotelMotelSearch";
+        }
 
         int totalPages = pagingAccommService.getTotalPages(conditionDTO, conditionDTO.getSize());
         List<PagingAccommDTO> previewAccomm = pagingAccommService.getSearchAccommPaging(conditionDTO);
