@@ -1,5 +1,6 @@
 package com.team2.controller;
 
+import com.team2.model.CustomerVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,19 +15,33 @@ public class TestController {
 
     @GetMapping("/login")
     public String testLoginPage() {
-        return "testLogin"; // /WEB-INF/views/testLogin.jsp
+        return "order/testLogin"; // JSP 경로: /WEB-INF/views/order/testLogin.jsp
     }
 
     @PostMapping("/login")
     public String doTestLogin(HttpSession session, String customerId, Model model) {
-        // 간단 테스트: 아무 아이디나 입력하면 해당 ID로 로그인 처리 (실제 회원 검증 생략)
+        // 단순 테스트용: 입력된 ID를 그대로 세션에 저장하여 로그인 상태를 모의한다.
         try {
             int id = Integer.parseInt(customerId);
-            session.setAttribute("loginCustomerId", id);
+            CustomerVO customer = new CustomerVO();
+            customer.setCustomerId(id);
+            customer.setCustomerName("테스트사용자" + id);
+            session.setAttribute("loginCustomer", customer);
         } catch (NumberFormatException e) {
-            // 숫자 아니면 1로 고정
-            session.setAttribute("loginCustomerId", 1);
+            CustomerVO customer = new CustomerVO();
+            customer.setCustomerId(1);
+            customer.setCustomerName("테스트사용자1");
+            session.setAttribute("loginCustomer", customer);
         }
+        return "redirect:/cart";
+    }
+
+    @GetMapping("/autologin")
+    public String autoLogin(HttpSession session) {
+        CustomerVO dummy = new CustomerVO();
+        dummy.setCustomerId(1);
+        dummy.setCustomerName("테스트사용자1");
+        session.setAttribute("loginCustomer", dummy);
         return "redirect:/cart";
     }
 } 
