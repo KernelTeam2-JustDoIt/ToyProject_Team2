@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 public class ConditionDTO {
 
     // 검색 조건
+    private String keyword;
     private String district;
     private String checkIn;
     private String checkOut;

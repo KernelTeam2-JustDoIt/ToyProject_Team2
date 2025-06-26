@@ -68,7 +68,7 @@
 
         <section class="hot-places">
             <h2>관심이 많은 숙소 </h2>
-            <p>주간 조회수가 많은 숙소 Top 10</p>
+            <p>조회수가 많은 숙소 Top 10</p>
             <div class="hot-slider">
                 <button class="hot-prev">&#10094;</button>
                 <div class="hot-track">
@@ -225,6 +225,24 @@
         );
     });
 </script>
+<script>
+    const contextPath = '${pageContext.request.contextPath}';
+    document.addEventListener("DOMContentLoaded", () => {
+        const searchInput  = document.getElementById("searchInput");
 
+        function doSearch() {
+            const q = searchInput.value.trim();
+            if (!q) return;
+            window.location.href = contextPath + `/domestic/hotel?keyword=` + encodeURIComponent(q);
+        }
+
+        // 엔터
+        if (searchInput) {
+            searchInput.addEventListener("keydown", e => {
+                if (e.key === "Enter") doSearch();
+            });
+        }
+    });
+</script>
 </body>
 </html>
