@@ -19,7 +19,7 @@
         <c:if test="${empty sessionScope.loginCustomer}">
             <div class="auth-links">
                 <a href="${pageContext.request.contextPath}/customer/login" class="icon-link">
-                    <img src="${pageContext.request.contextPath}/resources/image/login_image.jpg" alt="로그인" />
+                    <img src="${pageContext.request.contextPath}/resources/image/login_image.png" alt="로그인" />
                     <span>로그인</span>
                 </a>
                 <a href="${pageContext.request.contextPath}/customer" class="icon-link">
@@ -31,22 +31,24 @@
 
         <div class="icon-links">
             <%-- 로그인된 경우 (마이 페이지 메뉴 표시) --%>
-                <%--TODO 세션에 로그인 유저인지 어떻게 확인하는지, 변수명 맞추기--%>
-                <c:if test="${not empty sessionScope.loginCustomer}">
+            <%--TODO 세션에 로그인 유저인지 어떻게 확인하는지, 변수명 맞추기--%>
+            <c:if test="${not empty sessionScope.loginCustomer}">
                 <a href="${pageContext.request.contextPath}/myPage" class="icon-link">
                     <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" alt="마이" />
-                    <span>마이페이지</span> <%-- "마이" 대신 "마이페이지"로 변경 --%>
+                    <span>마이페이지</span>
                 </a>
             </c:if>
 
-            <%--찜은 구현 안함--%>
-            <%--<a href="#" class="icon-link">--%>
-            <%--        <img src="https://cdn-icons-png.flaticon.com/512/535/535234.png" alt="찜" />--%>
-            <%--    <span>찜</span>--%>
-            <%--</a>--%>
-            <a href="${pageContext.request.contextPath}/cart" class="icon-link">
+            <a href="${pageContext.request.contextPath}/cart/list" class="icon-link">
                 <img src="https://cdn-icons-png.flaticon.com/512/263/263142.png" alt="장바구니" />
                 <span>장바구니</span>
+            </a>
+        </div>
+        <div>
+            <%-- 예약 내역 링크 --%>
+            <a href="${pageContext.request.contextPath}/orders" class="icon-link">
+                <img src="${pageContext.request.contextPath}/resources/image/clipboard.png" alt="예약 내역" /> <%-- 장바구니와 동일한 이미지 사용 --%>
+                <span>예약 내역</span>
             </a>
         </div>
     </div>
