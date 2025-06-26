@@ -43,8 +43,8 @@ DROP TABLE IF EXISTS `CUSTOMER`;
 CREATE TABLE `CUSTOMER` (
                             `CUSTOMER_ID`	INT	NOT NULL,
                             `CUSTOMER_STATUS_ID`	INT	NOT NULL,
-                            `CUSTOMER_LOGIN_ID`	VARCHAR(30)	NOT NULL,
-                            `CUSTOMER_PASSWORD`	VARCHAR(100)	NOT NULL,
+                            `CUSTOMER_LOGIN_ID`	VARCHAR(30)	NULL,
+                            `CUSTOMER_PASSWORD`	VARCHAR(100)	NULL,
                             `POINT`	INT	NULL,
                             `CUSTOMER_NAME`	VARCHAR(30)	NOT NULL,
                             `JOINED_AT`	DATETIME	NOT NULL,
