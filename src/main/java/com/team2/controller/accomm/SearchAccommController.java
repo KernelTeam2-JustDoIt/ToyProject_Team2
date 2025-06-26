@@ -72,7 +72,7 @@ public class SearchAccommController {
     public String showHotel(@PathVariable int id, Model model) {
 
         accommDetailService.increaseViews(id);
-        
+
         AccommInfoDTO accommInfoDTO = accommDetailService.getAccommDetail(id);
         List<AccommImageDTO> accommImageDTO = accommDetailService.getAccommImageList(id);
         AccommReviewDTO accommReviewDTO = accommDetailService.getAccommReview(id);

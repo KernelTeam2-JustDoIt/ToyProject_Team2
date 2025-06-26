@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team2.mapper.OrderMapper">
+
+    <!-- Order 기본정보 저장 -->
+    <insert id="insertOrder" parameterType="com.team2.dto.order.OrderDTO" useGeneratedKeys="true" keyProperty="orderId">
+        INSERT INTO orders (customer_id, total_price, status, order_date)
+        VALUES (#{customerId}, #{totalPrice}, #{status}, NOW())
+    </insert>
+
+    <!-- OrderItem 저장 -->
+    <insert id="insertOrderItem" parameterType="com.team2.dto.order.OrderItemDTO" useGeneratedKeys="true" keyProperty="itemId">
+        INSERT INTO order_items (order_id, accomm_id, room_name, price, quantity)
+        VALUES (#{orderId}, #{accommId}, #{roomName}, #{price}, #{quantity})
+    </insert>
+
+    <!-- 고객 ID 로 주문 목록 -->
+    <select id="selectOrdersByCustomerId" parameterType="int" resultType="com.team2.dto.order.OrderDTO">
+        SELECT order_id AS orderId,
+               customer_id AS customerId,
+               total_price AS totalPrice,
+               status,
+               order_date AS orderDate
+        FROM orders
+        WHERE customer_id = #{customerId}
+        ORDER BY order_date DESC
+    </select>
+
+    <!-- 주문 단건 -->
+    <select id="selectOrderById" parameterType="int" resultType="com.team2.dto.order.OrderDTO">
+        SELECT order_id AS orderId,
+               customer_id AS customerId,
+               total_price AS totalPrice,
+               status,
+               order_date AS orderDate
+        FROM orders
+        WHERE order_id = #{orderId}
+    </select>
+
+    <!-- 주문의 아이템 목록 -->
+    <select id="selectOrderItems" parameterType="int" resultType="com.team2.dto.order.OrderItemDTO">
+        SELECT item_id AS itemId,
+               order_id AS orderId,
+               accomm_id AS accommId,
+               room_name AS roomName,
+               price,
+               quantity
+        FROM order_items
+        WHERE order_id = #{orderId}
+    </select>
+
+</mapper> 

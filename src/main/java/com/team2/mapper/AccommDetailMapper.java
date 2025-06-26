@@ -26,4 +26,6 @@ public interface AccommDetailMapper {
 
     /* 조회 수 TOP 10 숙소 리스트 */
     List<TopAccommDTO> getTop10Accomm();
+
+    RoomDTO findRoomById(int roomId);
 }

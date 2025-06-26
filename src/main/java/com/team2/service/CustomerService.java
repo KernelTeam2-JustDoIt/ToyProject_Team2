@@ -32,4 +32,9 @@ public interface CustomerService {
     void deactivateCustomer(int customerId);
 
     CustomerVO updateCustomerInfo(CustomerVO loginCustomer, CustomerVO updatedCustomerVo);
+
+    //비회원 customerId
+    CustomerVO findCustomerById(int customerId);
+
+    Integer insertNonMember();
 }

@@ -87,6 +87,32 @@
         WHERE r.ACCOMMODATION_ID = #{id}
     </select>
 
+    <select id="findRoomById" parameterType="int" resultType="com.team2.dto.accommdetail.RoomDTO">
+        SELECT
+            ROOM_ID,
+            ACCOMMODATION_ID,
+            ROOM_STATUS,
+            IS_AVAILABLE,
+            PRICE,
+            ROOM_CATEGORY,
+            ROOM_SELECT,
+            ROOM_NAME,
+            CHECKIN_TIME,
+            CHECKOUT_TIME,
+            BASIC_INFO,
+            FACILITY_SERVICE_INFO,
+            ROOM_SIZE,
+            ROOM_COUNT,
+            IS_USE_POLICY_NEEDED,
+            `VIEW`,
+            STANDARD_CAPACITY,
+            MAXIMUM_CAPACITY,
+            CHECKIN_DATE,
+            CHECKOUT_DATE
+        FROM ROOM
+        WHERE ROOM_ID = #{roomId}
+    </select>
+
     <resultMap id="roomPreviewMap" type="RoomPreviewDTO">
         <id property="roomId" column="ROOM_ID"/>
         <result property="accommodationId" column="ACCOMMODATION_ID"/>
