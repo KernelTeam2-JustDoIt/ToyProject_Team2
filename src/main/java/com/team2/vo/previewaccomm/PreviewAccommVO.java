@@ -27,8 +27,6 @@ public class PreviewAccommVO {
     private int accommodationImageWidth;
     private double reviewScore;
     private int reviewCnt;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate checkIn;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate checkOut;
+    private String checkIn;
+    private String checkOut;
 }

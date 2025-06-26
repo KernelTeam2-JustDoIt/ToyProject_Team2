@@ -4,12 +4,15 @@ import com.team2.model.CustomerVO;
 import com.team2.service.CustomerService;
 import com.team2.service.EmailService; //  이메일 서비스 import
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
@@ -18,6 +21,8 @@ import java.util.Random; //  인증코드 생성을 위한 import
 @RequestMapping("/customer")
 @Controller
 public class CustomerController {
+
+    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
     @Autowired // 의존성 주입: Spring이 CustomerService 구현체를 자동으로 주입함
     private CustomerService customerService;
@@ -124,6 +129,9 @@ public class CustomerController {
                     return "customer/login";
                 case "WRONG_PASSWORD":
                     model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
+                    return "customer/login";
+                case "DELETED":
+                    model.addAttribute("error", "탈퇴한 계정입니다.");
                     return "customer/login";
                 default:
                     model.addAttribute("error", "다시 시도하십셔.");
@@ -261,8 +269,68 @@ public class CustomerController {
 
         customerService.updatePassword(customerLoginId, newPassword);
         session.invalidate(); // 로그인 관련 세션 정보 초기화
-
         return "redirect:/customer/login";
     }
 
+    // [GET] /customer/logout → 로그아웃 처리
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
+    }
+    @GetMapping("/withdraw")
+    public String withdraw(HttpSession session) {
+        CustomerVO loginCustomer = (CustomerVO) session.getAttribute("loginCustomer");
+
+        if (loginCustomer != null) {
+            int customerId = loginCustomer.getCustomerId();
+            customerService.deactivateCustomer(customerId);  // 상태 3으로 업데이트
+            session.invalidate();  // 세션 초기화
+        }
+        return "redirect:/";
+    }
+
+    @PostMapping("/update")
+    public String updateCustomerSettings(
+            HttpSession session,
+            @ModelAttribute CustomerVO updatedCustomerVo, // 폼 데이터가 CustomerVO 객체에 바인딩됩니다.
+            @RequestParam("currentPassword") String currentPassword,
+            RedirectAttributes ra) {
+
+        CustomerVO loginCustomer = (CustomerVO) session.getAttribute("loginCustomer");
+
+        // 1. 로그인 여부 확인
+        if (loginCustomer == null) {
+            ra.addFlashAttribute("errorMessage", "로그인 세션이 만료되었거나 유효하지 않습니다. 다시 로그인해주세요.");
+            return "redirect:/login";
+        }
+
+        // 2. 현재 비밀번호 확인 (Service 계층에 위임)
+        if (!customerService.isPasswordCorrect(currentPassword, loginCustomer.getCustomerPassword())) {
+            ra.addFlashAttribute("errorMessage", "현재 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
+            return "redirect:/myPage#settings";
+        }
+
+        // 세션의 기존 정보를 기준으로 변경 사항을 Service에서 처리할 것이므로,
+        // 여기서는 폼에서 넘어온 updatedCustomerVo를 Service로 바로 넘깁니다.
+        try {
+            // 4. 서비스 계층에 업데이트 위임
+            // Service에서 DB 업데이트 및 세션 정보 갱신을 위한 최신 CustomerVO 반환
+            customerService.updateCustomerInfo(loginCustomer, updatedCustomerVo);
+
+            // 세션 정보 갱신
+            CustomerVO newlyUpdatedCustomer = customerService.findByLoginId(loginCustomer.getCustomerLoginId());
+            session.setAttribute("loginCustomer", newlyUpdatedCustomer);
+
+            ra.addFlashAttribute("successMessage", "회원 정보가 성공적으로 수정되었습니다.");
+
+        } catch (Exception e) {
+            ra.addFlashAttribute("errorMessage", "정보 수정 중 오류가 발생했습니다");
+            logger.error(e.getMessage());
+        }
+
+        // 5. 결과 페이지로 리다이렉트
+        return "redirect:/myPage";
+    }
 }
+
