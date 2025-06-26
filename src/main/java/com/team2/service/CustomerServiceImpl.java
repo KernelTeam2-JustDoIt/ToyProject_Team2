@@ -156,17 +156,6 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerVO findCustomerById(int customerId) {
-        return customerMapper.findCustomerById(customerId);
-    }
-
-    @Override
-    public Integer insertNonMember() {
-        CustomerVO nonMember = new CustomerVO();
-        customerMapper.insertNonMember(nonMember);
-        return nonMember.getCustomerId();
-    }
-    @Override
     public CustomerVO updateCustomerInfo(CustomerVO loginCustomer, CustomerVO updatedCustomer) {
         // TODO updatedCustomer 를 확인해서 입력 안한 값들은 어떻게 값이 넘어오나 확인후 입력 안된 값은 loginCustomer 에서 꺼내서 체우기
         modifyInfo(updatedCustomer, loginCustomer);
@@ -202,5 +191,16 @@ public class CustomerServiceImpl implements CustomerService {
         if (updatedCustomer.getIsMarketingUseAgreed() == null){
             updatedCustomer.setIsMarketingUseAgreed(loginCustomer.getIsMarketingUseAgreed());
         }
+    }
+    @Override
+    public CustomerVO findCustomerById(int customerId) {
+        return customerMapper.findCustomerById(customerId);
+    }
+
+    @Override
+    public Integer insertNonMember() {
+        CustomerVO nonMember = new CustomerVO();
+        customerMapper.insertNonMember(nonMember);
+        return nonMember.getCustomerId();
     }
 }

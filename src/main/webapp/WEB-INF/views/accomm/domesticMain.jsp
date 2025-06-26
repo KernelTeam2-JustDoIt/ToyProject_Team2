@@ -56,7 +56,9 @@
 </div>
 
 </body>
-
+<script>
+    const contextPath = "${pageContext.request.contextPath}";
+</script>
 <script>
     window.addEventListener("load", function () {
         const track = document.getElementById("carouselTrack");
@@ -81,5 +83,6 @@
         };
     });
 </script>
+<script src="${pageContext.request.contextPath}/resources/js/searchHeader.js"></script>
 
 </html>

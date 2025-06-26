@@ -103,7 +103,7 @@
             FACILITY_SERVICE_INFO,
             ROOM_SIZE,
             ROOM_COUNT,
-            IS_USE_POLYCY_NEEDED,
+            IS_USE_POLICY_NEEDED,
             `VIEW`,
             STANDARD_CAPACITY,
             MAXIMUM_CAPACITY,

@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<%@ include file="searchHeader.jsp"%>
+<%@ include file="searchHeader.jsp" %>
 
 <form id="searchForm" action="${pageContext.request.contextPath}/domestic/hotel" method="get">
 
@@ -29,10 +29,11 @@
 
     <%@include file="accommPaging.jsp"%>
 
+</body>
+<script>
+    const contextPath = "${pageContext.request.contextPath}";
+</script>
 <script src="${pageContext.request.contextPath}/resources/js/searchBar.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/searchCalendar.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/searchHeader.js"></script>
-
-</body>
-
 </html>

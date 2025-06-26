@@ -57,6 +57,7 @@
             <!-- 인원 수량 수정 폼 -->
             <form action="<c:url value='/cart/update'/>" method="post" class="form-update">
                 <input type="hidden" name="cartId" value="${item.cartId}"/>
+                <input type="hidden" name="roomId" value="${item.roomId}"/>
                 <label>성인
                     <input type="number" name="adultCount" value="${item.adultCount}" min="1"/>
                 </label>

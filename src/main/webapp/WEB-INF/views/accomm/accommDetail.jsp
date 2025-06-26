@@ -266,6 +266,10 @@
         // 예약 로직 처리
     }
 </script>
+<script>
+    const contextPath = "${pageContext.request.contextPath}";
+</script>
+<script src="${pageContext.request.contextPath}/resources/js/searchHeader.js"></script>
 
 </body>
 </html>

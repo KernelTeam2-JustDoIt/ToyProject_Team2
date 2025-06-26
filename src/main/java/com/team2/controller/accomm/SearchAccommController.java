@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // 호텔/모텔 나눌 시 메서드 이름 재설정
@@ -29,27 +30,50 @@ public class SearchAccommController {
 
     /* 숙소 검색 메인 페이지 */
     @GetMapping("/hotel")
-    public String hotelMain(@ModelAttribute ConditionDTO conditionDTO, Model model) {
+    public String hotelMain(@ModelAttribute ConditionDTO conditionDTO,
+                            Model model) {
+        List<PagingAccommDTO> pagingAccommDTOList = new ArrayList<>();
 
-        /* 디폴트 검색 */ // 영경 여기 잠깐 수정해봄
-        if (conditionDTO.getDistrict() == null
-                || conditionDTO.getDistrict().trim().isEmpty()) {
-            return "accomm/hotelMotelSearch";
+        /* 디폴트 검색 */
+        if (conditionDTO.getDistrict() == null && conditionDTO.getKeyword() == null) {
+            ConditionDTO con = pagingAccommService.getDefaultCondition("강남/역삼/삼성");
+            int totalPages = pagingAccommService.getTotalPages(con, con.getSize());
+            pagingAccommDTOList = pagingAccommService.getSearchAccommPaging(con);
+            pagingAccommDTOList = pagingAccommService.setCalendar(pagingAccommDTOList, con);
+
+            model.addAttribute("roomList", pagingAccommDTOList);
+            model.addAttribute("condition", con);
+            model.addAttribute("totalPages", totalPages);
+        } else {
+            if (conditionDTO.getDistrict() == null) {
+                ConditionDTO con = pagingAccommService.getDefaultCondition(conditionDTO.getKeyword());
+                int totalPages = pagingAccommService.getTotalPages(con, con.getSize());
+                pagingAccommDTOList = pagingAccommService.getSearchAccommPaging(con);
+                pagingAccommDTOList = pagingAccommService.setCalendar(pagingAccommDTOList, con);
+
+                model.addAttribute("roomList", pagingAccommDTOList);
+                model.addAttribute("condition", con);
+                model.addAttribute("totalPages", totalPages);
+            } else {
+                int totalPages = pagingAccommService.getTotalPages(conditionDTO, conditionDTO.getSize());
+                pagingAccommDTOList = pagingAccommService.getSearchAccommPaging(conditionDTO);
+                pagingAccommDTOList = pagingAccommService.setCalendar(pagingAccommDTOList, conditionDTO);
+
+                model.addAttribute("roomList", pagingAccommDTOList);
+                model.addAttribute("condition", conditionDTO);
+                model.addAttribute("totalPages", totalPages);
+            }
         }
-
-        int totalPages = pagingAccommService.getTotalPages(conditionDTO, conditionDTO.getSize());
-        List<PagingAccommDTO> previewAccomm = pagingAccommService.getSearchAccommPaging(conditionDTO);
-
-        model.addAttribute("roomList", previewAccomm);
-        model.addAttribute("condition", conditionDTO);
-        model.addAttribute("totalPages", totalPages);
 
         return "accomm/hotelMotelSearch";
     }
 
     @GetMapping("/hotel/{id}")
     public String showHotel(@PathVariable int id, Model model) {
-        AccommDetailDTO accommInfoDTO = accommDetailService.getAccommDetail(id);
+
+        accommDetailService.increaseViews(id);
+
+        AccommInfoDTO accommInfoDTO = accommDetailService.getAccommDetail(id);
         List<AccommImageDTO> accommImageDTO = accommDetailService.getAccommImageList(id);
         AccommReviewDTO accommReviewDTO = accommDetailService.getAccommReview(id);
         List<AccommReviewImageDTO> accommReviewImageDTO = accommDetailService.getAccommReviewImage(id);
@@ -89,10 +113,10 @@ public class SearchAccommController {
         AccommReviewDTO accommReviewDTO = accommDetailService.getAccommReview(id);
         List<AccommImageDTO> accommImageDTOList = accommDetailService.getAccommImageList(id);
 
-        int size = 5;
-        int offset = (page - 1) * size;
+        int limit = 5;
+        int offset = (page - 1) * limit;
 
-        List<ReviewDTO> reviewDTOList = accommReviewService.getReviewInfo(id, offset, size);
+        List<ReviewDTO> reviewDTOList = accommReviewService.getReviewInfo(id, offset, limit);
 
         model.addAttribute("review", accommReviewDTO);
         model.addAttribute("reviewImages", accommImageDTOList);
