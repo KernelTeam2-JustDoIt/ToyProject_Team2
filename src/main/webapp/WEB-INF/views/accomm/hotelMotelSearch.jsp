@@ -11,11 +11,9 @@
 </head>
 <body>
 
-<%@ include file="common/searchHeader.jsp"%>
-<%@ include file="common/searchBar.jsp"%>
-<%@ include file="common/searchPopup.jsp"%>
+<%@ include file="searchHeader.jsp"%>
 
-<form id="searchForm" action="/domestic/hotel" method="post">
+<form id="searchForm" action="/yanupja/domestic/hotel" method="get">
 
     <input type="hidden" name="district" id="districtInput" value="${district}">
     <input type="hidden" name="checkIn" id="checkInInput" value="${checkIn}">
@@ -23,9 +21,13 @@
     <input type="hidden" name="adultCnt" id="adultInput" value="${adultCnt}">
     <input type="hidden" name="babyCnt" id="babyInput" value="${babyCnt}">
 
-    <%@ include file="common/accommList.jsp"%>
+    <%@ include file="searchBar.jsp"%>
+    <%@ include file="searchPopup.jsp"%>
+    <%@ include file="accommList.jsp"%>
 
 </form>
+
+    <%@include file="accommPaging.jsp"%>
 
 <script src="${pageContext.request.contextPath}/resources/js/searchBar.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/searchCalendar.js"></script>

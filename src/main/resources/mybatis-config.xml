@@ -15,6 +15,7 @@
         <!-- 패키지 단위로 등록 -->
         <package name="com.team2.dto.previewaccomm"/>
         <package name="com.team2.dto.paging"/>
+        <package name="com.team2.dto.accommdetail"/>
     </typeAliases>
 
 </configuration>

@@ -19,7 +19,7 @@
         <c:if test="${empty sessionScope.loginCustomer}">
             <div class="auth-links">
                 <a href="${pageContext.request.contextPath}/customer/login" class="icon-link">
-                    <img src="${pageContext.request.contextPath}/resources/image/login_image.jpg" alt="로그인" />
+                    <img src="${pageContext.request.contextPath}/resources/image/login_image.png" alt="로그인" />
                     <span>로그인</span>
                 </a>
                 <a href="${pageContext.request.contextPath}/customer" class="icon-link">
