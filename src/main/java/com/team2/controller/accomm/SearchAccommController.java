@@ -30,30 +30,40 @@ public class SearchAccommController {
 
     /* 숙소 검색 메인 페이지 */
     @GetMapping("/hotel")
-    public String hotelMain(@ModelAttribute ConditionDTO conditionDTO, Model model) {
+    public String hotelMain(@ModelAttribute ConditionDTO conditionDTO,
+                            Model model) {
+        List<PagingAccommDTO> pagingAccommDTOList = new ArrayList<>();
 
         /* 디폴트 검색 */
-        if (conditionDTO.getDistrict() == null) {
-            List<PagingAccommDTO> pagingAccommDTOList = new ArrayList<>();
-            ConditionDTO con = pagingAccommService.getDefaultCondition();
+        if (conditionDTO.getDistrict() == null && conditionDTO.getKeyword() == null) {
+            ConditionDTO con = pagingAccommService.getDefaultCondition("강남/역삼/삼성");
             int totalPages = pagingAccommService.getTotalPages(con, con.getSize());
             pagingAccommDTOList = pagingAccommService.getSearchAccommPaging(con);
             pagingAccommDTOList = pagingAccommService.setCalendar(pagingAccommDTOList, con);
 
             model.addAttribute("roomList", pagingAccommDTOList);
-            model.addAttribute("condition", conditionDTO);
+            model.addAttribute("condition", con);
             model.addAttribute("totalPages", totalPages);
+        } else {
+            if (conditionDTO.getDistrict() == null) {
+                ConditionDTO con = pagingAccommService.getDefaultCondition(conditionDTO.getKeyword());
+                int totalPages = pagingAccommService.getTotalPages(con, con.getSize());
+                pagingAccommDTOList = pagingAccommService.getSearchAccommPaging(con);
+                pagingAccommDTOList = pagingAccommService.setCalendar(pagingAccommDTOList, con);
 
-            return "accomm/hotelMotelSearch";
+                model.addAttribute("roomList", pagingAccommDTOList);
+                model.addAttribute("condition", con);
+                model.addAttribute("totalPages", totalPages);
+            } else {
+                int totalPages = pagingAccommService.getTotalPages(conditionDTO, conditionDTO.getSize());
+                pagingAccommDTOList = pagingAccommService.getSearchAccommPaging(conditionDTO);
+                pagingAccommDTOList = pagingAccommService.setCalendar(pagingAccommDTOList, conditionDTO);
+
+                model.addAttribute("roomList", pagingAccommDTOList);
+                model.addAttribute("condition", conditionDTO);
+                model.addAttribute("totalPages", totalPages);
+            }
         }
-
-        int totalPages = pagingAccommService.getTotalPages(conditionDTO, conditionDTO.getSize());
-        List<PagingAccommDTO> pagingAccommDTOList = pagingAccommService.getSearchAccommPaging(conditionDTO);
-        pagingAccommDTOList = pagingAccommService.setCalendar(pagingAccommDTOList, conditionDTO);
-
-        model.addAttribute("roomList", pagingAccommDTOList);
-        model.addAttribute("condition", conditionDTO);
-        model.addAttribute("totalPages", totalPages);
 
         return "accomm/hotelMotelSearch";
     }

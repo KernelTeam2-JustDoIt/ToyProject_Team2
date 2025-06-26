@@ -10,7 +10,7 @@
     </div>
 
     <div class="search-bar">
-        <input type="text" placeholder="신나는 토요일 불타는 이 밤" />
+        <input type="text" id=searchInput placeholder="신나는 토요일 불타는 이 밤" />
     </div>
 
     <div class="header-right">

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/review.css"/>
 </head>
 <body>
-<%@ include file="/WEB-INF/views/accomm/searchHeader.jsp" %>
+<%@ include file="searchHeader.jsp" %>
 
 <div class="review-container">
 
@@ -121,4 +121,8 @@
         }
     }
 </script>
+<script>
+    const contextPath = "${pageContext.request.contextPath}";
+</script>
+<script src="${pageContext.request.contextPath}/resources/js/searchHeader.js"></script>
 </html>

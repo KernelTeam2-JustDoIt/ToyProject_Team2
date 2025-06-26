@@ -107,4 +107,8 @@
     }
 </script>
 
+<script>
+    const contextPath = "${pageContext.request.contextPath}";
+</script>
+<script src="${pageContext.request.contextPath}/resources/js/searchHeader.js"></script>
 </html>

@@ -42,9 +42,9 @@ public class PagingAccommService {
     }
 
     /* 디폴트 페이지 */
-    public ConditionDTO getDefaultCondition() {
+    public ConditionDTO getDefaultCondition(String keyword) {
         ConditionDTO conditionDTO = new ConditionDTO();
-        conditionDTO.setDistrict("강남/역삼/삼성");
+        conditionDTO.setDistrict(keyword);
         conditionDTO.setAdultCnt(2);
         conditionDTO.setBabyCnt(0);
         conditionDTO.setTotalPeopleCnt(conditionDTO.getAdultCnt() + conditionDTO.getBabyCnt());
@@ -74,5 +74,4 @@ public class PagingAccommService {
 
         return pagingAccommDTOList;
     }
-
 }
