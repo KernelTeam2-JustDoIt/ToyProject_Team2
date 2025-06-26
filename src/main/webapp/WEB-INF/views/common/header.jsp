@@ -1,5 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%-- JSTL (JSP Standard Tag Library) 사용을 위한 태그 라이브러리 선언 --%>
+<%-- header.jsp fragment: included in other JSPs. No page directive here to avoid duplicate contentType errors. --%>
+<%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <header>
@@ -44,7 +44,7 @@
             <%--        <img src="https://cdn-icons-png.flaticon.com/512/535/535234.png" alt="찜" />--%>
             <%--    <span>찜</span>--%>
             <%--</a>--%>
-            <a href="${pageContext.request.contextPath}/cart/list" class="icon-link">
+            <a href="${pageContext.request.contextPath}/cart" class="icon-link">
                 <img src="https://cdn-icons-png.flaticon.com/512/263/263142.png" alt="장바구니" />
                 <span>장바구니</span>
             </a>
