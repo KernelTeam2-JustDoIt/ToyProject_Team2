@@ -34,24 +34,39 @@ public class NoticeController {
 
     // 공지사항 상세
     @GetMapping("/{noticeId}")
-    public String noticeDetail(@PathVariable int noticeId, Model model) {
+    public String noticeDetail(@PathVariable int noticeId, Model model , HttpSession session) {
+        // ✅ 관리자 아닌 경우에만 조회수 증가
+        if (session.getAttribute("loginAdmin") == null) {
+            noticeService.incrementViewCount(noticeId);
+        }
+        // ✅ 상세 데이터 가져오기
         NoticeDTO notice = noticeService.getNoticeDetail(noticeId);
 
+        // ✅ 날짜 포맷 변환
         if (notice.getPostedAt() != null) {
             String formattedPostedAt = notice.getPostedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
             model.addAttribute("formattedPostedAt", formattedPostedAt);
         }
+        // ✅ 삭제된 공지 접근 제한
         if (notice.getNoticeStatus().equals("DEL")) {
             return "redirect:/notice/list"; // 또는 에러 페이지로
         }
+        // ✅ 이전글/다음글 조회
+        NoticeDTO prevNotice = noticeService.getPreviousNotice(noticeId);
+        NoticeDTO nextNotice = noticeService.getNextNotice(noticeId);
+
 
         model.addAttribute("notice", notice);
+        model.addAttribute("prevNotice", prevNotice);
+        model.addAttribute("nextNotice", nextNotice);
         return "notice/noticeDetail"; // noticeDetail.jsp
     }
 
     // 공지 목록
     @GetMapping("/list")
-    public String noticeList(@RequestParam(defaultValue = "1") int page, Model model, HttpSession session) {
+    public String noticeList(@RequestParam(defaultValue = "1") int page,@RequestParam(required = false)
+            String keyword, Model model, HttpSession session) {
+
         int pageSize = 10;
         int blockSize = 5;
         int offset = (page - 1) * pageSize;
@@ -68,6 +83,11 @@ public class NoticeController {
         param.put("limit", pageSize);
         param.put("offset", offset);
         param.put("isAdmin", isAdmin);
+
+        // ✅ 검색어 있을 경우 파라미터 추가
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            param.put("keyword", keyword.trim());
+        }
 
 
         // 전체 게시물 수, 전체 페이지 수 계산
@@ -111,6 +131,7 @@ public class NoticeController {
         model.addAttribute("endPage", endPage);
         model.addAttribute("hasNextBlock", endPage < totalPages);
         model.addAttribute("hasPrevBlock", startPage > 1);
+        model.addAttribute("keyword", keyword); // 검색 유지용
 
         return "notice/noticeList";
     }
@@ -215,6 +236,8 @@ public class NoticeController {
 
         return "redirect:/notice/list";
     }
+
+
 
 
 
