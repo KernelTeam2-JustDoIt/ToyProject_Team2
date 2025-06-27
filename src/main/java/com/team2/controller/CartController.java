@@ -53,11 +53,11 @@ public class CartController {
 
         if (customerId == null) {
             System.out.println("customerId == null");
-            model.addAttribute("cartList", new ArrayList<CartResponse>());
+            model.addAttribute("cart", new ArrayList<CartResponse>());
         }
         else {
             List<CartResponse> cartList = shoppingCartService.getCartList(customerId);
-            model.addAttribute("cartList", cartList);
+            model.addAttribute("cart", cartList);
             System.out.println(cartList);
         }
         return "order/cart";
