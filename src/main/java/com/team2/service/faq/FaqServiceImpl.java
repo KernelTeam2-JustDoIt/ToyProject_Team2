@@ -76,10 +76,14 @@ public class FaqServiceImpl implements FaqService {
         param.put("offset", offset);
         param.put("pageSize", pageSize);
         param.put("writerAdminId", writerAdminId);
+        param.put("search", search);
 
         // 카테고리가 null이면 전체 조회, 아니면 카테고리별 조회
         if (category != null && !category.isEmpty()) {
             param.put("category", category);  // 카테고리 필터 추가
+        }
+        if (search != null && !search.trim().isEmpty()) {
+            param.put("keyword", search); //
         }
         List<FaqDTO> faqList = faqMapper.findByPaging(param);
 
@@ -102,6 +106,7 @@ public class FaqServiceImpl implements FaqService {
                 faq.setFormattedUpdatedDate(faq.getUpdatedAt().format(formatter));
             }
         }
+
 
         Map<String, Object> result = new HashMap<>();
         result.put("faqList", faqList);

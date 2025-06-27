@@ -91,22 +91,42 @@
             <if test="category != null and category != ''">
                 AND faq_category = #{category}
             </if>
+            <if test="search != null and search != ''">
+                AND (
+                faq_title LIKE CONCAT('%', #{search}, '%')
+                OR faq_content LIKE CONCAT('%', #{search}, '%')
+                )
+            </if>
         </where>
         ORDER BY faq_id DESC
         LIMIT #{offset}, #{pageSize}
     </select>
 
 
+
     <!-- 카테고리별 FAQ 개수 조회 -->
     <select id="countByCategory" parameterType="map" resultType="int">
         SELECT COUNT(*)
         FROM faq
-        WHERE faq_status = 'ACT'
-        <if test="category != null and category != ''">
-            AND faq_category = #{category}
-        </if>
-    </select>
+        <where>
+            (
+            faq_status = 'ACT'
+            <if test="writerAdminId != null">
+                OR faq_status = 'NOACT'
+            </if>
+            )
+            <if test="category != null and category != ''">
+                AND faq_category = #{category}
+            </if>
+            <if test="search != null and search != ''">
+                AND (
+                faq_title LIKE CONCAT('%', #{search}, '%')
+                OR faq_content LIKE CONCAT('%', #{search}, '%')
+                )
+            </if>
+        </where>
 
+    </select>
 
 
 </mapper>

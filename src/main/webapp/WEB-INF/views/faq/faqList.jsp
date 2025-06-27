@@ -27,32 +27,33 @@
 <!-- ✅ FAQ 목록 렌더링 -->
 <div class="faq-container">
   <h2>자주 묻는 질문 (FAQ)</h2>
+
   <!-- ✅ FAQ 검색창 -->
   <div class="faq-search">
     <form method="get" action="${pageContext.request.contextPath}/faq/list">
-      <input type="text" name="search" value="${search}" placeholder="FAQ 검색" />
+      <input type="text" name="search" value="${param.search}" placeholder="FAQ 검색" />
       <button type="submit">검색</button>
     </form>
   </div>
 
   <!-- 카테고리 필터 -->
   <div class="faq-category-filter">
-    <a href="${pageContext.request.contextPath}/faq/list">전체</a>
-    <a href="?category=국내숙소" class="${selectedCategory == '국내숙소' ? 'selected' : ''}">국내숙소</a>
-    <a href="?category=해외숙소" class="${selectedCategory == '해외숙소' ? 'selected' : ''}">해외숙소</a>
-    <a href="?category=교통" class="${selectedCategory == '교통' ? 'selected' : ''}">교통</a>
-    <a href="?category=회원" class="${selectedCategory == '회원' ? 'selected' : ''}">회원</a>
-    <a href="?category=포인트" class="${selectedCategory == '포인트' ? 'selected' : ''}">포인트</a>
-    <a href="?category=쿠폰" class="${selectedCategory == '쿠폰' ? 'selected' : ''}">쿠폰</a>
-    <a href="?category=결제" class="${selectedCategory == '결제' ? 'selected' : ''}">결제</a>
-    <a href="?category=취소/환불" class="${selectedCategory == '취소/환불' ? 'selected' : ''}">취소/환불</a>
+    <a href="${pageContext.request.contextPath}/faq/list?search=${param.search}">전체</a>
+    <a href="?category=국내숙소&search=${param.search}" class="${selectedCategory == '국내숙소' ? 'selected' : ''}">국내숙소</a>
+    <a href="?category=해외숙소&search=${param.search}" class="${selectedCategory == '해외숙소' ? 'selected' : ''}">해외숙소</a>
+    <a href="?category=교통&search=${param.search}" class="${selectedCategory == '교통' ? 'selected' : ''}">교통</a>
+    <a href="?category=회원&search=${param.search}" class="${selectedCategory == '회원' ? 'selected' : ''}">회원</a>
+    <a href="?category=포인트&search=${param.search}" class="${selectedCategory == '포인트' ? 'selected' : ''}">포인트</a>
+    <a href="?category=쿠폰&search=${param.search}" class="${selectedCategory == '쿠폰' ? 'selected' : ''}">쿠폰</a>
+    <a href="?category=결제&search=${param.search}" class="${selectedCategory == '결제' ? 'selected' : ''}">결제</a>
+    <a href="?category=취소/환불&search=${param.search}" class="${selectedCategory == '취소/환불' ? 'selected' : ''}">취소/환불</a>
   </div>
 
+  <!-- FAQ 리스트 -->
   <div class="faq-list">
     <c:forEach var="faq" items="${faqList}">
       <div class="faq-item ${faq.faqStatus == 'NOACT' ? 'inactive' : ''}">
-
-      <a href="${pageContext.request.contextPath}/faq/${faq.faqId}" class="faq-link">
+        <a href="${pageContext.request.contextPath}/faq/${faq.faqId}" class="faq-link">
           <strong>[${faq.faqCategory}]</strong> ${faq.faqTitle}
         </a>
         <div class="faq-meta">
@@ -78,7 +79,7 @@
   <!-- 페이지네이션 -->
   <div class="pagination">
     <c:if test="${currentPage > 1}">
-      <a href="?page=${currentPage - 1}&category=${selectedCategory}" class="page-prev">◀ 이전</a>
+      <a href="?page=${currentPage - 1}&category=${selectedCategory}&search=${param.search}" class="page-prev">◀ 이전</a>
     </c:if>
 
     <c:forEach begin="${startPage}" end="${endPage}" var="i">
@@ -87,19 +88,19 @@
           <span class="current-page">${i}</span>
         </c:when>
         <c:otherwise>
-          <a href="?page=${i}&category=${selectedCategory}" class="page-number">${i}</a>
+          <a href="?page=${i}&category=${selectedCategory}&search=${param.search}" class="page-number">${i}</a>
         </c:otherwise>
       </c:choose>
     </c:forEach>
 
     <c:if test="${currentPage < totalPages}">
-      <a href="?page=${currentPage + 1}&category=${selectedCategory}" class="page-next">다음 ▶</a>
+      <a href="?page=${currentPage + 1}&category=${selectedCategory}&search=${param.search}" class="page-next">다음 ▶</a>
     </c:if>
   </div>
 </div>
 
 <!-- 관리자만 등록 버튼 노출 -->
-<c:if test="${not empty sessionScope.loginAdmin }">
+<c:if test="${not empty sessionScope.loginAdmin}">
   <div class="faq-admin-actions">
     <a href="${pageContext.request.contextPath}/faq/form" class="faq-register-btn">FAQ 등록</a>
   </div>
