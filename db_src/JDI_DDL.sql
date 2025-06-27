@@ -51,6 +51,7 @@ CREATE TABLE QNA (
                      POSTED_AT DATETIME NOT NULL,
                      ANSWER_CONTENT TEXT NULL,
                      ANSWERED_AT DATETIME NULL,
+                    VIEW_COUNT INT DEFAULT 0,
                      UPDATED_AT DATETIME NULL
 );
 
