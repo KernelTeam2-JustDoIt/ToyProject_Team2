@@ -101,6 +101,11 @@
         ORDER BY faq_id DESC
         LIMIT #{offset}, #{pageSize}
     </select>
+    <update id="increaseViewCount" parameterType="int">
+        UPDATE FAQ
+        SET VIEW_COUNT = VIEW_COUNT + 1
+        WHERE FAQ_ID = #{faqId}
+    </update>
 
 
 
