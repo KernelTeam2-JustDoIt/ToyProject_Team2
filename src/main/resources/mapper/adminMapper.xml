@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team2.mapper.AdminMapper">
+
+    <!-- ID로 조회 -->
+    <select id="getAdminById" resultType="com.team2.dto.Admin.AdminDTO">
+        SELECT *
+        FROM ADMIN
+        WHERE ADMIN_ID = #{adminId}
+    </select>
+
+    <!-- 이메일 + 패스워드로 로그인 -->
+    <select id="loginAdmin" resultType="com.team2.dto.Admin.AdminDTO">
+        SELECT *
+        FROM ADMIN
+        WHERE ADMIN_EMAIL = #{email} AND ADMIN_PASSWORD = #{password}
+    </select>
+
+    <!-- 관리자 등록 -->
+    <insert id="insertAdmin" parameterType="com.team2.dto.Admin.AdminDTO">
+        INSERT INTO ADMIN (
+            ADMIN_ID, DEPT_ID, ROLE_ID, ROLE_GRANT_DATE,
+            ADMIN_NAME, ADMIN_TEL, ADMIN_EMAIL, ADMIN_PASSWORD,
+            CREATED_AT, UPDATED_AT, CREATED_BY, UPDATED_BY
+        )
+        VALUES (
+                   #{adminId}, #{deptId}, #{roleId}, #{roleGrantDate},
+                   #{adminName}, #{adminTel}, #{adminEmail}, #{adminPassword},
+                   #{createdAt}, #{updatedAt}, #{createdBy}, #{updatedBy}
+               )
+    </insert>
+
+    <!-- 관리자 수정 -->
+    <update id="updateAdmin" parameterType="com.team2.dto.Admin.AdminDTO">
+        UPDATE ADMIN
+        SET
+            DEPT_ID = #{deptId},
+            ROLE_ID = #{roleId},
+            ROLE_GRANT_DATE = #{roleGrantDate},
+            ADMIN_NAME = #{adminName},
+            ADMIN_TEL = #{adminTel},
+            ADMIN_EMAIL = #{adminEmail},
+            ADMIN_PASSWORD = #{adminPassword},
+            UPDATED_AT = #{updatedAt},
+            UPDATED_BY = #{updatedBy}
+        WHERE ADMIN_ID = #{adminId}
+    </update>
+
+    <!-- 관리자 삭제 -->
+    <delete id="deleteAdmin" parameterType="int">
+        DELETE FROM ADMIN
+        WHERE ADMIN_ID = #{adminId}
+    </delete>
+
+    <!-- 기존 메인 고정 공지 1개 조회 -->
+    <select id="findMainNotice" resultType="com.team2.dto.notice.NoticeDTO">
+        SELECT * FROM notice
+        WHERE is_main = true
+            LIMIT 1
+    </select>
+
+</mapper>

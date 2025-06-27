@@ -22,6 +22,10 @@ public class PagingAccommService {
         return yanupzaPaging.searchAccommPaging(conditionDTO);
     }
 
+    public List<PagingAccommDTO> getSearchAccommKeyword(ConditionDTO conditionDTO) {
+        return yanupzaPaging.searchAccommKeyword(conditionDTO);
+    }
+
     /* 숙소 개수 구하기 */
     public int getTotalAccomm(ConditionDTO conditionDTO) {
         return yanupzaPaging.getAccommPagingCnt(conditionDTO);
@@ -42,9 +46,9 @@ public class PagingAccommService {
     }
 
     /* 디폴트 페이지 */
-    public ConditionDTO getDefaultCondition(String keyword) {
+    public ConditionDTO getDefaultCondition() {
         ConditionDTO conditionDTO = new ConditionDTO();
-        conditionDTO.setDistrict(keyword);
+        conditionDTO.setDistrict("강남/역삼/삼성");
         conditionDTO.setAdultCnt(2);
         conditionDTO.setBabyCnt(0);
         conditionDTO.setTotalPeopleCnt(conditionDTO.getAdultCnt() + conditionDTO.getBabyCnt());
@@ -63,6 +67,27 @@ public class PagingAccommService {
 
         return conditionDTO;
     }
+    public ConditionDTO getSearchCondition(ConditionDTO conditionDTO) {
+        conditionDTO.setAdultCnt(2);
+        conditionDTO.setBabyCnt(0);
+        conditionDTO.setTotalPeopleCnt(conditionDTO.getAdultCnt() + conditionDTO.getBabyCnt());
+        setCondition(conditionDTO);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar now = Calendar.getInstance();
+
+        String checkInStr = sdf.format(now.getTime());
+
+        now.add(Calendar.DATE, 1);
+        String checkOutStr = sdf.format(now.getTime());
+
+        conditionDTO.setCheckIn(checkInStr);
+        conditionDTO.setCheckOut(checkOutStr);
+
+        return conditionDTO;
+    }
+
+
 
     public List<PagingAccommDTO> setCalendar(List<PagingAccommDTO> pagingAccommDTOList, ConditionDTO conditionDTO) {
 

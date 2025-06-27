@@ -20,14 +20,6 @@
         JOIN REVIEW rev ON a.ACCOMMODATION_ID = rev.ACCOMMODATION_ID
         JOIN ROOM r ON a.ACCOMMODATION_ID = r.ACCOMMODATION_ID
         WHERE 1 = 1
-        <!-- 키워드 검색 -->
-        <if test="keyword != null and keyword != ''">
-            AND (
-            a.ACCOMMODATION_NAME LIKE CONCAT('%', #{keyword}, '%')
-            OR a.DISTRICT_NAME LIKE CONCAT('%', #{keyword}, '%')
-            OR a.ROAD_NAME LIKE CONCAT('%', #{keyword}, '%')
-            )
-        </if>
         <!-- 행정구 필터 -->
         <if test="districtList != null and districtList.size() > 0">
             AND a.DISTRICT_NAME IN
@@ -35,7 +27,35 @@
                 #{item}
             </foreach>
         </if>
-            AND r.IS_AVAILABLE = #{onOff}
+        GROUP BY a.ACCOMMODATION_ID, a.ACCOMMODATION_NAME, a.PROVINCE_NAME,
+        a.DISTRICT_NAME, a.RATING, a.CLICK_VIEWS, img.ACCOMMODATION_IMAGE_FILE_PATH
+        ORDER BY a.ACCOMMODATION_ID
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="searchAccommKeyword" parameterType="ConditionDTO" resultType="PagingAccommDTO">
+        SELECT a.ACCOMMODATION_ID, a.ACCOMMODATION_NAME, a.PROVINCE_NAME,
+        a.DISTRICT_NAME, a.RATING, a.CLICK_VIEWS, MIN(r.PRICE) AS PRICE,
+        img.ACCOMMODATION_IMAGE_FILE_PATH, ROUND(AVG(rev.REVIEW_SCORE), 1) AS REVIEW_SCORE,
+        COUNT(DISTINCT rev.REVIEW_ID) AS REVIEW_CNT
+        FROM ACCOMMODATION a
+        LEFT JOIN (
+        SELECT i1.ACCOMMODATION_ID, MIN(i1.ACCOMMODATION_IMAGE_FILE_PATH) AS ACCOMMODATION_IMAGE_FILE_PATH
+        FROM ACCOMMODATION_IMAGE i1
+        GROUP BY i1.ACCOMMODATION_ID
+        ) img ON a.ACCOMMODATION_ID = img.ACCOMMODATION_ID
+        JOIN REVIEW rev ON a.ACCOMMODATION_ID = rev.ACCOMMODATION_ID
+        JOIN ROOM r ON a.ACCOMMODATION_ID = r.ACCOMMODATION_ID
+        <!-- 키워드 검색 -->
+        <where>
+            <if test="keyword != null and keyword.trim() != ''">
+                AND (
+                a.ACCOMMODATION_NAME LIKE CONCAT('%', #{keyword}, '%')
+                OR a.DISTRICT_NAME      LIKE CONCAT('%', #{keyword}, '%')
+                OR a.ROAD_NAME          LIKE CONCAT('%', #{keyword}, '%')
+                )
+            </if>
+        </where>
         GROUP BY a.ACCOMMODATION_ID, a.ACCOMMODATION_NAME, a.PROVINCE_NAME,
         a.DISTRICT_NAME, a.RATING, a.CLICK_VIEWS, img.ACCOMMODATION_IMAGE_FILE_PATH
         ORDER BY a.ACCOMMODATION_ID
@@ -65,6 +85,15 @@
         <if test="adultCnt != null and babyCnt != null">
             AND r.MAXIMUM_CAPACITY >= #{totalPeopleCnt}
         </if>
+
+        <if test="keyword != null and keyword.trim() != ''">
+            AND (
+            a.ACCOMMODATION_NAME LIKE CONCAT('%', #{keyword}, '%')
+            OR a.DISTRICT_NAME      LIKE CONCAT('%', #{keyword}, '%')
+            OR a.ROAD_NAME          LIKE CONCAT('%', #{keyword}, '%')
+            )
+        </if>
+
     </select>
 
 </mapper>

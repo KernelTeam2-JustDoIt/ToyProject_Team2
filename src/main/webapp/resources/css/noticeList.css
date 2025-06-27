@@ -1,0 +1,188 @@
+/* ========== 공통 설정 ========== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 본문 전체 감싸는 컨테이너 */
+.notice-list-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+.divider {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 20px 0;
+}
+.notice-title-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.notice-title-link:hover {
+    text-decoration: underline;
+}
+
+/* 공지사항 타이틀 + 구분선 */
+.notice-title-wrapper {
+    border-bottom: 1px solid #ddd;
+    margin: 30px 0 20px;
+    padding-bottom: 12px;
+}
+
+.notice-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 auto;
+    text-align: center;
+    flex-grow: 1;
+    width: 60%;
+}
+
+
+
+.admin-link:hover {
+    background-color: #3459d1;
+}
+
+
+
+
+/* ========== 검색창 ========== */
+.search-bar {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.search-bar input[type="text"] {
+    padding: 6px 10px;
+    width: 240px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.search-bar button {
+    padding: 6px 12px;
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    margin-left: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.search-bar button:hover {
+    background-color: #004a99;
+}
+
+/* ========== 공지사항 테이블 ========== */
+.notice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed;
+}
+
+.notice-table thead {
+    background-color: #f4f4f4;
+}
+
+.notice-table th,
+.notice-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 열 너비 지정 */
+.notice-table th:nth-child(2),
+.notice-table td:nth-child(2) {
+    width: 140px;
+    text-align: center;
+}
+
+.notice-table th:nth-child(3),
+.notice-table td:nth-child(3) {
+    width: 80px;
+    text-align: center;
+}
+
+.notice-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* 고정 공지 스타일 */
+.pinned {
+    background-color: #fff9e6;
+    font-weight: bold;
+}
+
+.pin-icon {
+    color: #ff9800;
+    margin-right: 4px;
+}
+
+/* ========== 페이징 ========== */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 8px;
+}
+
+.page-link {
+    display: inline-block;
+    padding: 8px 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: white;
+    color: #3366ff;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.page-link:hover {
+    background-color: #f0f4ff;
+}
+
+.page-link.active {
+    background-color: #3366ff;
+    color: white;
+    font-weight: bold;
+    border: none;
+}
+
+
+.write-btn-wrapper {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.write-btn {
+    display: inline-block;
+    background: linear-gradient(90deg, #4a6cf7, #4fa3f7);
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+}
+
+.write-btn:hover {
+    background: linear-gradient(90deg, #3459d1, #4a90e2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}

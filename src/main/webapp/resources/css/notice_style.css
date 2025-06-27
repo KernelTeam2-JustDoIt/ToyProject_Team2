@@ -1,4 +1,4 @@
-<style>
+
 .notice-header {
     display: flex;
     justify-content: space-between;
@@ -63,5 +63,29 @@
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
+.page-link {
+    display: inline-block;
+    margin: 0 4px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background-color: #f4f4f4;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    font-weight: 500;
+}
 
-</style>
+.page-link:hover {
+    background-color: #e0ecff;
+}
+
+.page-link.active {
+    background-color: #0066cc;
+    color: white;
+    font-weight: bold;
+    cursor: default;
+}
+
+
+
+

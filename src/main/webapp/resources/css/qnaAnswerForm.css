@@ -1,0 +1,99 @@
+body {
+    margin: 0;
+    background-color: #f7f7f7;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* 전체 폼 레이아웃 */
+.qna-answer-form-container {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+/* 제목 영역 */
+.qna-answer-form-container h2 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #222;
+}
+
+/* 개별 입력 블럭 */
+.qna-section {
+    margin-bottom: 24px;
+}
+
+.qna-section label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    color: #333;
+}
+
+/* readonly 텍스트 박스 */
+.readonly-box {
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    font-size: 15px;
+    line-height: 1.6;
+    white-space: pre-line;
+}
+
+/* 답변 textarea */
+textarea[name="answerContent"] {
+    width: 100%;
+    min-height: 160px;
+    padding: 16px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: vertical;
+    font-family: inherit;
+    line-height: 1.6;
+}
+
+/* 버튼 영역 */
+.qna-section:last-child {
+    text-align: right;
+    margin-top: 32px;
+}
+
+/* 제출 버튼 */
+.submit-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #449d48;
+}
+
+/* 취소 버튼 */
+.cancel-link {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #555;
+    background-color: #f5f5f5;
+    text-decoration: none;
+}
+
+.cancel-link:hover {
+    background-color: #eaeaea;
+}

@@ -38,6 +38,23 @@ CREATE TABLE `CUSTOMER_STATUS_HISTORY` (
                                            `CAUSE`	VARCHAR(100)	NULL
 );
 
+DROP TABLE IF EXISTS `QNA`;
+
+CREATE TABLE QNA (
+                     QNA_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                     CUSTOMER_ID INT NOT NULL,
+                     ADMIN_ID INT NULL,  -- 답변한 관리자 ID
+                     TITLE VARCHAR(100) NOT NULL,
+                     CONTENT TEXT NOT NULL,
+                     STATUS VARCHAR(20) NOT NULL,  -- 미답변 / 답변완료 / 비활성화 등
+                     IS_SECRET TINYINT NOT NULL DEFAULT 0,  -- 1이면 비밀글
+                     POSTED_AT DATETIME NOT NULL,
+                     ANSWER_CONTENT TEXT NULL,
+                     ANSWERED_AT DATETIME NULL,
+                     UPDATED_AT DATETIME NULL
+);
+
+
 DROP TABLE IF EXISTS `CUSTOMER`;
 
 CREATE TABLE `CUSTOMER` (
@@ -332,9 +349,9 @@ CREATE TABLE `ADMIN` (
                          `UPDATED_BY`	INT	NULL
 );
 
-DROP TABLE IF EXISTS `PRICE_POLICY_HISOTRY`;
+DROP TABLE IF EXISTS `PRICE_POLICY_HISTORY`;
 
-CREATE TABLE `PRICE_POLICY_HISOTRY` (
+CREATE TABLE `PRICE_POLICY_HISTORY` (
                                         `HISTORY_ID`	INT	NOT NULL,
                                         `PRICE_POLICY_ID`	INT	NOT NULL,
                                         `ADMIN_ID`	INT	NULL,
@@ -406,7 +423,7 @@ CREATE TABLE `PRIVILEGE` (
                              `PRIVILEGE_ID`	INT	NOT NULL,
                              `RESOURCE_ID`	INT	NOT NULL,
                              `ACTION_ID`	INT	NOT NULL,
-                             `PREVILAGE_NAME`	VARCHAR(10)	NOT NULL,
+                             `PRIVILEGE_NAME`	VARCHAR(10)	NOT NULL,
                              `PRIVILEGE_DETAIL`	TEXT	NULL,
                              `IS_AVAILABLE`	TINYINT	NOT NULL,
                              `CREATED_AT`	DATETIME	NULL,
@@ -429,8 +446,23 @@ CREATE TABLE `NOTICE` (
                           `NOTICE_TARGET`	VARCHAR(10)	NULL,
                           `UPDATED_AT`	DATETIME	NULL,
                           `UPDATED_BY`	INT	NULL,
-                          `IS_MAIN`       tinyint NOT NULL DEFAULT 0
+                          `IS_MAIN`       TINYINT NOT NULL DEFAULT 0,
+                          `VIEW_COUNT`    INT DEFAULT 0
 
+);
+DROP TABLE IF EXISTS `FAQ`;
+
+CREATE TABLE `FAQ` (
+                       `FAQ_ID`            INT NOT NULL AUTO_INCREMENT PRIMARY KEY,  -- FAQ 고유 ID
+                       `WRITER_ADMIN_ID`   INT NOT NULL,                             -- 작성 관리자 ID (외래키 제외)
+                       `FAQ_STATUS`        VARCHAR(10) NULL,                         -- 상태값 (예: ACT, NOACT 등)
+                       `FAQ_CATEGORY`      VARCHAR(30) NOT NULL,                     -- 카테고리 (예: 국내숙소, 회원 등)
+                       `FAQ_TITLE`         VARCHAR(100) NOT NULL,                    -- 질문 제목
+                       `FAQ_CONTENT`       TEXT NOT NULL,                            -- 답변 내용
+                       `POSTED_AT`         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- 작성일
+                       `UPDATED_AT`        DATETIME NULL,                            -- 수정일
+                       `UPDATED_BY`        INT NULL,                                 -- 수정 관리자 ID (외래키 제외)
+                       `VIEW_COUNT`        INT DEFAULT 0                             -- 조회수
 );
 
 DROP TABLE IF EXISTS `RESERVE_AGREEMENT`;
@@ -541,7 +573,7 @@ DROP TABLE IF EXISTS `SETTLEMENT`;
 
 CREATE TABLE `SETTLEMENT` (
                               `SETTLEMENT_ID`	INT	NOT NULL,
-                              `COMMISION_POLICY_ID`	INT	NOT NULL,
+                              `COMMISSION_POLICY_ID`	INT	NOT NULL,
                               `PAYMENT_ID`	INT	NOT NULL,
                               `SETTLEMENT_STATUS_ID`	INT	NOT NULL,
                               `SETTLEMENT_PRICE`	INT	NOT NULL,
@@ -563,7 +595,7 @@ CREATE TABLE `PRICE_POLICY` (
                                 `DAYOFWEEK_EFFECTIVE_BIT`	CHAR(7)	NULL,
                                 `SEASON_START_AT`	DATETIME	NULL,
                                 `SEASON_END_AT`	DATETIME	NULL,
-                                `IS_HOLYDAY_POLICY`	TINYINT	NOT NULL,
+                                `IS_HOLIDAY_POLICY`	TINYINT	NOT NULL,
                                 `CREATED_AT`	DATETIME	NULL,
                                 `CREATED_BY`	INT	NULL,
                                 `UPDATED_AT`	DATETIME	NULL,
@@ -654,7 +686,7 @@ CREATE TABLE `RESERVE_AGREEMENT_VERIFY` (
 DROP TABLE IF EXISTS `ACCOMMODATION_FACILITY`;
 
 CREATE TABLE `ACCOMMODATION_FACILITY` (
-                                          `ACCMMODATION_ID`	INT	NOT NULL,
+                                          `ACCOMMODATION_ID`	INT	NOT NULL,
                                           `FACILITY_ID`	INT	NOT NULL
 );
 
@@ -1059,7 +1091,7 @@ ALTER TABLE `ADMIN` ADD CONSTRAINT `PK_ADMIN` PRIMARY KEY (
                                                            `ADMIN_ID`
     );
 
-ALTER TABLE `PRICE_POLICY_HISOTRY` ADD CONSTRAINT `PK_PRICE_POLICY_HISOTRY` PRIMARY KEY (
+ALTER TABLE `PRICE_POLICY_HISTORY` ADD CONSTRAINT `PK_PRICE_POLICY_HISTORY` PRIMARY KEY (
                                                                                          `HISTORY_ID`
     );
 
@@ -1155,7 +1187,7 @@ ALTER TABLE `RESERVE_AGREEMENT_VERIFY` ADD CONSTRAINT `PK_RESERVE_AGREEMENT_VERI
     );
 
 ALTER TABLE `ACCOMMODATION_FACILITY` ADD CONSTRAINT `PK_ACCOMMODATION_FACILITY` PRIMARY KEY (
-                                                                                             `ACCMMODATION_ID`,
+                                                                                             `ACCOMMODATION_ID`,
                                                                                              `FACILITY_ID`
     );
 
@@ -1341,9 +1373,9 @@ ALTER TABLE `ADMIN`
     MODIFY COLUMN `ADMIN_ID` INT NOT NULL AUTO_INCREMENT;
 ALTER TABLE `ADMIN` AUTO_INCREMENT = 20000;  -- 관리자 PK 시작값
 
-ALTER TABLE `PRICE_POLICY_HISOTRY`
+ALTER TABLE `PRICE_POLICY_HISTORY`
     MODIFY COLUMN `HISTORY_ID` INT NOT NULL AUTO_INCREMENT;
-ALTER TABLE `PRICE_POLICY_HISOTRY` AUTO_INCREMENT = 1;
+ALTER TABLE `PRICE_POLICY_HISTORY` AUTO_INCREMENT = 1;
 
 /* 리뷰 이미지 모듈: REVIEW(70k)와 동시에 삽입되므로 71,000대 블록 할당 */
 ALTER TABLE `REVIEW_IMAGE`
@@ -1514,3 +1546,4 @@ ALTER TABLE `COUPON_HISTORY` AUTO_INCREMENT = 1;
 ALTER TABLE `INQUIRY_ANSWER`
     MODIFY COLUMN `ANSWER_ID` INT NOT NULL AUTO_INCREMENT;
 ALTER TABLE `INQUIRY_ANSWER` AUTO_INCREMENT = 1;
+

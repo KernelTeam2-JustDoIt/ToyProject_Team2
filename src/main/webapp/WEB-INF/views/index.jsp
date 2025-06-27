@@ -11,20 +11,28 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/index.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/adminHeader.css" />
 </head>
 <body>
 
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
+<c:choose>
+    <c:when test="${not empty sessionScope.loginAdmin}">
+        <jsp:include page="/WEB-INF/views/common/adminHeader.jsp"/>
+    </c:when>
+    <c:otherwise>
+        <jsp:include page="/WEB-INF/views/common/header.jsp"/>
+    </c:otherwise>
+</c:choose>
 
 <main>
     <!-- 공지사항 영역 -->
     <!-- 공지사항 배너 -->
     <c:choose>
-        <c:when test="${not empty latestNotice}">
+        <c:when test="${not empty getMainNotice}">
             <div class="notice-banner">
-                <a href="${pageContext.request.contextPath}/notice/${latestNotice.noticeId}" class="notice-tag" target="_blank">공지</a>
-                <a href="${pageContext.request.contextPath}/notice/${latestNotice.noticeId}" class="notice-text" target="_blank">
-                        ${latestNotice.title}
+                <a href="${pageContext.request.contextPath}/notice/${getMainNotice.noticeId}" class="notice-tag" >공지</a>
+                <a href="${pageContext.request.contextPath}/notice/${getMainNotice.noticeId}" class="notice-text" >
+                        ${getMainNotice.title}
                 </a>
             </div>
         </c:when>
@@ -73,22 +81,28 @@
                 <button class="hot-prev">&#10094;</button>
                 <div class="hot-track">
                     <c:forEach var="accomm" items="${topViewedList}">
-                        <a href="${pageContext.request.contextPath}/domestic/hotel/${accomm.accommodationId}">
-                            <c:choose>
-                                <c:when test="${empty accomm.accommodationImageFilePath}">
-                                    <img src="${pageContext.request.contextPath}/resources/image/hotel_default.png"
-                                         alt="${accomm.accommodationName}" />
-                                </c:when>
-                                <c:otherwise>
-                                    <img src="${pageContext.request.contextPath}${accomm.accommodationImageFilePath}"
-                                         alt="${accomm.accommodationName}" />
-                                </c:otherwise>
-                            </c:choose>
-                        </a>
+                        <div class="hot-item">
+                            <a href="${pageContext.request.contextPath}/domestic/hotel/${accomm.accommodationId}">
+                                <c:choose>
+                                    <c:when test="${empty accomm.accommodationImageFilePath}">
+                                        <img src="${pageContext.request.contextPath}/resources/image/hotel_default.png"
+                                             alt="${accomm.accommodationName}" />
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="${pageContext.request.contextPath}${accomm.accommodationImageFilePath}"
+                                             alt="${accomm.accommodationName}" />
+                                    </c:otherwise>
+                                </c:choose>
+                            </a>
+                            <div class="hot-item-title">
+                                    ${accomm.accommodationName}
+                            </div>
+                        </div>
                     </c:forEach>
                 </div>
                 <button class="hot-next">&#10095;</button>
             </div>
+
 
             <section class="popular-places">
                 <div class="popular-slider">
