@@ -3,6 +3,7 @@ package com.team2.dto.notice;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -12,8 +13,8 @@ public class NoticeDTO {
     private int writerAdminId; //작성자
     private String title;
     private String content;
-    private Date postedAt;
-    private Date updatedAt;
+    private LocalDateTime postedAt;
+    private LocalDateTime updatedAt;
     private int updatedBy; //수정자
     private String noticeStatus; // 활성상태
     private boolean isMain; // 메인페이지 상단공지 여부

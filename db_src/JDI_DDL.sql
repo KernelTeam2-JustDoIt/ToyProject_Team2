@@ -429,8 +429,23 @@ CREATE TABLE `NOTICE` (
     `NOTICE_TARGET`	VARCHAR(10)	NULL,
     `UPDATED_AT`	DATETIME	NULL,
     `UPDATED_BY`	INT	NULL,
-    `IS_MAIN`       TINYINT NOT NULL DEFAULT 0
+    `IS_MAIN`       TINYINT NOT NULL DEFAULT 0,
+    `VIEW_COUNT`    INT DEFAULT 0
 
+);
+DROP TABLE IF EXISTS `FAQ`;
+
+CREATE TABLE `FAQ` (
+                       `FAQ_ID`            INT NOT NULL AUTO_INCREMENT PRIMARY KEY,  -- FAQ 고유 ID
+                       `WRITER_ADMIN_ID`   INT NOT NULL,                             -- 작성 관리자 ID (외래키 제외)
+                       `FAQ_STATUS`        VARCHAR(10) NULL,                         -- 상태값 (예: ACT, NOACT 등)
+                       `FAQ_CATEGORY`      VARCHAR(30) NOT NULL,                     -- 카테고리 (예: 국내숙소, 회원 등)
+                       `FAQ_TITLE`         VARCHAR(100) NOT NULL,                    -- 질문 제목
+                       `FAQ_CONTENT`       TEXT NOT NULL,                            -- 답변 내용
+                       `POSTED_AT`         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- 작성일
+                       `UPDATED_AT`        DATETIME NULL,                            -- 수정일
+                       `UPDATED_BY`        INT NULL,                                 -- 수정 관리자 ID (외래키 제외)
+                       `VIEW_COUNT`        INT DEFAULT 0                             -- 조회수
 );
 
 DROP TABLE IF EXISTS `RESERVE_AGREEMENT`;
