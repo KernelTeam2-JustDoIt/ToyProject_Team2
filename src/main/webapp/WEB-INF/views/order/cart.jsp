@@ -59,13 +59,17 @@
                                         <input type="number"
                                                name="adultCount"
                                                value="${item.adultCount}"
-                                               min="1"
+                                               min="0"
+                                               data-cart-id="${item.cartId}"
+                                               class="adult-count-input"
                                                style="width:40px; margin:0 4px;"/>
                                         아동
                                         <input type="number"
                                                name="childCount"
                                                value="${item.childCount}"
                                                min="0"
+                                               data-cart-id="${item.cartId}"
+                                               class="child-count-input"
                                                style="width:40px; margin:0 4px;"/>
                                         <button type="submit"
                                                 style="padding:4px 8px; font-size:12px; margin-left:4px;">
@@ -98,10 +102,38 @@
 
 
                 <div style="text-align:right; margin-bottom:24px;">
-                    <button type="submit" class="btn btn-primary">구매하기</button>
+                    <button type="submit" class="btn btn-primary" onclick="return validateCheckout()">구매하기</button>
                 </div>
             </form>
         </c:if>
     </div>
+
+    <script>
+        function validateCheckout() {
+            const checkboxes = document.querySelectorAll('input[name="selectedCartId"]:checked');
+            if (checkboxes.length === 0) {
+                alert('구매할 상품을 선택해주세요.');
+                return false;
+            }
+            
+            // 선택된 상품들의 인원수 검증
+            for (let checkbox of checkboxes) {
+                const cartId = checkbox.value;
+                const adultInput = document.querySelector(`input.adult-count-input[data-cart-id="${cartId}"]`);
+                const childInput = document.querySelector(`input.child-count-input[data-cart-id="${cartId}"]`);
+                
+                const adultCount = parseInt(adultInput.value) || 0;
+                const childCount = parseInt(childInput.value) || 0;
+                
+                if (adultCount + childCount < 1) {
+                    alert('선택한 상품의 인원수를 1명 이상 입력해주세요.');
+                    adultInput.focus();
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+    </script>
 </body>
 </html>
