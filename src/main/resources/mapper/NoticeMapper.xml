@@ -88,13 +88,23 @@
         WHERE NOTICE_ID = #{noticeId}
     </update>
 
-<!-- 전체 공지 개수 조회 -->
+    <!-- 전체 공지 개수 조회 -->
     <select id="countNotices" parameterType="map" resultType="int">
         SELECT COUNT(*)
         FROM NOTICE
         <where>
             <if test="isAdmin == false">
                 NOTICE_STATUS = 'ACT'
+            </if>
+
+            <if test="keyword != null and keyword != ''">
+                <if test="isAdmin == false">
+                    AND
+                </if>
+                (
+                notice_title LIKE CONCAT('%', #{keyword}, '%')
+                OR NOTICE_DETAIL LIKE CONCAT('%', #{keyword}, '%')
+                )
             </if>
         </where>
     </select>
@@ -119,7 +129,7 @@
         FROM NOTICE
         WHERE (IS_MAIN = 1 OR IS_NEED_PIN = 1)
           AND NOTICE_STATUS = 'ACT'
-
+          AND NOTICE_STATUS != 'DEL'
         ORDER BY PRIORITY DESC, POSTED_AT DESC
     </select>
 
@@ -158,11 +168,39 @@
         LIMIT #{limit} OFFSET #{offset}
     </select>
 <!--조회수 증가 쿼리 -->
-    <update id="incrementViewCount" parameterType="int">
+    <update id="updateViewCount" parameterType="int">
         UPDATE NOTICE
         SET VIEW_COUNT = VIEW_COUNT + 1
         WHERE NOTICE_ID = #{noticeId}
     </update>
+
+
+    <!-- 공지사항 상세 하단에 이전글 다음글 -->
+    <!-- ✅ 이전글 -->
+    <select id="findPreviousNotice" resultType="com.team2.dto.notice.NoticeDTO">
+    <![CDATA[
+        SELECT notice_id, NOTICE_TITLE AS title
+        FROM notice
+        WHERE notice_id < #{noticeId}
+          AND notice_status != 'DEL'
+        ORDER BY notice_id DESC
+            LIMIT 1
+        ]]>
+</select>
+
+    <!-- ✅ 다음글 -->
+    <select id="findNextNotice" resultType="com.team2.dto.notice.NoticeDTO">
+    <![CDATA[
+        SELECT notice_id, NOTICE_TITLE AS title
+        FROM notice
+        WHERE notice_id > #{noticeId}
+          AND notice_status != 'DEL'
+        ORDER BY notice_id ASC
+            LIMIT 1
+        ]]>
+</select>
+
+
 
 
 </mapper>

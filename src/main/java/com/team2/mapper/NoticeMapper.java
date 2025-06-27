@@ -17,7 +17,7 @@ public interface NoticeMapper {
 
     int countNotices(Map<String, Object> param);
 
-    void deleteNotice(int noticeId);
+
 
     void updateNotice(NoticeDTO noticeDTO);
 
@@ -33,5 +33,10 @@ public interface NoticeMapper {
 
     void noticeDeleted(@Param("noticeId") int noticeId, @Param("adminId") int adminId);
 
-    void incrementViewCount(int noticeId);
+
+    void updateViewCount(int noticeId);
+
+    NoticeDTO findNextNotice(@Param("noticeId") int noticeId);
+
+    NoticeDTO findPreviousNotice(@Param("noticeId") int noticeId);
 }
