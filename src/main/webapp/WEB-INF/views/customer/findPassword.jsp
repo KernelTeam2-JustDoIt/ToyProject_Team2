@@ -1,9 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>비밀번호 변경 및 잠금계정 해제</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/findPassword.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/header.css">
 
     <script>
         let savedLoginId = "";
@@ -82,15 +84,7 @@
 </head>
 <body>
 
-<header>
-    <div class="logo">YANUPJA</div>
-    <div class="header-right">
-        <div class="auth-links">
-            <a href="${pageContext.request.contextPath}/customer/login">로그인</a>
-            <a href="${pageContext.request.contextPath}/customer">회원가입</a>
-        </div>
-    </div>
-</header>
+<%@ include file="../common/header.jsp" %>
 
 <div class="find-container">
     <h2>비밀번호 변경 및 잠금계정 해제</h2>
