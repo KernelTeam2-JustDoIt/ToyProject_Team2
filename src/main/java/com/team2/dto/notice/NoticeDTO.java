@@ -20,4 +20,5 @@ public class NoticeDTO {
     private Integer priority; // 상단 공지 우선순위
     private boolean isNeedPin;   // 상단고정 여부
     private String formattedDate; // DB 작성일시에서 작성일만 담기위한 변수 선언
+    private int viewCount;
 }
