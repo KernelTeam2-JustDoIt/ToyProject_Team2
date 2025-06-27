@@ -4,11 +4,13 @@ import com.team2.dto.notice.NoticeDTO;
 import com.team2.mapper.NoticeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class NoticeServiceImpl implements NoticeService {
 
     @Autowired
@@ -24,7 +26,11 @@ public class NoticeServiceImpl implements NoticeService {
         return noticeMapper.countNotices(param);
     }
 
+    @Override
 
+    public void incrementViewCount(int noticeId) {
+        noticeMapper.updateViewCount(noticeId);
+    }
 
 
     @Override
@@ -77,5 +83,15 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public void noticeDeleted(int noticeId, int adminId) {
         noticeMapper.noticeDeleted(noticeId, adminId);
+    }
+
+    @Override
+    public NoticeDTO getPreviousNotice(int noticeId) {
+        return noticeMapper.findPreviousNotice(noticeId);
+    }
+
+    @Override
+    public NoticeDTO getNextNotice(int noticeId) {
+        return noticeMapper.findNextNotice(noticeId);
     }
 }

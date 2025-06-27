@@ -23,4 +23,10 @@ public interface NoticeService {
 
 
     void noticeDeleted(int noticeId, int adminId);
+
+    void incrementViewCount(int noticeId);
+
+    NoticeDTO getPreviousNotice(int noticeId);
+
+    NoticeDTO getNextNotice(int noticeId);
 }
