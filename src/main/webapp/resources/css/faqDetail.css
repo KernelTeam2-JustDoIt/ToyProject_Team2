@@ -1,117 +1,92 @@
-/* FAQ 상세 페이지 컨테이너 */
-.faq-detail-container {
-    width: 80%;
-    margin: 0 auto;
-    padding: 20px;
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans KR', sans-serif;
     background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
 }
 
-/* FAQ 제목 */
+.faq-detail-container {
+    max-width: 800px;
+    margin: 60px auto 100px auto;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+}
+
 .faq-title {
-    font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #333;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #222;
 }
 
-/* FAQ 메타 데이터 (카테고리, 조회수, 등록일 등) */
 .faq-meta {
     font-size: 14px;
-    color: #777;
-    margin-bottom: 20px;
+    color: #888;
+    margin-bottom: 32px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 12px;
 }
 
-/* FAQ 내용 */
 .faq-content {
     font-size: 16px;
-    line-height: 1.6;
-    color: #333;
-    background-color: #fff;
-    padding: 15px;
-    border-radius: 5px;
-    margin-bottom: 20px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 40px;
+    white-space: pre-wrap;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 24px;
 }
 
-/* 수정/삭제 버튼 (관리자만 보임) */
+/* 관리자 버튼 */
 .faq-actions {
-    margin-top: 20px;
+    margin-bottom: 24px;
 }
 
-.faq-actions a.faq-edit-btn,
-.faq-actions button.faq-delete-btn {
-    padding: 10px 15px;
-    background-color: #007BFF;
+.faq-edit-btn,
+.faq-delete-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #4a6cf7;
     color: white;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    border-radius: 6px;
     text-decoration: none;
+    margin-right: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
-.faq-actions a.faq-edit-btn {
-    margin-right: 10px;
+.faq-delete-btn {
+    background-color: #ff5e5e;
 }
 
-.faq-actions button.faq-delete-btn {
-    background-color: #dc3545;
+.faq-edit-btn:hover {
+    background-color: #395ed1;
 }
 
-.faq-actions a.faq-edit-btn:hover,
-.faq-actions button.faq-delete-btn:hover {
-    background-color: #0056b3;
+.faq-delete-btn:hover {
+    background-color: #d94d4d;
 }
 
-/* 뒤로 가기 링크 */
+/* 목록으로 돌아가기 링크 */
 .back-link {
-    margin-top: 20px;
-    font-size: 14px;
+    text-align: right;
+    margin-top: 16px;
 }
 
 .back-link a {
-    color: #007BFF;
+    font-size: 14px;
+    color: #4a6cf7;
     text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
 }
 
 .back-link a:hover {
+    color: #2d51c8;
     text-decoration: underline;
-}
-
-/* 푸터 스타일 */
-footer {
-    text-align: center;
-    margin-top: 40px;
-    padding: 20px 0;
-    background-color: #f8f9fa;
-    color: #333;
-}
-
-/* 관리자만 보이는 등록 버튼 */
-.faq-admin-actions {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.faq-register-btn {
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-    border-radius: 5px;
-}
-
-.faq-register-btn:hover {
-    background-color: #218838;
-}
-
-/* 공통 스타일 */
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-a:focus, a:hover {
-    text-decoration: none;
 }

@@ -24,40 +24,42 @@
   </c:otherwise>
 </c:choose>
 
-<div class="faq-detail-container">
-  <!-- FAQ 제목 -->
-  <h2 class="faq-title">${faq.faqTitle}</h2> <!-- faqTitle로 수정 -->
+<main class="faq-main">
+  <div class="faq-detail-container">
+    <!-- FAQ 제목 -->
+    <h2 class="faq-title">${faq.faqTitle}</h2>
 
-  <!-- FAQ 메타 데이터 (카테고리, 조회수, 등록일) -->
-  <div class="faq-meta">
-    <span>카테고리: ${faq.faqCategory}</span> | <!-- faqCategory로 수정 -->
-    <span>조회수: ${faq.viewCount}</span> |
-    <span>등록일: ${faq.formattedDate}</span> <!-- 포맷된 날짜 -->
-    <c:if test="${not empty faq.formattedUpdatedDate}">
-      | 수정일: ${faq.formattedUpdatedDate} <!-- 포맷된 수정일 -->
-    </c:if>
-  </div>
-
-  <!-- FAQ 내용 -->
-  <div class="faq-content">
-    ${faq.faqContent}
-  </div>
-
-  <!-- 관리자만 수정/삭제 버튼 표시 -->
-  <c:if test="${not empty sessionScope.loginAdmin}">
-    <div class="faq-actions">
-      <a href="${pageContext.request.contextPath}/faq/edit/${faq.faqId}" class="faq-edit-btn">수정</a>
-      <form method="post" action="${pageContext.request.contextPath}/faq/delete/${faq.faqId}" style="display:inline;">
-        <button type="submit" class="faq-delete-btn" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
-      </form>
+    <!-- FAQ 메타 데이터 -->
+    <div class="faq-meta">
+      <span>카테고리: ${faq.faqCategory}</span> |
+      <span>조회수: ${faq.viewCount}</span> |
+      <span>등록일: ${faq.formattedDate}</span>
+      <c:if test="${not empty faq.formattedUpdatedDate}">
+        | 수정일: ${faq.formattedUpdatedDate}
+      </c:if>
     </div>
-  </c:if>
 
-  <!-- 목록으로 돌아가기 -->
-  <div class="back-link">
-    <a href="${pageContext.request.contextPath}/faq/list">← 목록으로 돌아가기</a>
+    <!-- FAQ 본문 -->
+    <div class="faq-content">
+      ${faq.faqContent}
+    </div>
+
+    <!-- 관리자 수정/삭제 버튼 -->
+    <c:if test="${not empty sessionScope.loginAdmin}">
+      <div class="faq-actions">
+        <a href="${pageContext.request.contextPath}/faq/edit/${faq.faqId}" class="faq-edit-btn">수정</a>
+        <form method="post" action="${pageContext.request.contextPath}/faq/delete/${faq.faqId}" style="display:inline;">
+          <button type="submit" class="faq-delete-btn" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+        </form>
+      </div>
+    </c:if>
+
+    <!-- 목록으로 돌아가기 -->
+    <div class="back-link">
+      <a href="${pageContext.request.contextPath}/faq/list">← 목록으로 돌아가기</a>
+    </div>
   </div>
-</div>
+</main>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body>
