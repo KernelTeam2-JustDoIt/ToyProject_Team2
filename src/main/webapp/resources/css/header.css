@@ -43,7 +43,7 @@ header {
 .header-right {
     display: flex;
     align-items: center;
-    gap: 24px; /* 로그인/회원가입과 아이콘 사이 여백 */
+    gap: 0px; /* 로그인/회원가입과 아이콘 사이 여백 */
 }
 
 /* 인증 링크 (로그인/회원가입) 그룹 스타일 */
