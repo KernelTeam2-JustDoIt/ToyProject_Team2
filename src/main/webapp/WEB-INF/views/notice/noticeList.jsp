@@ -6,33 +6,37 @@
 <html lang="ko">
 <head>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/noticeList.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/adminHeader.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css" />
     <meta charset="UTF-8">
     <title>공지사항</title>
 </head>
 <body>
-<!-- ✅ 상단 헤더 (홈 + 제목 + 관리자 페이지 버튼) -->
-<div class="notice-header">
-    <!-- 홈 버튼 -->
-    <a href="<c:url value='/' />">
-        <img src="${pageContext.request.contextPath}/resources/image/home_icon.png" alt="홈" class="home-icon" />
-    </a>
+<%-- 로그인한 사람이 관리자면 adminHeader.jsp include --%>
+<c:choose>
+    <c:when test="${not empty sessionScope.loginAdmin}">
+        <jsp:include page="/WEB-INF/views/common/adminHeader.jsp" />
+    </c:when>
+    <c:otherwise>
+        <jsp:include page="/WEB-INF/views/common/header.jsp" />
+    </c:otherwise>
+</c:choose>
 
-    <!-- 공지사항 제목 -->
-    <div class="notice-title">공지사항</div>
+<div class="notice-list-container">
+    <!-- ✅ 공지사항 타이틀 -->
+    <div class="notice-title-wrapper">
+        <h2 class="notice-title">
+            <a href="${pageContext.request.contextPath}/notice/list" class="notice-title-link">공지사항</a>
+        </h2>
+    </div>
 
-    <!-- 관리자 전용 버튼 -->
-    <c:if test="${not empty sessionScope.loginAdmin and sessionScope.loginAdmin.roleId == 1}">
-        <a href="${pageContext.request.contextPath}/admin/page" class="admin-link">관리자 페이지</a>
-    </c:if>
-</div>
-
-<hr class="divider" />
-
-<!-- ✅ 검색창 -->
+    <!-- ✅ 검색창 -->
 <form method="get" action="${pageContext.request.contextPath}/notice/list" class="search-bar">
     <input type="text" name="keyword" value="${keyword}" placeholder="제목 또는 내용을 검색하세요" />
     <button type="submit">검색</button>
 </form>
+
 
 <div class="notice-list-container">
     <table class="notice-table">
@@ -65,11 +69,12 @@
             </tr>
         </c:forEach>
 
-        <!-- 일반 공지 -->
+    <!-- 일반 공지 -->
         <c:forEach var="notice" items="${noticeList}">
-            <tr class="${notice.noticeStatus == 'NOACT' ? 'inactive' : ''}">
+            <tr class="${notice.noticeStatus == 'NOACT' ? 'inactive-notice' : ''}">
                 <td>
-                    <a href="${pageContext.request.contextPath}/notice/${notice.noticeId}" class="${notice.noticeStatus == 'NOACT' ? 'inactive-title' : ''}">
+                    <a href="${pageContext.request.contextPath}/notice/${notice.noticeId}"
+                       class="${notice.noticeStatus == 'NOACT' ? 'inactive-link' : ''}">
                             ${notice.title}
                     </a>
                 </td>
@@ -84,10 +89,11 @@
                 <td>${notice.viewCount}</td>
             </tr>
         </c:forEach>
-        </tbody>
-    </table>
 
-    <!-- 관리자 작성 버튼 -->
+
+        </tbody>
+</table>
+ <!--관리자 전용 작성 버튼-->
     <c:if test="${not empty sessionScope.loginAdmin and sessionScope.loginAdmin.roleId == 1}">
         <div class="write-btn-wrapper">
             <a href="${pageContext.request.contextPath}/notice/form" class="write-btn">공지 작성</a>
@@ -111,5 +117,6 @@
         </c:if>
     </div>
 </div>
+    <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body>
 </html>
