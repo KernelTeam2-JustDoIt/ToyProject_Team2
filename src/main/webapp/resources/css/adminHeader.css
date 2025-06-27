@@ -1,5 +1,8 @@
 .admin-header {
     display: flex;
+    align-items: center; /* ✅ 추가: 세로 가운데 정렬 */
+    justify-content: space-between; /* ✅ 양쪽 정렬도 적용 */
+    padding: 16px 24px; /* ✅ 높이 확보 */
     background: linear-gradient(to right, #1e3a8a, #2563eb);
     color: white;
     position: sticky;
