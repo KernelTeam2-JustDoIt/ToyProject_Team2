@@ -34,7 +34,7 @@
 <!-- 검색창: 줄 아래 오른쪽 정렬 -->
 <div class="qna-search-container">
   <form action="${pageContext.request.contextPath}/qna/list" method="get" class="qna-search-form">
-    <input type="text" name="keyword" value="${keyword}" placeholder="제목 검색" />
+    <input type="text" name="keyword" value="${keyword}" placeholder="제목 또는 내용을 검색하세요" />
     <button type="submit">검색</button>
   </form>
 </div>
