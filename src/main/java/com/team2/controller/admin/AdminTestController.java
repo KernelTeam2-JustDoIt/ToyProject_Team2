@@ -1,5 +1,5 @@
 // AdminTestController.java
-package com.team2.controller;
+package com.team2.controller.admin;
 
 import com.team2.dto.Admin.AdminDTO;
 import org.springframework.stereotype.Controller;
@@ -17,6 +17,7 @@ public class AdminTestController {
         dummyAdmin.setRoleId(1); // 1 = 관리자
         session.setAttribute("loginAdmin", dummyAdmin);
 
-        return "redirect:/notice/list"; // 로그인 후 공지사항 목록으로 리다이렉트
+        return "redirect:/"; // 로그인 후 공지사항 목록으로 리다이렉트
     }
+
 }
