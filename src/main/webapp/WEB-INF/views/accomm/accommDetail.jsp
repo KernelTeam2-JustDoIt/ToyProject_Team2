@@ -262,8 +262,43 @@
     }
 
     function reserveRoom(roomId) {
-        console.log("예약하기 클릭:", roomId);
-        // 예약 로직 처리
+        console.log('reserveRoom 호출됨, roomId:', roomId);
+        
+        // URL 파라미터에서 체크인/체크아웃 날짜와 인원수 정보 가져오기
+        const urlParams = new URLSearchParams(window.location.search);
+        let checkIn = urlParams.get('checkIn');
+        let checkOut = urlParams.get('checkOut');
+        let adultCnt = urlParams.get('adultCnt');
+        let babyCnt = urlParams.get('babyCnt');
+        
+        console.log('URL에서 가져온 파라미터들:', { checkIn, checkOut, adultCnt, babyCnt });
+        
+        // 파라미터가 없거나 비어있는 경우 기본값 설정
+        if (!checkIn || checkIn.trim() === '') {
+            const today = new Date();
+            checkIn = today.toISOString().split('T')[0]; // YYYY-MM-DD 형식
+        }
+        
+        if (!checkOut || checkOut.trim() === '') {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            checkOut = tomorrow.toISOString().split('T')[0]; // YYYY-MM-DD 형식
+        }
+        
+        if (!adultCnt || adultCnt.trim() === '') {
+            adultCnt = '2';
+        }
+        
+        if (!babyCnt || babyCnt.trim() === '') {
+            babyCnt = '0';
+        }
+        
+        console.log('최종 파라미터들:', { roomId, checkIn, checkOut, adultCnt, babyCnt });
+        
+        // 직접 예약 페이지로 이동
+        const reservationUrl = `${contextPath}/reservation/direct?roomId=${roomId}&checkIn=${checkIn}&checkOut=${checkOut}&adultCnt=${adultCnt}&babyCnt=${babyCnt}`;
+        console.log('이동할 URL:', reservationUrl);
+        window.location.href = reservationUrl;
     }
 </script>
 <script>

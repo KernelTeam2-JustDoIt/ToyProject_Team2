@@ -9,6 +9,37 @@
     <title>예약 내역</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common_cart.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css">
+    <style>
+        .review-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 8px;
+        }
+        .review-btn:hover {
+            background-color: #0056b3;
+        }
+        .review-btn.disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .review-btn.disabled:hover {
+            background-color: #6c757d;
+        }
+        .button-container {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 8px;
+        }
+    </style>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -56,6 +87,29 @@
                         <p class="font-bold mb-1">${item.accommodationName}</p>
                         <p class="text-gray mb-1" style="font-size:14px;">${item.roomName}</p>
                         <p class="text-gray" style="font-size:12px;">${item.checkInAt} ~ ${item.checkOutDate}</p>
+                        
+                        <!-- 리뷰 작성 버튼 -->
+                        <c:if test="${order.status eq 'COMPLETED'}">
+                            <div class="button-container">
+                                <c:choose>
+                                    <c:when test="${item.canWriteReview}">
+                                        <a href="${pageContext.request.contextPath}/domestic/review/${item.accommId}" class="review-btn">
+                                            리뷰 작성
+                                        </a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button class="review-btn disabled" disabled>
+                                            리뷰 작성 기간 만료
+                                        </button>
+                                    </c:otherwise>
+                                </c:choose>
+                                <c:if test="${not item.canWriteReview && item.daysAfterCheckout > 7}">
+                                    <small style="color: #6c757d; margin-left: 8px;">
+                                        (체크아웃 후 일주일 이내에만 작성 가능)
+                                    </small>
+                                </c:if>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
             </div>

@@ -15,50 +15,97 @@
     <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
     <div class="container" style="max-width: 800px; padding: 24px 16px;">
-        <!-- 예약 상품 카드 반복 -->
-        <c:forEach var="item" items="${cart}">
-            <fmt:parseDate value="${item.desiredCheckInAt}" pattern="yyyy-MM-dd HH:mm:ss" var="checkInDate"/>
-            <fmt:parseDate value="${item.desiredCheckOutAt}" pattern="yyyy-MM-dd HH:mm:ss" var="checkOutDate"/>
-            <div class="card mb-4">
-                <div class="card-content">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="font-bold">숙소</h2>
-                    </div>
-                    <h3 class="font-bold" style="font-size: 18px; margin-bottom: 8px;">${item.roomName}</h3>
-
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; font-size: 14px;">
-                        <div>
-                            <p class="text-gray">체크인</p>
-                            <p class="font-bold">
-                                <fmt:formatDate value="${checkInDate}" pattern="yyyy.MM.dd"/>
-                            </p>
-                            <p class="font-bold">15:00</p>
+        <c:choose>
+            <c:when test="${isDirect}">
+                <!-- 직접 예약 - 단일 객실 정보 표시 -->
+                <div class="card mb-4">
+                    <div class="card-content">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="font-bold">선택한 객실</h2>
                         </div>
-                        <div>
-                            <p class="text-gray">체크아웃</p>
-                            <p class="font-bold">
-                                <fmt:formatDate value="${checkOutDate}" pattern="yyyy.MM.dd"/>
-                            </p>
-                            <p class="font-bold">10:00</p>
+                        <h3 class="font-bold" style="font-size: 18px; margin-bottom: 8px;">스위트룸 (더미데이터)</h3>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; font-size: 14px;">
+                            <div>
+                                <p class="text-gray">체크인</p>
+                                <p class="font-bold">${directCheckIn}</p>
+                                <p class="font-bold">15:00</p>
+                            </div>
+                            <div>
+                                <p class="text-gray">체크아웃</p>
+                                <p class="font-bold">${directCheckOut}</p>
+                                <p class="font-bold">11:00</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <p style="font-size: 14px; color: #6c757d; margin-bottom: 16px;">
-                        숙박 기준 ${item.standardCapacity}명 / 최대 ${item.maximumCapacity}명
-                    </p>
+                        <p style="font-size: 14px; color: #6c757d; margin-bottom: 16px;">
+                            성인 ${directAdultCnt}명 / 유아 ${directBabyCnt}명
+                        </p>
 
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px solid #e9ecef;">
-                        <span style="font-size: 18px; font-weight: bold;">숙박 / 1박</span>
-                        <span style="font-size: 20px; font-weight: bold; color: #2563eb;">
-                            <fmt:formatNumber value="${item.price}" type="number" groupingUsed="true"/>원
-                        </span>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px solid #e9ecef;">
+                            <span style="font-size: 18px; font-weight: bold;">숙박 / 1박</span>
+                            <span style="font-size: 20px; font-weight: bold; color: #2563eb;">
+                                <fmt:formatNumber value="120000" type="number" groupingUsed="true"/>원
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </c:forEach>
+                <c:set var="totalPrice" value="120000" />
+            </c:when>
+            <c:otherwise>
+                <!-- 장바구니 예약 - 기존 방식 -->
+                <c:forEach var="item" items="${cart}">
+                    <fmt:parseDate value="${item.desiredCheckInAt}" pattern="yyyy-MM-dd HH:mm:ss" var="checkInDate"/>
+                    <fmt:parseDate value="${item.desiredCheckOutAt}" pattern="yyyy-MM-dd HH:mm:ss" var="checkOutDate"/>
+                    <div class="card mb-4">
+                        <div class="card-content">
+                            <div class="flex justify-between items-center mb-4">
+                                <h2 class="font-bold">숙소</h2>
+                            </div>
+                            <h3 class="font-bold" style="font-size: 18px; margin-bottom: 8px;">${item.roomName}</h3>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; font-size: 14px;">
+                                <div>
+                                    <p class="text-gray">체크인</p>
+                                    <p class="font-bold">
+                                        <fmt:formatDate value="${checkInDate}" pattern="yyyy.MM.dd"/>
+                                    </p>
+                                    <p class="font-bold">15:00</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray">체크아웃</p>
+                                    <p class="font-bold">
+                                        <fmt:formatDate value="${checkOutDate}" pattern="yyyy.MM.dd"/>
+                                    </p>
+                                    <p class="font-bold">10:00</p>
+                                </div>
+                            </div>
+
+                            <p style="font-size: 14px; color: #6c757d; margin-bottom: 16px;">
+                                숙박 기준 ${item.standardCapacity}명 / 최대 ${item.maximumCapacity}명
+                            </p>
+
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px solid #e9ecef;">
+                                <span style="font-size: 18px; font-weight: bold;">숙박 / 1박</span>
+                                <span style="font-size: 20px; font-weight: bold; color: #2563eb;">
+                                    <fmt:formatNumber value="${item.price}" type="number" groupingUsed="true"/>원
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+            </c:otherwise>
+        </c:choose>
 
         <!-- 예약/결제 폼 -->
-        <form action="${pageContext.request.contextPath}/reservation/complete" method="post" id="reservationForm">
+        <form action="${pageContext.request.contextPath}/<c:choose><c:when test='${isDirect}'>reservation/direct/complete</c:when><c:otherwise>reservation/complete</c:otherwise></c:choose>" method="post" id="reservationForm">
+            <c:if test="${isDirect}">
+                <input type="hidden" name="roomId" value="${directRoomId}">
+                <input type="hidden" name="checkIn" value="${directCheckIn}">
+                <input type="hidden" name="checkOut" value="${directCheckOut}">
+                <input type="hidden" name="adultCnt" value="${directAdultCnt}">
+                <input type="hidden" name="babyCnt" value="${directBabyCnt}">
+            </c:if>
 
             <!-- 방문 수단 & 예약자/이용자 정보 -->
             <div class="card mb-4">
@@ -109,7 +156,14 @@
                         <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                             <span>상품 금액</span>
                             <span class="font-bold">
-                                <fmt:formatNumber value="${totalPrice}" type="number" groupingUsed="true"/>원
+                                <c:choose>
+                                    <c:when test="${isDirect}">
+                                        <fmt:formatNumber value="120000" type="number" groupingUsed="true"/>원
+                                    </c:when>
+                                    <c:otherwise>
+                                        <fmt:formatNumber value="${totalPrice}" type="number" groupingUsed="true"/>원
+                                    </c:otherwise>
+                                </c:choose>
                             </span>
                         </div>
                     </div>
@@ -118,7 +172,14 @@
                         <div style="display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: bold;">
                             <span>총 결제 금액</span>
                             <span class="text-blue">
-                                <fmt:formatNumber value="${totalPrice}" type="number" groupingUsed="true"/>원
+                                <c:choose>
+                                    <c:when test="${isDirect}">
+                                        <fmt:formatNumber value="120000" type="number" groupingUsed="true"/>원
+                                    </c:when>
+                                    <c:otherwise>
+                                        <fmt:formatNumber value="${totalPrice}" type="number" groupingUsed="true"/>원
+                                    </c:otherwise>
+                                </c:choose>
                             </span>
                         </div>
                     </div>
@@ -157,7 +218,14 @@
 
             <!-- 결제 버튼 -->
             <button type="submit" id="paymentButton" class="btn w-full" style="height: 48px; font-size: 18px; font-weight: bold; background: #2563eb; color: white;">
-                <fmt:formatNumber value="${totalPrice}" type="number" groupingUsed="true"/>원 결제하기
+                <c:choose>
+                    <c:when test="${isDirect}">
+                        <fmt:formatNumber value="120000" type="number" groupingUsed="true"/>원 결제하기
+                    </c:when>
+                    <c:otherwise>
+                        <fmt:formatNumber value="${totalPrice}" type="number" groupingUsed="true"/>원 결제하기
+                    </c:otherwise>
+                </c:choose>
             </button>
         </form>
     </div>

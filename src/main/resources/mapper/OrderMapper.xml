@@ -41,14 +41,30 @@
 
     <!-- 주문의 아이템 목록 -->
     <select id="selectOrderItems" parameterType="int" resultType="com.team2.dto.order.OrderItemDTO">
-        SELECT item_id AS itemId,
-               order_id AS orderId,
-               accomm_id AS accommId,
-               room_name AS roomName,
-               price,
-               quantity
-        FROM order_items
-        WHERE order_id = #{orderId}
+        SELECT oi.item_id AS itemId,
+               oi.order_id AS orderId,
+               CASE 
+                   WHEN r.accommodation_id IS NOT NULL THEN r.accommodation_id
+                   ELSE oi.accomm_id
+               END AS accommId,
+               oi.room_name AS roomName,
+               oi.price,
+               oi.quantity,
+               r.accommodation_id AS accommodationId,
+               a.accommodation_name AS accommodationName,
+               res.check_in_at AS checkInAt,
+               res.check_out_date AS checkOutDate,
+               res.reserve_id AS reserveId
+        FROM order_items oi
+        LEFT JOIN room r ON oi.accomm_id = r.room_id
+        LEFT JOIN accommodation a ON r.accommodation_id = a.accommodation_id
+        LEFT JOIN reserve res ON r.room_id = res.room_id 
+               AND EXISTS (
+                   SELECT 1 FROM payment p 
+                   WHERE p.reserve_id = res.reserve_id 
+                   AND p.price = oi.price
+               )
+        WHERE oi.order_id = #{orderId}
     </select>
 
 </mapper> 

@@ -43,12 +43,11 @@
                 <img src="https://cdn-icons-png.flaticon.com/512/263/263142.png" alt="장바구니" />
                 <span>장바구니</span>
             </a>
-        </div>
-        <div>
-            <%-- 예약 내역 링크 --%>
+
+            <%-- 예약내역 메뉴 --%>
             <a href="${pageContext.request.contextPath}/orders" class="icon-link">
-                <img src="${pageContext.request.contextPath}/resources/image/clipboard.png" alt="예약 내역" /> <%-- 장바구니와 동일한 이미지 사용 --%>
-                <span>예약 내역</span>
+                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="예약 내역" />
+                <span>예약내역</span>
             </a>
         </div>
     </div>

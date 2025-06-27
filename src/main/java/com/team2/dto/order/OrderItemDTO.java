@@ -24,4 +24,8 @@ public class OrderItemDTO {
     private String accommodationName; // 숙소명
     private String thumbnailUrl; // 썸네일 이미지 URL
     private int reserveId; // 예약 ID (reserve 테이블 FK)
+    
+    // 추가: 리뷰 작성 가능 여부
+    private boolean canWriteReview; // 리뷰 작성 가능 여부 (체크아웃 후 7일 이내)
+    private long daysAfterCheckout; // 체크아웃 후 경과 일수
 } 
