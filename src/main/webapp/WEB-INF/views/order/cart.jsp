@@ -34,7 +34,7 @@
                             <th style="padding:8px;">숙박 기간</th>
                             <th style="padding:8px;">인원</th>
                             <th style="padding:8px;">금액</th>
-                            <th style="padding:5px;">삭제</th>
+<%--                            <th style="padding:5px;">삭제</th>--%>
                         </tr>
                     </thead>
                     <tbody>
@@ -81,11 +81,11 @@
                                         <input type="hidden" name="cartId" value="${item.cartId}"/>
                                         <button type="submit"
                                                 style="background:none;
-                               border:none;
-                               color:#dc3545;
-                               cursor:pointer;
-                               padding:4px 8px;
-                               font-size:12px;">
+                                                   border:none;
+                                                   color:#dc3545;
+                                                   cursor:pointer;
+                                                   padding:4px 8px;
+                                                   font-size:12px;">
                                             삭제
                                         </button>
                                     </form>
@@ -104,4 +104,4 @@
         </c:if>
     </div>
 </body>
-</html> 
+</html>

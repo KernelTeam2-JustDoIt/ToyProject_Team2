@@ -31,14 +31,19 @@ public class ReservationController {
     public String reservationPage(HttpSession session, Model model) {
         List<Integer> selectedIds = (List<Integer>) session.getAttribute("selectedCartIds");
         com.team2.model.CustomerVO loginCustomer = (com.team2.model.CustomerVO) session.getAttribute("loginCustomer");
-        if (selectedIds == null || selectedIds.isEmpty() || loginCustomer == null) {
+        if (selectedIds == null || selectedIds.isEmpty()) {
+            System.out.println("111111");
+            System.out.println(selectedIds);
+            System.out.println(loginCustomer);
             return "redirect:/cart";
         }
+
 
         Integer customerId = loginCustomer.getCustomerId();
         List<ShoppingCartItemDTO> items = shoppingCartService.getCartItems(customerId);
         items.removeIf(i -> !selectedIds.contains(i.getCartId()));
         if (items.isEmpty()) {
+            System.out.println("2222222222222");
             return "redirect:/cart";
         }
 

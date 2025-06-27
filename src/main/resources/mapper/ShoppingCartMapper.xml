@@ -118,4 +118,10 @@
         WHERE s.CUSTOMER_ID = #{customerId}
     </select>
 
+    <!-- 장바구니 삭제-->
+    <delete id="deleteCart" parameterType="int">
+        DELETE FROM SHOPPING_CART
+        WHERE cart_id = #{cartId}
+    </delete>
+
 </mapper> 

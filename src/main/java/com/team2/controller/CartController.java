@@ -143,4 +143,10 @@ public class CartController {
         return "redirect:/reservation";
     }
 
+    @PostMapping("/delete")
+    public String deleteCart(
+            @RequestParam("cartId") int cartId) {
+        shoppingCartService.deleteCart(cartId);
+        return "redirect:/cart";
+    }
 } 
