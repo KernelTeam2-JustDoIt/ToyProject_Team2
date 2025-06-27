@@ -11,10 +11,18 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/index.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/adminHeader.css" />
 </head>
 <body>
 
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
+<c:choose>
+    <c:when test="${not empty sessionScope.loginAdmin}">
+        <jsp:include page="/WEB-INF/views/common/adminHeader.jsp"/>
+    </c:when>
+    <c:otherwise>
+        <jsp:include page="/WEB-INF/views/common/header.jsp"/>
+    </c:otherwise>
+</c:choose>
 
 <main>
     <!-- 공지사항 영역 -->
