@@ -5,19 +5,44 @@ body {
     font-family: 'Segoe UI', sans-serif;
 }
 
-.notice-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background: white;
+/* 공지사항 작성/수정 상단 타이틀 영역 */
+.notice-top-bar {
+    max-width: 900px;
+    margin: 30px auto 40px;
+    padding-bottom: 20px;
     border-bottom: 1px solid #ddd;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
-.notice-header a {
+.notice-page-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 auto;
+    text-align: center;
+}
+/* 목록 버튼: 오른쪽 상단 */
+.back-to-list {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
     text-decoration: none;
-    font-size: 18px;
-    color: black;
+    padding: 6px 12px;
+    border: 1px solid #4a6cf7;
+    border-radius: 4px;
+    color: #4a6cf7;
+    font-weight: bold;
+    font-size: 14px;
+    background-color: white;
+    transition: background-color 0.2s ease;
+}
+
+.back-to-list:hover {
+    background-color: #e8f0ff;
 }
 
 .form-container {
@@ -65,4 +90,19 @@ button {
 
 button:hover {
     background-color: #45a049;
+}
+.list-button {
+    background-color: #2196F3;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.list-button:hover {
+    background-color: #1976D2;
 }
