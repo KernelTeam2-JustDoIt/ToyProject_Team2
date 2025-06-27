@@ -93,16 +93,18 @@
         SELECT COUNT(*)
         FROM NOTICE
         <where>
-            <if test="isAdmin == false">
-                NOTICE_STATUS = 'ACT'
-            </if>
+            <choose>
+                <when test="isAdmin == false">
+                    NOTICE_STATUS = 'ACT'
+                </when>
+                <otherwise>
+                    NOTICE_STATUS != 'DEL'
+                </otherwise>
+            </choose>
 
             <if test="keyword != null and keyword != ''">
-                <if test="isAdmin == false">
-                    AND
-                </if>
-                (
-                notice_title LIKE CONCAT('%', #{keyword}, '%')
+                AND (
+                NOTICE_TITLE LIKE CONCAT('%', #{keyword}, '%')
                 OR NOTICE_DETAIL LIKE CONCAT('%', #{keyword}, '%')
                 )
             </if>
