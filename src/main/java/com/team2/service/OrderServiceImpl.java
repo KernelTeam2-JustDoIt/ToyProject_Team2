@@ -46,66 +46,60 @@ public class OrderServiceImpl implements OrderService {
         // 총 금액 계산
         int totalPrice = cartItems.stream().mapToInt(ShoppingCartItemDTO::getPrice).sum();
 
-        // Order 정보 생성
+        List<OrderItemDTO> items = new ArrayList<>();
         OrderDTO order = new OrderDTO();
+        
+        // 첫 번째 장바구니 아이템으로 주문 기본 정보 설정
+        ShoppingCartItemDTO firstItem = cartItems.get(0);
+        
+        // 체크인/체크아웃 날짜 설정
+        String checkIn = firstItem.getDesiredCheckInAt();
+        String checkOut = firstItem.getDesiredCheckOutAt();
+        if(checkIn == null || checkIn.isEmpty()) {
+            checkIn = java.time.LocalDateTime.now().toString();
+        }
+        if(checkOut == null || checkOut.isEmpty()) {
+            checkOut = java.time.LocalDateTime.now().plusDays(1).toString();
+        }
+
+        // OrderDTO 설정
         order.setCustomerId(customerId);
+        order.setRoomId(firstItem.getRoomId());
+        order.setCheckInAt(java.sql.Timestamp.valueOf(checkIn.replace("T", " ")));
+        order.setCheckOutDate(java.sql.Timestamp.valueOf(checkOut.replace("T", " ")));
         order.setTotalPrice(totalPrice);
-        order.setStatus("COMPLETED"); // 간단하게 결제 완료 처리
+        order.setStatus("COMPLETED");
         order.setOrderDate(new Date());
 
-        // 1. orders 테이블 insert
-        orderMapper.insertOrder(order); // orderId 생성됨
+        // 1. RESERVE 테이블에 예약 정보 저장
+        orderMapper.insertOrder(order); // RESERVE_ID 생성됨
 
-        // 2. order_items 테이블 insert
-        List<OrderItemDTO> items = new ArrayList<>();
+        // 2. PAYMENT 테이블에 결제 정보 저장
         for (ShoppingCartItemDTO cartItem : cartItems) {
             // 객실 상세 정보 조회
             RoomDTO roomInfo = roomService.getRoom(cartItem.getRoomId());
 
             OrderItemDTO item = new OrderItemDTO();
-            item.setOrderId(order.getOrderId());
-            item.setAccommId(roomInfo != null ? roomInfo.getAccommodationId() : cartItem.getRoomId());
+            item.setOrderId(order.getOrderId()); // RESERVE_ID
+            item.setAccommId(cartItem.getRoomId());
             item.setRoomName(cartItem.getRoomName());
             item.setAccommodationName(roomInfo != null ? roomInfo.getAccommodationName() : "");
             item.setPrice(cartItem.getPrice());
             item.setQuantity(1);
-
-            // 체크인/체크아웃 날짜 및 시간, 인원 정보
-            String checkIn = cartItem.getDesiredCheckInAt();
-            String checkOut = cartItem.getDesiredCheckOutAt();
-            if(checkIn == null || checkIn.isEmpty()) {
-                checkIn = java.time.LocalDateTime.now().toString();
-            }
-            if(checkOut == null || checkOut.isEmpty()) {
-                checkOut = java.time.LocalDateTime.now().plusDays(1).toString();
-            }
             item.setCheckInAt(checkIn);
             item.setCheckOutDate(checkOut);
+            
             if (roomInfo != null) {
-                // LocalTime을 String으로 변환하여 설정
                 item.setCheckInTime(roomInfo.getCheckinTime() != null ? roomInfo.getCheckinTime().toString() : "");
                 item.setCheckOutTime(roomInfo.getCheckoutTime() != null ? roomInfo.getCheckoutTime().toString() : "");
                 item.setStandardCapacity(roomInfo.getStandardCapacity());
                 item.setMaximumCapacity(roomInfo.getMaximumCapacity());
             }
 
+            // PAYMENT 테이블에 저장
             orderMapper.insertOrderItem(item);
+            item.setReserveId(order.getOrderId());
             items.add(item);
-
-            // --- 추가 : RESERVE, PAYMENT 레코드 생성 ---
-            ReserveDTO reserve = new ReserveDTO();
-            reserve.setReserverId(customerId);
-            reserve.setRoomId(cartItem.getRoomId());
-            reserve.setCheckInAt(checkIn);
-            reserve.setCheckOutDate(checkOut);
-            reserveMapper.insertReserve(reserve);
-
-            PaymentDTO payment = new PaymentDTO();
-            payment.setReserveId(reserve.getReserveId());
-            payment.setPrice(cartItem.getPrice());
-            paymentMapper.insertPayment(payment);
-
-            item.setReserveId(reserve.getReserveId());
         }
 
         order.setItems(items);

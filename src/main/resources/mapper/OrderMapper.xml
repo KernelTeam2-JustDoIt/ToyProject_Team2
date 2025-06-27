@@ -6,65 +6,67 @@
 
     <!-- Order 기본정보 저장 -->
     <insert id="insertOrder" parameterType="com.team2.dto.order.OrderDTO" useGeneratedKeys="true" keyProperty="orderId">
-        INSERT INTO orders (customer_id, total_price, status, order_date)
-        VALUES (#{customerId}, #{totalPrice}, #{status}, NOW())
+        INSERT INTO RESERVE (RESERVER_ID, ROOM_ID, CHECK_IN_AT, CHECK_OUT_DATE, RESERVE_STATUS_ID, 
+                           IS_CANCELABLE, RESERVE_DATE, CREATED_AT)
+        VALUES (#{customerId}, #{roomId}, #{checkInAt}, #{checkOutDate}, 1, 1, NOW(), NOW())
     </insert>
 
     <!-- OrderItem 저장 -->
     <insert id="insertOrderItem" parameterType="com.team2.dto.order.OrderItemDTO" useGeneratedKeys="true" keyProperty="itemId">
-        INSERT INTO order_items (order_id, accomm_id, room_name, price, quantity)
-        VALUES (#{orderId}, #{accommId}, #{roomName}, #{price}, #{quantity})
+        INSERT INTO PAYMENT (RESERVE_ID, PAYMENT_OPTION_ID, PAYMENT_STATUS_ID, PRICE, 
+                           BASE_PRICE, IS_REFUNDABLE, CREATED_AT)
+        VALUES (#{orderId}, 1, 1, #{price}, #{price}, 1, NOW())
     </insert>
 
     <!-- 고객 ID 로 주문 목록 -->
     <select id="selectOrdersByCustomerId" parameterType="int" resultType="com.team2.dto.order.OrderDTO">
-        SELECT order_id AS orderId,
-               customer_id AS customerId,
-               total_price AS totalPrice,
-               status,
-               order_date AS orderDate
-        FROM orders
-        WHERE customer_id = #{customerId}
-        ORDER BY order_date DESC
+        SELECT r.RESERVE_ID AS orderId,
+               r.RESERVER_ID AS customerId,
+               p.PRICE AS totalPrice,
+               CASE 
+                   WHEN p.PAYMENT_STATUS_ID = 1 THEN 'COMPLETED'
+                   ELSE 'PENDING'
+               END AS status,
+               r.RESERVE_DATE AS orderDate
+        FROM RESERVE r
+        LEFT JOIN PAYMENT p ON r.RESERVE_ID = p.RESERVE_ID
+        WHERE r.RESERVER_ID = #{customerId}
+        ORDER BY r.RESERVE_DATE DESC
     </select>
 
     <!-- 주문 단건 -->
     <select id="selectOrderById" parameterType="int" resultType="com.team2.dto.order.OrderDTO">
-        SELECT order_id AS orderId,
-               customer_id AS customerId,
-               total_price AS totalPrice,
-               status,
-               order_date AS orderDate
-        FROM orders
-        WHERE order_id = #{orderId}
+        SELECT r.RESERVE_ID AS orderId,
+               r.RESERVER_ID AS customerId,
+               p.PRICE AS totalPrice,
+               CASE 
+                   WHEN p.PAYMENT_STATUS_ID = 1 THEN 'COMPLETED'
+                   ELSE 'PENDING'
+               END AS status,
+               r.RESERVE_DATE AS orderDate
+        FROM RESERVE r
+        LEFT JOIN PAYMENT p ON r.RESERVE_ID = p.RESERVE_ID
+        WHERE r.RESERVE_ID = #{orderId}
     </select>
 
     <!-- 주문의 아이템 목록 -->
     <select id="selectOrderItems" parameterType="int" resultType="com.team2.dto.order.OrderItemDTO">
-        SELECT oi.item_id AS itemId,
-               oi.order_id AS orderId,
-               CASE 
-                   WHEN r.accommodation_id IS NOT NULL THEN r.accommodation_id
-                   ELSE oi.accomm_id
-               END AS accommId,
-               oi.room_name AS roomName,
-               oi.price,
-               oi.quantity,
-               r.accommodation_id AS accommodationId,
-               a.accommodation_name AS accommodationName,
-               res.check_in_at AS checkInAt,
-               res.check_out_date AS checkOutDate,
-               res.reserve_id AS reserveId
-        FROM order_items oi
-        LEFT JOIN room r ON oi.accomm_id = r.room_id
-        LEFT JOIN accommodation a ON r.accommodation_id = a.accommodation_id
-        LEFT JOIN reserve res ON r.room_id = res.room_id 
-               AND EXISTS (
-                   SELECT 1 FROM payment p 
-                   WHERE p.reserve_id = res.reserve_id 
-                   AND p.price = oi.price
-               )
-        WHERE oi.order_id = #{orderId}
+        SELECT p.PAYMENT_ID AS itemId,
+               r.RESERVE_ID AS orderId,
+               rm.ROOM_ID AS accommId,
+               rm.ROOM_NAME AS roomName,
+               p.PRICE AS price,
+               1 AS quantity,
+               a.ACCOMMODATION_ID AS accommodationId,
+               a.ACCOMMODATION_NAME AS accommodationName,
+               r.CHECK_IN_AT AS checkInAt,
+               r.CHECK_OUT_DATE AS checkOutDate,
+               r.RESERVE_ID AS reserveId
+        FROM RESERVE r
+        LEFT JOIN PAYMENT p ON r.RESERVE_ID = p.RESERVE_ID
+        LEFT JOIN ROOM rm ON r.ROOM_ID = rm.ROOM_ID
+        LEFT JOIN ACCOMMODATION a ON rm.ACCOMMODATION_ID = a.ACCOMMODATION_ID
+        WHERE r.RESERVE_ID = #{orderId}
     </select>
 
 </mapper> 
