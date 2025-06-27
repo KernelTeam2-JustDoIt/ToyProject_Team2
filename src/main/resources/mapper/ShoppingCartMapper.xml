@@ -49,8 +49,8 @@
     </select>
 
     <insert id="insertCartItem" parameterType="com.team2.dto.order.ShoppingCartItemDTO" useGeneratedKeys="true" keyProperty="cartId">
-        INSERT INTO shopping_cart (room_id, customer_id, desired_check_in_at, desired_check_out_at, adult_count, child_count, created_at)
-        VALUES (#{roomId}, #{customerId}, #{desiredCheckInAt}, #{desiredCheckOutAt}, #{adultCount}, #{childCount}, NOW())
+        INSERT INTO shopping_cart (room_id, customer_id, adult_count, child_count, created_at)
+        VALUES (#{roomId}, #{customerId}, #{adultCount}, #{childCount}, NOW())
     </insert>
 
     <delete id="deleteById" parameterType="int">
@@ -63,5 +63,59 @@
             #{id}
         </foreach>
     </delete>
+
+    <!-- 회원&객실번호로 중복담기 방지 -->
+    <select id="findByCustomerAndRoom" resultType="CartDTO" parameterType="CartDTO" >
+        SELECT *
+        FROM SHOPPING_CART
+        WHERE customer_id = #{customerId}
+          AND room_id = #{roomId}
+    </select>
+
+    <!-- 장바구니 인원 수정 -->
+    <update id="updatePeopleCnt" parameterType="CartDTO">
+        UPDATE SHOPPING_CART
+        <set>
+            <if test="adultCount != null">
+                adult_count = #{adultCount},
+            </if>
+            <if test="childCount != null">
+                child_count = #{childCount}
+            </if>
+        </set>
+        WHERE cart_id = #{cartId}
+    </update>
+
+    <!-- 회원번호로 찾기 -->
+    <select id="findByCustomer" parameterType="int" resultType="CartAddDTO">
+        SELECT * FROM shopping_cart
+        WHERE customer_id = #{customerId}
+        ORDER BY customer_id DESC
+    </select>
+
+    <!-- 장바구니 전체 삭제 -->
+    <delete id="deleteAllCart">
+        DELETE FROM SHOPPING_CART
+    </delete>
+
+    <!-- 장바구니 조회 -->
+    <select id="getCartList" parameterType="int" resultType="com.team2.dto.cart.CartResponse">
+        SELECT
+            s.cart_id,
+            s.room_id,
+            s.customer_id,
+            s.adult_count,
+            s.child_count,
+            r.price,
+            r.accommodation_id,
+            r.room_name,
+            r.checkin_time,
+            r.checkout_time,
+            r.standard_capacity,
+            r.maximum_capacity
+        FROM SHOPPING_CART s
+                 JOIN ROOM r on s.room_id = r.room_id
+        WHERE s.CUSTOMER_ID = #{customerId}
+    </select>
 
 </mapper> 
