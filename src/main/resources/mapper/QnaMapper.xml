@@ -32,7 +32,8 @@
                 AND (IS_SECRET = 0 OR CUSTOMER_ID = #{customerId})
             </if>
             <if test="keyword != null and keyword.trim() != ''">
-                AND TITLE LIKE CONCAT('%', #{keyword}, '%')
+                AND (TITLE LIKE CONCAT('%', #{keyword}, '%')
+                OR CONTENT LIKE CONCAT('%', #{keyword}, '%'))
             </if>
         </where>
         ORDER BY POSTED_AT DESC
@@ -76,7 +77,8 @@
                 AND (IS_SECRET = 0 OR CUSTOMER_ID = #{customerId})
             </if>
             <if test="keyword != null and keyword.trim() != ''">
-                AND TITLE LIKE CONCAT('%', #{keyword}, '%')
+                AND (TITLE LIKE CONCAT('%', #{keyword}, '%')
+                OR CONTENT LIKE CONCAT('%', #{keyword}, '%'))
             </if>
         </where>
     </select>
