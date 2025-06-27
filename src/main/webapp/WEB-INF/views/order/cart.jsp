@@ -32,7 +32,9 @@
                             <th style="padding:8px;">선택</th>
                             <th style="padding:8px; text-align:left;">상품명</th>
                             <th style="padding:8px;">숙박 기간</th>
+                            <th style="padding:8px;">인원</th>
                             <th style="padding:8px;">금액</th>
+<%--                            <th style="padding:5px;">삭제</th>--%>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,6 +73,23 @@
                                         </button>
                                     </form>
                             <td style="padding:8px; font-weight:bold; text-align:right;">${item.price}원</td>
+                                <!-- 삭제 버튼 -->
+                                <td style="padding:8px; text-align:center;">
+                                    <form action="${pageContext.request.contextPath}/cart/delete"
+                                          method="post"
+                                          style="display:inline-block; margin:0;">
+                                        <input type="hidden" name="cartId" value="${item.cartId}"/>
+                                        <button type="submit"
+                                                style="background:none;
+                                                   border:none;
+                                                   color:#dc3545;
+                                                   cursor:pointer;
+                                                   padding:4px 8px;
+                                                   font-size:12px;">
+                                            삭제
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                         </c:forEach>
                     </tbody>
@@ -85,4 +104,4 @@
         </c:if>
     </div>
 </body>
-</html> 
+</html>

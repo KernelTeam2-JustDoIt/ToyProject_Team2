@@ -28,5 +28,7 @@ public interface ShoppingCartMapper {
     void updatePeopleCnt(ShoppingCartItemDTO item);
 
     List<CartResponse> getCartList(@Param("customerId") int customerId );
+
+    void deleteCart(int cartId);
 }
 

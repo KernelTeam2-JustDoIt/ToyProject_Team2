@@ -84,7 +84,7 @@ public class CartController {
     public ResponseEntity<String> addToCart(@RequestBody ShoppingCartItemDTO cartItem
                             , HttpSession session, HttpServletRequest request, HttpServletResponse response) {
         CustomerVO customer = (CustomerVO) session.getAttribute("loginCustomer");
-        System.out.println("cartItem.getRoomId() = " + cartItem.getRoomId());
+
         if (customer == null) {
             String nonMemberIdStr = null;
             for (Cookie cookie : request.getCookies()) {
@@ -141,5 +141,12 @@ public class CartController {
         // 선택한 장바구니 ID를 세션에 저장한 뒤 예약 화면으로 이동한다.
         session.setAttribute("selectedCartIds", java.util.Collections.singletonList(saved.getCartId()));
         return "redirect:/reservation";
+    }
+
+    @PostMapping("/delete")
+    public String deleteCart(
+            @RequestParam("cartId") int cartId) {
+        shoppingCartService.deleteCart(cartId);
+        return "redirect:/cart";
     }
 } 

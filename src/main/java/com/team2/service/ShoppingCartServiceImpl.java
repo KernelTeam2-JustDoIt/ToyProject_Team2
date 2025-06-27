@@ -63,4 +63,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         System.out.println("customerId = " + customerId);
         return shoppingCartMapper.getCartList(customerId);
     }
+
+    // 장바구니 삭제
+    public void deleteCart(int cartId) {
+        shoppingCartMapper.deleteCart(cartId);
+    }
 } 

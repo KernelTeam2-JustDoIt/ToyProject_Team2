@@ -115,6 +115,8 @@ public class CustomerController {
         // 로그인 처리 시도
         try {
             CustomerVO customer = customerService.login(customerLoginId, customerPassword);
+            System.out.println("2222");
+            System.out.println(customer);
             session.setAttribute("loginCustomer", customer); // 로그인 객체 저장
             session.setAttribute("loginCustomerId", customer.getCustomerId()); // ID 별도 저장 (기존 로직 호환)
             return "redirect:/"; // 홈페이지로 이동
