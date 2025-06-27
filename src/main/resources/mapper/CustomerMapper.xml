@@ -160,9 +160,15 @@
     <insert id="insertNonMember" parameterType="com.team2.model.CustomerVO" useGeneratedKeys="true" keyProperty="customerId" keyColumn="CUSTOMER_ID">
         insert into CUSTOMER(
                              CUSTOMER_STATUS_ID,
+                             CUSTOMER_NAME,
+                             CUSTOMER_TEL,
+                             IS_MARKETING_USE_AGREED,
                              JOINED_AT
         )
         values (
+                0,
+                '비회원',
+                '000-0000-0000',
                 0,
                 now()
                )

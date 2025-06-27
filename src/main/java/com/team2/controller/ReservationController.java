@@ -36,28 +36,74 @@ public class ReservationController {
      * 예약/결제 화면 출력
      */
     @GetMapping("reservation")
-    public String reservationPage(HttpSession session, Model model) {
+    public String reservationPage(HttpSession session, Model model, HttpServletRequest request) {
+        System.out.println("=== ReservationController.reservationPage 시작 ===");
+        
         List<Integer> selectedIds = (List<Integer>) session.getAttribute("selectedCartIds");
         com.team2.model.CustomerVO loginCustomer = (com.team2.model.CustomerVO) session.getAttribute("loginCustomer");
+        
+        System.out.println("selectedIds: " + selectedIds);
+        System.out.println("loginCustomer: " + loginCustomer);
+        
         if (selectedIds == null || selectedIds.isEmpty()) {
-            System.out.println("111111");
-            System.out.println(selectedIds);
-            System.out.println(loginCustomer);
+            System.out.println("selectedIds가 null이거나 비어있어서 cart로 리다이렉트");
             return "redirect:/cart";
         }
 
+        // 회원/비회원 customerId 처리
+        Integer customerId = null;
+        
+        // 로그인된 사용자가 있으면 해당 사용자의 customerId 사용 (우선순위)
+        if (loginCustomer != null) {
+            customerId = loginCustomer.getCustomerId();
+            System.out.println("로그인 사용자 customerId: " + customerId);
+        } else {
+            // 쿠키에서 비회원 ID 확인
+            Cookie[] cookies = request.getCookies();
+            System.out.println("쿠키 배열: " + (cookies != null ? cookies.length : "null"));
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    System.out.println("쿠키 이름: " + cookie.getName() + ", 값: " + cookie.getValue());
+                    if (cookie.getName().equals("nonMemberId")) {
+                        String nonmemberIdStr = cookie.getValue();
+                        System.out.println("비회원 쿠키 값: " + nonmemberIdStr);
+                        try {
+                            customerId = Integer.parseInt(nonmemberIdStr);
+                            System.out.println("비회원 customerId: " + customerId);
+                        } catch (NumberFormatException e) {
+                            // 쿠키 값이 유효하지 않은 경우 무시
+                            customerId = null;
+                            System.out.println("비회원 쿠키 값 파싱 실패");
+                        }
+                        break;
+                    }
+                }
+            } else {
+                System.out.println("쿠키가 없습니다.");
+            }
+        }
 
-        Integer customerId = loginCustomer.getCustomerId();
+        // customerId가 없으면 장바구니로 리다이렉트
+        if (customerId == null) {
+            System.out.println("customerId가 null이어서 cart로 리다이렉트");
+            return "redirect:/cart";
+        }
+
         List<ShoppingCartItemDTO> items = shoppingCartService.getCartItems(customerId);
+        System.out.println("전체 장바구니 아이템 수: " + items.size());
+        
         items.removeIf(i -> !selectedIds.contains(i.getCartId()));
+        System.out.println("선택된 아이템 수: " + items.size());
+        
         if (items.isEmpty()) {
-            System.out.println("2222222222222");
+            System.out.println("선택된 아이템이 없어서 cart로 리다이렉트");
             return "redirect:/cart";
         }
 
         model.addAttribute("cart", items);
         int totalPrice = items.stream().mapToInt(ShoppingCartItemDTO::getPrice).sum();
         model.addAttribute("totalPrice", totalPrice);
+        System.out.println("예약 페이지로 이동, 총 가격: " + totalPrice);
         return "order/reservation";
     }
 
@@ -113,18 +159,43 @@ public class ReservationController {
      * 결제 완료 처리
      */
     @PostMapping("reservation/complete")
-    public String completeReservation(HttpSession session, Model model) {
+    public String completeReservation(HttpSession session, Model model, HttpServletRequest request) {
         List<Integer> selectedIds = (List<Integer>) session.getAttribute("selectedCartIds");
         if (selectedIds == null || selectedIds.isEmpty()) {
             return "redirect:/cart";
         }
 
+        // 회원/비회원 customerId 처리
         com.team2.model.CustomerVO loginCustomer = (com.team2.model.CustomerVO) session.getAttribute("loginCustomer");
-        if (loginCustomer == null) {
-            return "redirect:/customer/login"; // 로그인 필요
+        Integer customerId = null;
+        
+        // 로그인된 사용자가 있으면 해당 사용자의 customerId 사용 (우선순위)
+        if (loginCustomer != null) {
+            customerId = loginCustomer.getCustomerId();
+        } else {
+            // 쿠키에서 비회원 ID 확인
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("nonMemberId")) {
+                        String nonmemberIdStr = cookie.getValue();
+                        try {
+                            customerId = Integer.parseInt(nonmemberIdStr);
+                        } catch (NumberFormatException e) {
+                            // 쿠키 값이 유효하지 않은 경우 무시
+                            customerId = null;
+                        }
+                        break;
+                    }
+                }
+            }
         }
 
-        Integer customerId = loginCustomer.getCustomerId();
+        // customerId가 없으면 장바구니로 리다이렉트
+        if (customerId == null) {
+            return "redirect:/cart";
+        }
+
         List<ShoppingCartItemDTO> items = shoppingCartService.getCartItems(customerId);
         items.removeIf(i -> !selectedIds.contains(i.getCartId()));
         if (items.isEmpty()) {
