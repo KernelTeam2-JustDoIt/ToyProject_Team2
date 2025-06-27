@@ -7,56 +7,40 @@
 <head>
   <meta charset="UTF-8">
   <title>FAQ 등록 / 수정</title>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/adminHeader.css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/faqForm.css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css" />
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const checkbox = document.getElementById("statusCheck");
+      const hiddenInput = document.getElementById("faqStatusHidden");
+
+      checkbox.addEventListener("change", function () {
+        hiddenInput.value = checkbox.checked ? 'ACT' : 'NOACT';
+      });
+    });
+  </script>
 </head>
+
+
+
 <body>
-
-<!-- ✅ 헤더 분기 -->
-<c:choose>
-  <c:when test="${not empty sessionScope.loginAdmin}">
-    <jsp:include page="/WEB-INF/views/common/adminHeader.jsp" />
-  </c:when>
-  <c:otherwise>
-    <jsp:include page="/WEB-INF/views/common/header.jsp" />
-  </c:otherwise>
-</c:choose>
-
+<jsp:include page="/WEB-INF/views/common/adminHeader.jsp" />
+<!-- 폼 -->
 <div class="faq-form-container">
-  <c:choose>
-    <c:when test="${empty faq.faqId}">
-      <h2>FAQ 등록</h2>
-    </c:when>
-    <c:otherwise>
-      <h2>FAQ 수정</h2>
-    </c:otherwise>
-  </c:choose>
-  <!-- 제목 변경 -->
+  <h2>${empty faq.faqId ? 'FAQ 등록' : 'FAQ 수정'}</h2>
 
-  <!-- FAQ 등록/수정 폼 -->
-  <c:choose>
-  <c:when test="${empty faq.faqId}">
-  <form method="post" action="${pageContext.request.contextPath}/faq/add">
-    </c:when>
-    <c:otherwise>
-    <form method="post" action="${pageContext.request.contextPath}/faq/update">
-      </c:otherwise>
-      </c:choose>
+  <form method="post" action="${pageContext.request.contextPath}/faq/${empty faq.faqId ? 'add' : 'update'}">
+    <input type="hidden" name="faqId" value="${faq.faqId}" />
+    <input type="hidden" name="writerAdminId" value="${sessionScope.loginAdmin.adminId}" />
 
-      <input type="hidden" name="faqId" value="${faq.faqId}"/> <!-- 수정 시 faqId 전달 -->
-      <input type="hidden" name="writerAdminId" value="${sessionScope.loginAdmin.adminId}"/>
-
-    <!-- 카테고리 선택 -->
+    <!-- 카테고리 -->
     <div class="form-group">
       <label for="category">카테고리</label>
       <select name="faqCategory" id="category" required>
-        <option value="국내숙소" ${faq.faqCategory == '국내숙소' ? 'selected' : ''}>국내숙소</option>
-        <option value="해외숙소" ${faq.faqCategory == '해외숙소' ? 'selected' : ''}>해외숙소</option>
-        <option value="교통" ${faq.faqCategory == '교통' ? 'selected' : ''}>교통</option>
-        <option value="회원" ${faq.faqCategory == '회원' ? 'selected' : ''}>회원</option>
-        <option value="포인트" ${faq.faqCategory == '포인트' ? 'selected' : ''}>포인트</option>
-        <option value="쿠폰" ${faq.faqCategory == '쿠폰' ? 'selected' : ''}>쿠폰</option>
-        <option value="결제" ${faq.faqCategory == '결제' ? 'selected' : ''}>결제</option>
-        <option value="취소/환불" ${faq.faqCategory == '취소/환불' ? 'selected' : ''}>취소/환불</option>
+        <c:forEach var="cat" items="${['국내숙소','해외숙소','교통','회원','포인트','쿠폰','결제','취소/환불']}">
+          <option value="${cat}" ${faq.faqCategory == cat ? 'selected' : ''}>${cat}</option>
+        </c:forEach>
       </select>
     </div>
 
@@ -71,40 +55,30 @@
       <label for="content">내용</label>
       <textarea id="content" name="faqContent" rows="5" required>${faq.faqContent}</textarea>
     </div>
-        <!-- 토글 스위치 UI -->
-        <div class="form-group">
-          <label for="statusCheck">활성화 여부</label>
-          <label class="toggle-switch">
-            <input type="checkbox" id="statusCheck" ${faq.faqStatus == 'ACT' ? 'checked' : ''}>
-            <span class="slider"></span>
-          </label>
-          <input type="hidden" name="faqStatus" id="faqStatusHidden" value="${faq.faqStatus == 'ACT' ? 'ACT' : 'NOACT'}" />
-        </div>
 
-        <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            const checkbox = document.getElementById("statusCheck");
-            const hiddenInput = document.getElementById("faqStatusHidden");
-
-            checkbox.addEventListener("change", function () {
-              hiddenInput.value = checkbox.checked ? 'ACT' : 'NOACT';
-            });
-          });
-        </script>
-
-    <!-- 제출 버튼 -->
+    <!-- 토글 -->
     <div class="form-group">
-      <button type="submit" class="submit-btn">${(empty faq.faqId) ? '등록' : '수정'}</button> <!-- 버튼 내용 변경 -->
+      <label class="toggle-label" for="statusCheck">
+        활성화 여부
+        <label class="toggle-switch">
+          <input type="checkbox" id="statusCheck" ${faq.faqStatus == 'ACT' ? 'checked' : ''}>
+          <span class="slider"></span>
+        </label>
+      </label>
+      <input type="hidden" name="faqStatus" id="faqStatusHidden" value="${faq.faqStatus == 'ACT' ? 'ACT' : 'NOACT'}" />
+    </div>
+
+    <!-- 버튼 -->
+    <div class="form-actions">
+      <button type="submit" class="submit-btn">${empty faq.faqId ? '등록' : '수정'}</button>
+      <a href="${pageContext.request.contextPath}/faq/list" class="cancel-btn">취소</a>
     </div>
   </form>
-
-  <!-- 취소 버튼 -->
-  <div class="form-group">
-    <a href="${pageContext.request.contextPath}/faq/list" class="cancel-btn">취소</a>
-  </div>
 </div>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+
+
 
 </body>
 </html>

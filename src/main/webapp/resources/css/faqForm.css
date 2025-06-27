@@ -1,98 +1,70 @@
-/* 전체 폼 컨테이너 */
+/* 공통 리셋 */
+/* 기존 body 스타일 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+}
+
+
+/* 폼 전체 박스 */
 .faq-form-container {
-    width: 60%;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    border: 1px solid #ddd;
+    max-width: 1000px;
+    margin: 40px auto 60px; /* ✅ margin-top은 40px이 적당 */
+    padding: 40px 40px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-/* 폼 제목 */
+/* 제목 */
 .faq-form-container h2 {
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 26px;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 32px;
 }
 
-/* 폼 그룹 */
+/* 폼 필드 */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
 }
 
-/* 각 폼 요소 스타일 */
 .form-group label {
-    display: block;
-    font-size: 16px;
-    margin-bottom: 5px;
+    font-weight: bold;
+    margin-bottom: 8px;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
+    padding: 10px 12px;
+    font-size: 15px;
+    border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
 }
 
-.form-group textarea {
+/* 텍스트영역 */
+textarea {
     resize: vertical;
+    min-height: 200px; /* ✅ 추가: 기본 높이 확보 */
 }
 
-/* 제출 버튼 */
-.submit-btn {
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
+/* 토글 스위치 */
+.toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.submit-btn:hover {
-    background-color: #0056b3;
-}
-
-/* 취소 버튼 */
-.cancel-btn {
-    padding: 10px 20px;
-    background-color: #dc3545;
-    color: white;
-    font-size: 16px;
-    text-decoration: none;
-    border-radius: 5px;
-    display: inline-block;
-    margin-top: 15px;
-    width: 100%;
-    text-align: center;
-}
-
-.cancel-btn:hover {
-    background-color: #c82333;
-}
-
-/* 공통 스타일 */
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-a:focus, a:hover {
-    text-decoration: none;
-}
-/* ✅ 토글 스위치 스타일 */
 .toggle-switch {
     position: relative;
-    display: inline-block;
-    width: 52px;
-    height: 28px;
-    margin-left: 12px;
+    width: 48px;
+    height: 26px;
 }
 
 .toggle-switch input {
@@ -103,22 +75,23 @@ a:focus, a:hover {
 
 .slider {
     position: absolute;
-    cursor: pointer;
-    top: 0; left: 0;
-    right: 0; bottom: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     background-color: #ccc;
-    transition: .4s;
     border-radius: 34px;
+    transition: 0.4s;
+    cursor: pointer;
 }
 
 .slider:before {
-    position: absolute;
     content: "";
-    height: 22px; width: 22px;
-    left: 3px; bottom: 3px;
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
     background-color: white;
-    transition: .4s;
     border-radius: 50%;
+    transition: 0.4s;
 }
 
 .toggle-switch input:checked + .slider {
@@ -126,6 +99,49 @@ a:focus, a:hover {
 }
 
 .toggle-switch input:checked + .slider:before {
-    transform: translateX(24px);
+    transform: translateX(22px);
 }
 
+/* 버튼 정렬 */
+.form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 30px;
+    margin-bottom: 60px;  /* ✅ 추가: 푸터랑 간격 */
+}
+
+/* 버튼 공통 스타일 */
+.submit-btn,
+.cancel-btn {
+    width: 100px;
+    padding: 10px 0;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+/* 등록 버튼 */
+.submit-btn {
+    background-color: #007BFF;
+    color: white;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}
+
+/* 취소 버튼 */
+.cancel-btn {
+    background-color: #dc3545;
+    color: white;
+    line-height: normal;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.cancel-btn:hover {
+    background-color: #c82333;
+}
