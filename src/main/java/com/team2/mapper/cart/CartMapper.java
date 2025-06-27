@@ -1,4 +1,4 @@
-package com.team2.mapper;
+package com.team2.mapper.cart;
 
 import com.team2.dto.cart.CartAddDTO;
 import com.team2.dto.cart.CartDTO;

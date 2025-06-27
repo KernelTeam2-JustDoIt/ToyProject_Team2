@@ -1,6 +1,6 @@
 package com.team2.dto.cart;
 
-import com.team2.model.Cart;
+import com.team2.model.cart.Cart;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

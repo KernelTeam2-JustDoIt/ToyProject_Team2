@@ -1,4 +1,4 @@
-package com.team2.mapper;
+package com.team2.mapper.order;
 
 import com.team2.dto.order.OrderDTO;
 import com.team2.dto.order.OrderItemDTO;

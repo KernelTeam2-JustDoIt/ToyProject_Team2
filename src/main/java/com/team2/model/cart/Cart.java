@@ -1,4 +1,4 @@
-package com.team2.model;
+package com.team2.model.cart;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

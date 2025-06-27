@@ -1,10 +1,10 @@
-package com.team2.controller;
+package com.team2.controller.cart;
 
 import com.team2.dto.cart.CartResponse;
 import com.team2.dto.order.ShoppingCartItemDTO;
 import com.team2.model.CustomerVO;
 import com.team2.service.CustomerService;
-import com.team2.service.ShoppingCartService;
+import com.team2.service.cart.ShoppingCartService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

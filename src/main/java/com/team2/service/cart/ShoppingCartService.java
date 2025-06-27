@@ -1,4 +1,4 @@
-package com.team2.service;
+package com.team2.service.cart;
 
 import com.team2.dto.cart.CartResponse;
 import com.team2.dto.order.ShoppingCartItemDTO;

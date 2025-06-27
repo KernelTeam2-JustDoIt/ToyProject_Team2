@@ -1,9 +1,9 @@
-package com.team2.controller;
+package com.team2.controller.order;
 
 import com.team2.dto.order.OrderDTO;
 import com.team2.dto.order.ShoppingCartItemDTO;
-import com.team2.service.OrderService;
-import com.team2.service.ShoppingCartService;
+import com.team2.service.order.OrderService;
+import com.team2.service.cart.ShoppingCartService;
 import com.team2.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

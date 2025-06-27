@@ -37,12 +37,13 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
-        <property name="mapperLocations" value="classpath*:mapper/*.xml"/>
+        <property name="mapperLocations" value="classpath*:mapper/**/*.xml"/>
     </bean>
 
     <!--  Mapper 위치 설정 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.team2.mapper"/>
+        <property name="annotationClass" value="org.apache.ibatis.annotations.Mapper"/>
     </bean>
 
     <!--  이메일 전송을 위한 JavaMailSender 설정 -->
