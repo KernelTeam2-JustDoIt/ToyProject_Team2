@@ -25,4 +25,8 @@ public interface QnaService {
     void deleteQna(int qnaId);
 
     void updateQna(QnaDTO original);
+
+    // 조회수 증가
+    void increaseViewCount(int qnaId);
+
 }
