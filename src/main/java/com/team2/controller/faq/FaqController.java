@@ -101,22 +101,26 @@ public String insertFaqForm() {
 
     // FAQ 상세 보기
     @GetMapping("/{faqId}")
-    public String faqDetail(@PathVariable Integer faqId, Model model) {
-        // FAQ 데이터 가져오기
+    public String faqDetail(@PathVariable Integer faqId, Model model, HttpSession session) {
+        AdminDTO loginAdmin = (AdminDTO) session.getAttribute("loginAdmin");
+
+        // ✅ 관리자 로그인 상태가 아닐 때만 조회수 증가
+        if (loginAdmin == null) {
+            faqService.increaseViewCount(faqId);
+        }
+
         FaqDTO faq = faqService.findById(faqId);
 
-        // 날짜 포맷 변환
+        // 날짜 포맷 처리
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         if (faq.getPostedAt() != null) {
-            faq.setFormattedDate(faq.getPostedAt().format(formatter)); // 등록일 포맷팅
+            faq.setFormattedDate(faq.getPostedAt().format(formatter));
         }
         if (faq.getUpdatedAt() != null) {
-            faq.setFormattedUpdatedDate(faq.getUpdatedAt().format(formatter)); // 수정일 포맷팅
+            faq.setFormattedUpdatedDate(faq.getUpdatedAt().format(formatter));
         }
 
-        // 모델에 FAQ 데이터 추가
         model.addAttribute("faq", faq);
-
-        return "faq/faqDetail"; // FAQ 상세 페이지로 이동
+        return "faq/faqDetail";
     }
 }
