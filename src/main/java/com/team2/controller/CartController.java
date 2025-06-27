@@ -53,11 +53,11 @@ public class CartController {
 
         if (customerId == null) {
             System.out.println("customerId == null");
-            model.addAttribute("cartList", new ArrayList<CartResponse>());
+            model.addAttribute("cart", new ArrayList<CartResponse>());
         }
         else {
             List<CartResponse> cartList = shoppingCartService.getCartList(customerId);
-            model.addAttribute("cartList", cartList);
+            model.addAttribute("cart", cartList);
             System.out.println(cartList);
         }
         return "order/cart";
@@ -84,7 +84,7 @@ public class CartController {
     public ResponseEntity<String> addToCart(@RequestBody ShoppingCartItemDTO cartItem
                             , HttpSession session, HttpServletRequest request, HttpServletResponse response) {
         CustomerVO customer = (CustomerVO) session.getAttribute("loginCustomer");
-        System.out.println("cartItem.getRoomId() = " + cartItem.getRoomId());
+
         if (customer == null) {
             String nonMemberIdStr = null;
             for (Cookie cookie : request.getCookies()) {
@@ -142,4 +142,5 @@ public class CartController {
         session.setAttribute("selectedCartIds", java.util.Collections.singletonList(saved.getCartId()));
         return "redirect:/reservation";
     }
+
 } 

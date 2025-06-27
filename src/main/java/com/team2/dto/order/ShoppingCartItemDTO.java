@@ -2,11 +2,13 @@ package com.team2.dto.order;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@ToString
 public class ShoppingCartItemDTO {
     // getters / setters
     private int cartId;
@@ -29,22 +31,4 @@ public class ShoppingCartItemDTO {
     private int standardCapacity;
     private int maximumCapacity;
 
-    @Override
-    public String toString() {
-        return "ShoppingCartItemDTO{" +
-                "cartId=" + cartId +
-                ", roomId=" + roomId +
-                ", customerId=" + customerId +
-                ", roomName='" + roomName + '\'' +
-                ", desiredCheckInAt='" + desiredCheckInAt + '\'' +
-                ", desiredCheckOutAt='" + desiredCheckOutAt + '\'' +
-                ", adultCount=" + adultCount +
-                ", childCount=" + childCount +
-                ", createdAt=" + createdAt +
-                ", price=" + price +
-                ", selected=" + selected +
-                ", standardCapacity=" + standardCapacity +
-                ", maximumCapacity=" + maximumCapacity +
-                '}';
-    }
 }
