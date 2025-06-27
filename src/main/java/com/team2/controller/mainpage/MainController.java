@@ -30,11 +30,11 @@ public class MainController {
     public String mainPage(Model model, HttpSession session) {
         // TODO 이벤트 서비스가 완성되면 List<EventDto> activeEvents 를 가져와서 model 로 전달
 //        List<EventDto> activeEvents = eventService.getActiveEvents();
-//        model.addAttribute("activeEvents", activeEvents); // 모델에 이벤트 목록 추가
 
-        // 공지사항 가져와서 보여주기, view 로 전달
-        NoticeDTO latestNotice = noticeService.getLatestNotice();
-        model.addAttribute("latestNotice", latestNotice);
+//        model.addAttribute("activeEvents", activeEvents); // 모델에 이벤트 목록 추가
+        // TODO 공지사항중에 중요한 것은 메인 페이지에서 보여줘야함
+        NoticeDTO getMainNotice = noticeService.getMainNotice();
+        model.addAttribute("getMainNotice", getMainNotice);
 
         // 조회수 TOP 10
         List<TopAccommDTO> topAccomm = accommDetailService.getTopAccomm();

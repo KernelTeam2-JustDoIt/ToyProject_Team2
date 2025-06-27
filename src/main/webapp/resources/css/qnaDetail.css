@@ -1,0 +1,113 @@
+/* 공통 기본값 */
+body {
+    margin: 0;
+    background-color: #f5f5f5;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Q&A 상단 헤더 */
+.qna-header {
+    position: relative;
+    padding: 16px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+}
+
+.qna-header .qna-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: #222;
+}
+
+.qna-back-btn {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #4a6cf7;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.qna-back-btn:hover {
+    background-color: #3f5edb;
+}
+
+/* Q&A 컨테이너 */
+.qna-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* Q&A 제목 */
+.qna-container .qna-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* 날짜 및 상태 */
+.qna-date {
+    font-size: 14px;
+    color: gray;
+    margin-bottom: 16px;
+}
+
+/* 구분선 */
+.divider {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 20px 0;
+}
+
+/* 본문 내용 */
+.qna-content {
+    font-size: 16px;
+    line-height: 1.8;
+    white-space: pre-line;
+    padding: 14px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+/* 답변 영역 */
+.qna-answer {
+    font-size: 16px;
+    line-height: 1.8;
+    padding: 14px;
+    background-color: #f2f7ff;
+    border: 1px solid #99c2ff;
+    border-radius: 6px;
+    white-space: pre-line;
+}
+
+/* 액션 버튼 (관리자) */
+.action-buttons {
+    margin-top: 30px;
+    text-align: right;
+}
+
+.action-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.action-button:hover {
+    background-color: #449d48;
+}

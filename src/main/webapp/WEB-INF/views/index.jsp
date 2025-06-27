@@ -11,20 +11,28 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/index.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/adminHeader.css" />
 </head>
 <body>
 
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
+<c:choose>
+    <c:when test="${not empty sessionScope.loginAdmin}">
+        <jsp:include page="/WEB-INF/views/common/adminHeader.jsp"/>
+    </c:when>
+    <c:otherwise>
+        <jsp:include page="/WEB-INF/views/common/header.jsp"/>
+    </c:otherwise>
+</c:choose>
 
 <main>
     <!-- 공지사항 영역 -->
     <!-- 공지사항 배너 -->
     <c:choose>
-        <c:when test="${not empty latestNotice}">
+        <c:when test="${not empty getMainNotice}">
             <div class="notice-banner">
-                <a href="${pageContext.request.contextPath}/notice/${latestNotice.noticeId}" class="notice-tag" target="_blank">공지</a>
-                <a href="${pageContext.request.contextPath}/notice/${latestNotice.noticeId}" class="notice-text" target="_blank">
-                        ${latestNotice.title}
+                <a href="${pageContext.request.contextPath}/notice/${getMainNotice.noticeId}" class="notice-tag" >공지</a>
+                <a href="${pageContext.request.contextPath}/notice/${getMainNotice.noticeId}" class="notice-text" >
+                        ${getMainNotice.title}
                 </a>
             </div>
         </c:when>

@@ -1,0 +1,108 @@
+
+body {
+    margin: 0;
+    background-color: #f5f5f5;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* 공지사항 작성/수정 상단 타이틀 영역 */
+.notice-top-bar {
+    max-width: 900px;
+    margin: 30px auto 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.notice-page-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 auto;
+    text-align: center;
+}
+/* 목록 버튼: 오른쪽 상단 */
+.back-to-list {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    text-decoration: none;
+    padding: 6px 12px;
+    border: 1px solid #4a6cf7;
+    border-radius: 4px;
+    color: #4a6cf7;
+    font-weight: bold;
+    font-size: 14px;
+    background-color: white;
+    transition: background-color 0.2s ease;
+}
+
+.back-to-list:hover {
+    background-color: #e8f0ff;
+}
+
+.form-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.form-container h2 {
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+input[type="text"], textarea, input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin: 12px 0;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+label {
+    display: block;
+    margin-top: 20px;
+}
+
+.checkbox-group {
+    margin-top: 10px;
+}
+
+button {
+    margin-top: 30px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+.list-button {
+    background-color: #2196F3;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.list-button:hover {
+    background-color: #1976D2;
+}

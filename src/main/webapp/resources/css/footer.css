@@ -1,10 +1,41 @@
-/* /resources/css/footer.css */
-/* 푸터 스타일 */
-footer {
-    padding: 32px;
-    background-color: #f8f8f8;
+.site-footer {
+    background-color: #f9f9f9;
+    border-top: 1px solid #eaeaea;
+    padding: 40px 0px;
+    font-size: 14px;
+    color: #555;
+}
+
+.footer-container {
+    max-width: 1100px;
+    margin: 0 auto;
     text-align: center;
+}
+
+.footer-links {
+    margin-bottom: 20px;
+}
+
+.footer-links a {
+    color: #4a6cf7;
+    text-decoration: none;
+    margin: 0 12px;
+    font-weight: 500;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+.footer-logo {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.footer-copy {
+    color: #888;
     font-size: 12px;
-    color: #999;
-    margin-top: 40px; /* 슬라이더와 푸터 사이 여백 추가 */
 }
