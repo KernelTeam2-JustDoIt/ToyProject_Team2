@@ -49,4 +49,9 @@ public class QnaServiceImpl implements QnaService {
         qnaMapper.updateQna(qna);
     }
 
+    @Override
+    public void increaseViewCount(int qnaId) {
+        qnaMapper.increaseViewCount(qnaId);
+    }
+
 }

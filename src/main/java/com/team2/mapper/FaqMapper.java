@@ -33,4 +33,6 @@ public interface FaqMapper {
 
     // 카테고리별 FAQ 개수 조회
     int countByCategory(Map<String, Object> param);
+
+    void increaseViewCount(Integer faqId);
 }

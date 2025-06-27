@@ -42,6 +42,11 @@ public class FaqServiceImpl implements FaqService {
         return faqMapper.findById(faqId);
     }
 
+    @Override
+    public void increaseViewCount(Integer faqId) {
+        faqMapper.increaseViewCount(faqId);
+    }
+
     // FAQ 등록
     @Override
     public void insert(FaqDTO faqDTO) {

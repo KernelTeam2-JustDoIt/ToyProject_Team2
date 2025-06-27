@@ -12,6 +12,12 @@
         VALUES
             (#{customerId}, #{title}, #{content}, NOW(), 'WAIT', #{isSecret})
     </insert>
+    <!-- 조회수 증가 -->
+    <update id="increaseViewCount" parameterType="int">
+        UPDATE QNA
+        SET VIEW_COUNT = VIEW_COUNT + 1
+        WHERE QNA_ID = #{qnaId}
+    </update>
 
     <select id="getQnaList" parameterType="map" resultType="com.team2.dto.qna.QnaDTO">
         SELECT
@@ -20,6 +26,7 @@
         TITLE,
         CONTENT,
         IS_SECRET,
+        VIEW_COUNT AS viewCount,
         ANSWER_CONTENT AS answerContent,
         POSTED_AT AS postedAt,
         ANSWERED_AT AS answeredAt,

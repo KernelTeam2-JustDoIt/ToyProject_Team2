@@ -27,5 +27,8 @@ public interface QnaMapper {
     void softDelete(int qnaId);
 
     void updateQna(QnaDTO qna);
+
+    void increaseViewCount(int qnaId);
+
 }
 

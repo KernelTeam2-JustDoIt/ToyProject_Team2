@@ -101,26 +101,28 @@ public class QnaController {
     public String qnaDetail(@PathVariable int qnaId, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         QnaDTO qna = qnaService.getQnaDetail(qnaId);
 
-        // 게시글이 존재하지 않거나 삭제된 경우
         if (qna == null || "DEL".equals(qna.getQnaStatus())) {
             redirectAttributes.addFlashAttribute("msg", "존재하지 않거나 삭제된 글입니다.");
             return "redirect:/qna/list";
         }
 
-        // 세션 정보
         Integer loginCustomerId = (Integer) session.getAttribute("loginCustomerId");
         AdminDTO admin = (AdminDTO) session.getAttribute("loginAdmin");
 
         boolean isAdmin = admin != null && admin.getRoleId() == 1;
         boolean isAuthor = loginCustomerId != null && loginCustomerId == qna.getCustomerId();
 
-        // 비밀글이면 관리자 또는 작성자만 열람 가능
         if (qna.getIsSecret() == 1 && !(isAdmin || isAuthor)) {
             redirectAttributes.addFlashAttribute("msg", "비밀글입니다.");
             return "redirect:/qna/list";
         }
 
-        // 날짜 포맷
+        // ✅ 비관리자인 경우에만 조회수 증가
+        if (!isAdmin) {
+            qnaService.increaseViewCount(qnaId);
+            qna = qnaService.getQnaDetail(qnaId); // 증가 반영된 값 다시 가져옴
+        }
+
         if (qna.getPostedAt() != null)
             qna.setFormattedPostedDate(qna.getPostedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         if (qna.getAnsweredAt() != null)
