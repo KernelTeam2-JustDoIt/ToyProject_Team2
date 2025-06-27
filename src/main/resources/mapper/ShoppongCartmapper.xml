@@ -5,43 +5,42 @@
 
 <mapper namespace="com.team2.mapper.CartMapper">
 
-    <!-- 장바구니 조회 -->
+    <!-- 장바구니 조회 /이동완-->
     <select id="getCartList" parameterType="int" resultType="CartResponse">
         SELECT
-            s.cart_id                      AS cartId,
-            s.room_id                      AS roomId,
-            s.customer_id                  AS customerId,
-            s.adult_count AS adultCount,
-            s.child_count AS childCount,
-
-            r.PRICE as price,
-            r.accommodation_id             AS accommodationId,
-            r.room_name                    AS roomName,
-            r.checkin_time                 AS checkinTime,
-            r.checkout_time                AS checkoutTime,
-            r.standard_capacity            AS standardCapacity,
-            r.maximum_capacity             AS maximumCapacity
+            s.cart_id,
+            s.room_id,
+            s.customer_id,
+            s.adult_count,
+            s.child_count,
+            r.price,
+            r.accommodation_id,
+            r.room_name,
+            r.checkin_time,
+            r.checkout_time,
+            r.standard_capacity,
+            r.maximum_capacity
         FROM SHOPPING_CART s
             JOIN ROOM r on s.room_id = r.room_id
             JOIN  CUSTOMER c on s.customer_id = c.customer_id
         WHERE s.CUSTOMER_ID = #{customerId}
     </select>
 
-    <!-- 회원번호로 찾기 -->
+    <!-- 회원번호로 찾기 /이동완-->
     <select id="findByCustomer" parameterType="int" resultType="CartAddDTO">
         SELECT * FROM shopping_cart
         WHERE customer_id = #{customerId}
         ORDER BY customer_id DESC
     </select>
     
-    <!-- 장바구니 추가 -->
+    <!-- 장바구니 추가 혜정있음-->
     <insert id="addCart" parameterType="CartDTO" useGeneratedKeys="true" keyProperty="cartId">
         INSERT INTO SHOPPING_CART
             (room_id, customer_id, adult_count, child_count, created_at)
         VALUES (#{roomId}, #{customerId},#{adultCount},#{childCount},now())
     </insert>
 
-    <!-- 장바구니 인원 수정 -->
+    <!-- 장바구니 인원 수정 /이동완-->
     <update id="updatePeopleCnt" parameterType="CartDTO">
         UPDATE SHOPPING_CART
         <set>
@@ -55,13 +54,13 @@
         WHERE cart_id = #{cartId}
     </update>
 
-    <!-- 장바구니 삭제 -->
+    <!-- 장바구니 삭제 혜정있음-->
     <delete id="deleteCart" parameterType="int">
         DELETE FROM SHOPPING_CART
         WHERE cart_id = #{cartId}
     </delete>
 
-    <!-- 회원&객실번호로 중복담기 방지 -->
+    <!-- 회원&객실번호로 중복담기 방지 /이동완-->
     <select id="findByCustomerAndRoom" resultType="CartDTO" parameterType="CartDTO" >
         SELECT *
         FROM SHOPPING_CART

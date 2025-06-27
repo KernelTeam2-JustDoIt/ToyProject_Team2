@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CartMapper {
 
-    // 특정 회원의 장바구니 조회
+    // 장바구니 조회
     List<CartResponse> getCartList(@Param("customerId") int customerId );
 
     // 장바구니 추가

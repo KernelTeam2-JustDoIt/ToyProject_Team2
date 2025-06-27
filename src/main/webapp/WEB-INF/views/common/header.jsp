@@ -39,7 +39,7 @@
                 </a>
             </c:if>
 
-            <a href="${pageContext.request.contextPath}/cart/list" class="icon-link">
+            <a href="${pageContext.request.contextPath}/cart" class="icon-link">
                 <img src="https://cdn-icons-png.flaticon.com/512/263/263142.png" alt="장바구니" />
                 <span>장바구니</span>
             </a>

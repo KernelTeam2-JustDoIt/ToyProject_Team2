@@ -43,13 +43,40 @@
                                 </td>
                                 <td style="padding:8px;">${item.roomName}</td>
                                 <td style="padding:8px; font-size:14px; color:#6c757d;">
-                                    ${item.desiredCheckInAt} ~ ${item.desiredCheckOutAt}
+                                    체크인 ${item.checkinTime} | 체크아웃 ${item.checkoutTime}<br/>
+                                    기준 ${item.standardCapacity}명 / 최대 ${item.maximumCapacity}명
                                 </td>
-                                <td style="padding:8px; font-weight:bold; text-align:right;">${item.price}원</td>
+
+                                <td style="padding:8px; text-align:center;">
+                                    <form action="${pageContext.request.contextPath}/cart/update"
+                                          method="post"
+                                          style="display:inline-block;">
+                                        <input type="hidden" name="cartId"   value="${item.cartId}"/>
+                                        <input type="hidden" name="roomId"   value="${item.roomId}"/>
+                                        성인
+                                        <input type="number"
+                                               name="adultCount"
+                                               value="${item.adultCount}"
+                                               min="1"
+                                               style="width:40px; margin:0 4px;"/>
+                                        아동
+                                        <input type="number"
+                                               name="childCount"
+                                               value="${item.childCount}"
+                                               min="0"
+                                               style="width:40px; margin:0 4px;"/>
+                                        <button type="submit"
+                                                style="padding:4px 8px; font-size:12px; margin-left:4px;">
+                                            수정
+                                        </button>
+                                    </form>
+                            <td style="padding:8px; font-weight:bold; text-align:right;">${item.price}원</td>
                             </tr>
                         </c:forEach>
                     </tbody>
                 </table>
+
+
 
                 <div style="text-align:right; margin-bottom:24px;">
                     <button type="submit" class="btn btn-primary">구매하기</button>
