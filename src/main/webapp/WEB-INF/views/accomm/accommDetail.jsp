@@ -264,6 +264,12 @@
     function reserveRoom(roomId) {
         console.log('reserveRoom 호출됨, roomId:', roomId);
         
+        // roomId 검증
+        if (!roomId || roomId.trim() === '') {
+            alert('객실 정보가 없습니다.');
+            return;
+        }
+        
         // URL 파라미터에서 체크인/체크아웃 날짜와 인원수 정보 가져오기
         const urlParams = new URLSearchParams(window.location.search);
         let checkIn = urlParams.get('checkIn');
@@ -295,8 +301,8 @@
         
         console.log('최종 파라미터들:', { roomId, checkIn, checkOut, adultCnt, babyCnt });
         
-        // 직접 예약 페이지로 이동
-        const reservationUrl = `${contextPath}/reservation/direct?roomId=${roomId}&checkIn=${checkIn}&checkOut=${checkOut}&adultCnt=${adultCnt}&babyCnt=${babyCnt}`;
+        // 직접 예약 페이지로 이동 - contextPath를 직접 JSP에서 가져와서 사용
+        const reservationUrl = '${pageContext.request.contextPath}/reservation/direct?roomId=' + roomId + '&checkIn=' + checkIn + '&checkOut=' + checkOut + '&adultCnt=' + adultCnt + '&babyCnt=' + babyCnt;
         console.log('이동할 URL:', reservationUrl);
         window.location.href = reservationUrl;
     }
