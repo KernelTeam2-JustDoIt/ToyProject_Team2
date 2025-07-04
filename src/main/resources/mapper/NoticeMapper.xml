@@ -88,17 +88,20 @@
         WHERE NOTICE_ID = #{noticeId}
     </update>
 
-    <!-- 전체 공지 개수 조회 -->
+    <!-- 전체 공지 개수 조회 - getNoticeList와 동일한 조건 적용 -->
     <select id="countNotices" parameterType="map" resultType="int">
         SELECT COUNT(*)
         FROM NOTICE
         <where>
+            <!-- 🔥 추가: getNoticeList와 동일한 조건 -->
+            IS_NEED_PIN = 0 AND IS_MAIN = 0
+
             <choose>
                 <when test="isAdmin == false">
-                    NOTICE_STATUS = 'ACT'
+                    AND NOTICE_STATUS = 'ACT'
                 </when>
                 <otherwise>
-                    NOTICE_STATUS != 'DEL'
+                    AND NOTICE_STATUS != 'DEL'
                 </otherwise>
             </choose>
 
@@ -110,7 +113,6 @@
             </if>
         </where>
     </select>
-
 
 
     <!-- 상단 고정 공지 (메인공지 + 상단공지) -->

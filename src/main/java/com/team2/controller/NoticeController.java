@@ -99,14 +99,13 @@ public class NoticeController {
         int startPage = (currentBlock - 1) * blockSize + 1;
         int endPage = Math.min(startPage + blockSize - 1, totalPages);
 
-
+        // ✅ 상단 고정 공지
+        List<NoticeDTO> pinnedNotices = noticeService.getPinnedNotices();
 
         // ✅ 전체 공지 목록 (메인, 상단 포함)
         List<NoticeDTO> noticeList = noticeService.getNoticeList(param);
 
 
-        // ✅ 상단 고정 공지
-        List<NoticeDTO> pinnedNotices = noticeService.getPinnedNotices();
 
 
         // ✅ 날짜 포맷 변환
@@ -150,7 +149,7 @@ public class NoticeController {
 
         // ✅ noticeStatus가 null 또는 비어있다면 기본값 설정
         if (notice.getNoticeStatus() == null || notice.getNoticeStatus().isEmpty()) {
-            notice.setNoticeStatus("UNACTIVE");
+            notice.setNoticeStatus("UNACT");
         }
         // 세션에 로그인 정보가 없거나, 관리자 권한이 아닌 경우
         if (admin == null || admin.getRoleId() != 1) {
@@ -200,7 +199,7 @@ public class NoticeController {
 
         // ✅ noticeStatus가 null 또는 비어있다면 기본값 설정
         if (notice.getNoticeStatus() == null || notice.getNoticeStatus().isEmpty()) {
-            notice.setNoticeStatus("NOACT");
+            notice.setNoticeStatus("UNACT");
         }
         if (notice.isMain()) {
             noticeService.unsetMainNotice();
